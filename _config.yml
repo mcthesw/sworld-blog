@@ -62,5 +62,5 @@ ignore: null
 theme: icarus
 deploy:
     type: git
-    repo: https://github.com/mcthesw/sw-blog.github.io.git
-    branch: master
+    repo: https://github.com/mcthesw/mcthesw.github.io
+    branch: main

@@ -225,11 +225,11 @@ widgets:
         position: left
         type: profile
         # Author name
-        author: Your name
+        author: Sworld
         # Author title
-        author_title: Your title
+        author_title: 学而不思则罔，思而不学则殆
         # Author's current location
-        location: Your location
+        location: China
         # URL or path to the avatar image
         avatar: 
         # Whether show the rounded avatar image
