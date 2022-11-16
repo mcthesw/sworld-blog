@@ -1,7 +1,11 @@
 ---
 title: Rust萌新之路-Rustlings的安装
 date: 2022-11-16 02:19:23
+categories:
+- 开发
 tags:
+- Rust
+- 学习
 ---
 # 专栏简介
 我学习 Rust 已经有一小段时间了，[Rustling](https://link.zhihu.com/?target=https%3A//github.com/rust-lang/rustlings) 这个项目我认为是新手学完Rust基本语法，或者在看完 [The Book](https://link.zhihu.com/?target=https%3A//doc.rust-lang.org/stable/book/) ([中文版](https://link.zhihu.com/?target=https%3A//rustwiki.org/zh-CN/book/)) 后，一个很适合的练习题组，这个项目提供了75道 Rust 语言的小题目，提供了方方面面的考验，对于绝大多数题目也都有足够的提示，但是鉴于我没有找到使用中文介绍这些题目的文章，便打算自己开一篇介绍和讲解，本人有的实现可能不够好，或者讲解有谬误，希望各位斧正。
