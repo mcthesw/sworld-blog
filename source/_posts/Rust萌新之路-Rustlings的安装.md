@@ -8,12 +8,12 @@ tags:
 - 学习
 ---
 # 专栏简介
-我学习 Rust 已经有一小段时间了，[Rustling](https://link.zhihu.com/?target=https%3A//github.com/rust-lang/rustlings) 这个项目我认为是新手学完Rust基本语法，或者在看完 [The Book](https://link.zhihu.com/?target=https%3A//doc.rust-lang.org/stable/book/) ([中文版](https://link.zhihu.com/?target=https%3A//rustwiki.org/zh-CN/book/)) 后，一个很适合的练习题组，这个项目提供了75道 Rust 语言的小题目，提供了方方面面的考验，对于绝大多数题目也都有足够的提示，但是鉴于我没有找到使用中文介绍这些题目的文章，便打算自己开一篇介绍和讲解，本人有的实现可能不够好，或者讲解有谬误，希望各位斧正。
+我学习 Rust 已经有一小段时间了，[Rustling](https://github.com/rust-lang/rustlings) 这个项目我认为是新手学完Rust基本语法，或者在看完 [The Book](https://doc.rust-lang.org/stable/book/) ([中文版](https://rustwiki.org/zh-CN/book/)) 后，一个很适合的练习题组，这个项目提供了75道 Rust 语言的小题目，提供了方方面面的考验，对于绝大多数题目也都有足够的提示，但是鉴于我没有找到使用中文介绍这些题目的文章，便打算自己开一篇介绍和讲解，本人有的实现可能不够好，或者讲解有谬误，希望各位斧正。
 
 # 安装 Rustlings
-既然你已经开始想要写 Rust 练习题，那么你应该已经安装过Rust了，就不做多的介绍了，如果你还没有安装，请参考[官方的这个页面](https://link.zhihu.com/?target=https%3A//www.rust-lang.org/tools/install)，可以先安装Visual Studio最新版后，勾选适用于桌面的C++开发，然后安装 Rustup 等工具。
+既然你已经开始想要写 Rust 练习题，那么你应该已经安装过Rust了，就不做多的介绍了，如果你还没有安装，请参考[官方的这个页面](https://www.rust-lang.org/tools/install)，可以先安装Visual Studio最新版后，勾选适用于桌面的C++开发，然后安装 Rustup 等工具。
 
-接下来，打开 [Rustlings 官方仓库](https://link.zhihu.com/?target=https%3A//github.com/rust-lang/rustlings) ，里面介绍了安装的方式，在 Mac OS 或者 Linux 操作系统上，安装 Rustlings 是很简单的
+接下来，打开 [Rustlings 官方仓库](https://github.com/rust-lang/rustlings) ，里面介绍了安装的方式，在 Mac OS 或者 Linux 操作系统上，安装 Rustlings 是很简单的
 ```bash
 curl -L https://raw.githubusercontent.com/rust-lang/rustlings/main/install.sh | bash
 ```
@@ -73,6 +73,6 @@ rustlings lsp
 2. 运行 `cargo uninstall rustlings`
 
 # 有用的其他参考
-- [我在 v4.4.0 版本的解答仓库](https://link.zhihu.com/?target=https%3A//github.com/mcthesw/my-rustlings-solution)
-- [rustlings-idiomatic-solution](https://link.zhihu.com/?target=https%3A//github.com/alexxroche/rustlings-idiomatic-solutions)
-- [Rust 文档网 - Rust 官方文档中文教程 (rustwiki.org)](https://link.zhihu.com/?target=https%3A//rustwiki.org/)
+- [我在 v4.4.0 版本的解答仓库](https://github.com/mcthesw/my-rustlings-solution)
+- [rustlings-idiomatic-solution](https://github.com/alexxroche/rustlings-idiomatic-solutions)
+- [Rust 文档网 - Rust 官方文档中文教程 (rustwiki.org)](https://rustwiki.org/)
