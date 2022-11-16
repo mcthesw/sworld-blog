@@ -6,7 +6,7 @@ author: Sworld
 language: zh-CN
 timezone: "Asia/Shanghai"
 url: http://www.sworld.club/
-permalink: ":year/:month/:day/:title/"
+permalink: "/:year/:month/:day/:title"
 permalink_defaults: null
 pretty_urls:
     trailing_index: true
