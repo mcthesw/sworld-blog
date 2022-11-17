@@ -5,7 +5,7 @@ keywords: null
 author: Sworld
 language: zh-CN
 timezone: "Asia/Shanghai"
-url: http://www.sworld.club/
+url: http://blog.sworld.club/
 permalink: "/:year/:month/:day/:title"
 permalink_defaults: null
 pretty_urls:
