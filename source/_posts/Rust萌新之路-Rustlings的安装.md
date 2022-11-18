@@ -30,7 +30,7 @@ cargo install --force --path .
 ```
 这样，你就完成了 rustlings 的安装，尝试在命令行运行 rustlings ，它会给你反应
 
-{% asset_img 1.webp [在命令行运行 rustlings 指令] %}
+![在命令行运行 rustlings 指令](1.webp)
 
 # 基础使用
 其实需要做的操作很少，你如果只是做题的话在 rustlings 目录下使用 rustlings watch 就够了，以下内容主要是我对官方操作解释的翻译（注意，你的指令一定要在 rustlings 目录下运行，不要到上级或者子目录）
@@ -62,7 +62,7 @@ rustlings list
 ```
 例如我的输出就是都做完了
 
-{% asset_img 2.png [我运行 rustlings list 的结果] %}
+![我运行 rustlings list 的结果](2.png)
 
 另外有一个非常重要的，就是你会发现你在编辑时无法使用 Rust-Analyzer ，这怎么行？启用的方法官方仓库也有给出，就是运行
 ```bash

@@ -64,3 +64,6 @@ deploy:
     type: git
     repo: https://github.com/mcthesw/mcthesw.github.io
     branch: main
+marked:
+  prependRoot: true
+  postAsset: true

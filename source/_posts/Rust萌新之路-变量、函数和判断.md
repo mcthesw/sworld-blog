@@ -9,7 +9,7 @@ tags:
 ---
 # 我推荐的布局介绍
 我推荐使用 Vscode 再安装 Rust-Analyzer 插件进行刷题，记得在开刷之前先执行 `rustlings lsp` 来启用语法提示，下面给大家看看各个布局窗口的作用
-{% asset_img 1.png [我的Vscode] %}
+![在命令行运行rustlings指令](1.png)
 1号区域是终端，我在里面启动了 `rustlings watch` 来检查进度，2号区域是各个题目(所有的题目都在 exercises 文件夹内)，3号区域就是代码编辑框了，这样简简单单就可以开始了
 
 # Intro 和 Variables
