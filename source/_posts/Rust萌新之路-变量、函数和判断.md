@@ -1,11 +1,12 @@
 ---
 title: Rust萌新之路-变量、函数和判断
-date: 2022-11-17 06:25:34
 categories:
-- 开发
+  - 开发
 tags:
-- Rust
-- 学习
+  - Rust
+  - 学习
+abbrlink: f1689981
+date: 2022-11-17 06:25:34
 ---
 # 我推荐的布局介绍
 我推荐使用 Vscode 再安装 Rust-Analyzer 插件进行刷题，记得在开刷之前先执行 `rustlings lsp` 来启用语法提示，下面给大家看看各个布局窗口的作用
