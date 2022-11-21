@@ -1,4 +1,4 @@
-i---
+---
 title: Rust萌新之路-变量、函数和判断
 date: 2022-11-17 06:25:34
 categories:
