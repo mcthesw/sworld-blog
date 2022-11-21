@@ -63,4 +63,4 @@ fn calculate_price_of_apples(num:i32)->i32{
 - [我在 v4.4.0 版本的解答仓库](https://github.com/mcthesw/my-rustlings-solution)
 - [rustlings-idiomatic-solution](https://github.com/alexxroche/rustlings-idiomatic-solutions)
 - [Rust 文档网 - Rust 官方文档中文教程 (rustwiki.org)](https://rustwiki.org/)
-- [本文的首发地址(我的博客)](https://www.sworld.club)
+- [本文的首发地址(我的博客)](https://blog.sworld.club)
