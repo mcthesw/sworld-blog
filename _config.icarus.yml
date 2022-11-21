@@ -114,7 +114,7 @@ navbar:
     links:
         Download on GitHub:
             icon: fab fa-github
-            url: https://github.com/ppoffice/hexo-theme-icarus
+            url: https://github.com/mcthesw/hexo-theme-icarus
 # Page footer configurations
 footer:
     # Links to be shown on the right of the footer section
@@ -127,7 +127,7 @@ footer:
             url: https://creativecommons.org/licenses/by/4.0/
         Download on GitHub:
             icon: fab fa-github
-            url: https://github.com/ppoffice/hexo-theme-icarus
+            url: https://github.com/mcthesw/hexo-theme-icarus
 # Article related configurations
 article:
     # Code highlight settings
@@ -155,17 +155,17 @@ article:
             icon: fab fa-creative-commons-nc
             url: https://creativecommons.org/licenses/by-nc/4.0/
 # Search plugin configurations
-# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Search/
+# https://mcthesw.github.io/hexo-theme-icarus/categories/Plugins/Search/
 search:
     type: insight
 # Comment plugin configurations
-# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Comment/
+# https://mcthesw.github.io/hexo-theme-icarus/categories/Plugins/Comment/
 comment:
     type: disqus
     # Disqus shortname
     shortname: 'sworlds-blog'
 # Donate plugin configurations
-# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Donation/
+# https://mcthesw.github.io/hexo-theme-icarus/categories/Plugins/Donation/
 donates:
     # "Afdian.net" donate button configurations
     -
@@ -200,7 +200,7 @@ donates:
         # Wechat qrcode image URL
         qrcode: ''
 # Share plugin configurations
-# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Share/
+# https://mcthesw.github.io/hexo-theme-icarus/categories/Plugins/Share/
 share:
     type: sharethis
     # URL to the ShareThis share plugin script
@@ -217,7 +217,7 @@ sidebar:
         # Whether the sidebar sticks to the top when page scrolls
         sticky: false
 # Sidebar widget configurations
-# http://ppoffice.github.io/hexo-theme-icarus/categories/Widgets/
+# http://mcthesw.github.io/hexo-theme-icarus/categories/Widgets/
 widgets:
     # Profile widget configurations
     -
@@ -237,12 +237,12 @@ widgets:
         # Email address for the Gravatar
         gravatar: 
         # URL or path for the follow button
-        follow_link: https://github.com/ppoffice
+        follow_link: https://github.com/mcthesw
         # Links to be shown on the bottom of the profile widget
         social_links:
             Github:
                 icon: fab fa-github
-                url: https://github.com/ppoffice
+                url: https://github.com/mcthesw
             Facebook:
                 icon: fab fa-facebook
                 url: https://facebook.com
@@ -325,7 +325,7 @@ widgets:
         # Feed claiming verification code
         verification_code: ''
 # Plugin configurations
-# https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/
+# https://mcthesw.github.io/hexo-theme-icarus/categories/Plugins/
 plugins:
     # Enable page startup animations
     animejs: true
@@ -400,7 +400,7 @@ plugins:
         # Twitter Pixel ID
         pixel_id: 
 # CDN provider settings
-# https://ppoffice.github.io/hexo-theme-icarus/Configuration/Theme/speed-up-your-site-with-custom-cdn/
+# https://mcthesw.github.io/hexo-theme-icarus/Configuration/Theme/speed-up-your-site-with-custom-cdn/
 providers:
     # Name or URL template of the JavaScript and/or stylesheet CDN provider
     cdn: jsdelivr
