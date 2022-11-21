@@ -6,7 +6,7 @@ author: Sworld
 language: zh-CN
 timezone: "Asia/Shanghai"
 url: http://blog.sworld.club/
-permalink: "/:categories/:abbrlink.html"
+permalink: "/:year/:month/:abbrlink.html"
 abbrlink:
   alg: crc32  # 算法：crc16(default) and crc32
   rep: hex    # 进制：dec(default) and hex
