@@ -1,4 +1,4 @@
-:# Version of the configuration file
+# Version of the configuration file
 version: 4.0.0
 # Icarus theme variant, can be "default" or "cyberpunk"
 variant: default
@@ -163,7 +163,7 @@ search:
 comment:
     type: disqus
     # Disqus shortname
-    shortname: ''
+    shortname: 'sworlds-blog'
 # Donate plugin configurations
 # https://ppoffice.github.io/hexo-theme-icarus/categories/Plugins/Donation/
 donates:
