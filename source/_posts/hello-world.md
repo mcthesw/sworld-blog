@@ -1,7 +1,5 @@
 ---
 title: Hello World
-categories:
-  - 其它
 abbrlink: 4a17b156
 date: 2022-06-13 02:46:23
 ---
