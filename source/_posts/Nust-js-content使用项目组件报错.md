@@ -1,5 +1,5 @@
 ---
-title: Nust.js content使用项目组件报错
+title: Nuxt.js content使用项目组件报错
 tags:
   - 前端
   - Nuxt.js
@@ -7,7 +7,7 @@ tags:
 abbrlink: 2a91406b
 date: 2024-09-04 13:50:05
 ---
-# 问题描述
+## 问题描述
 
 最近使用 Nuxt.js 的 [Content 模块](https://nuxt.com/modules/content)时，发现其支持项目中写好的 Vue 组件，相关文档可以参考 [这里](https://content.nuxt.com/usage/markdown#vue-components)
 我在页面中尝试添加如下组件，该组件位于`~/components/XXX/VideoArea.vue`
@@ -70,17 +70,17 @@ description: '简述'
 
 对比一下，我的组件在`~/components/XXX/`下，而不是在`~/components/content/`下，因此无法访问到该组件。
 
-# 解决方案
+### 解决方案
 
-## 方案一：将组件移动到`~/components/content/`目录下
+### 方案一：将组件移动到`~/components/content/`目录下
 
 假设你的组件仅用于内容页面，可以将其移动到`~/components/content/`目录下，这样 Nuxt Content 模块会自动识别并加载这些组件。
 
-## 方案二：将组件名称改为`VideoArea.global.vue`
+### 方案二：将组件名称改为`VideoArea.global.vue`
 
 参考[官方文档](https://nuxt.com/docs/guide/directory-structure/components#dynamic-components)，我们修改文件后缀名也可以达到全局化的效果
 
-## 方案三：将所有组件默认设为全局
+### 方案三：将所有组件默认设为全局
 
 在`nuxt.config.ts`中，我们需要增加组件选项，设为全局即可
 
