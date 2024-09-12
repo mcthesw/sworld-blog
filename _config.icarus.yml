@@ -75,7 +75,7 @@ search:
     type: insight
 comment:
     type: giscus
-    repo: mcthesw/mcthesw.github.io
+    repo: mcthesw/sworld-blog
     repoId: R_kgDOHffXoA # 必填项
     category: Announcements # 可选填，默认为 Announcements
     categoryId: DIC_kwDOHffXoM4CiL_b # 必填项
