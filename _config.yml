@@ -65,7 +65,7 @@ ignore: null
 theme: icarus
 deploy:
   type: git
-  repo: https://github.com/mcthesw/mcthesw.github.io
+  repo: https://github.com/mcthesw/sworld-blog
   branch: main
 marked:
   prependRoot: true
