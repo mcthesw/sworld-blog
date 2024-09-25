@@ -1,6 +1,6 @@
 ---
 title: >-
-  Avalonia Unable to resolve property or method of name 'Id' on type
+  Avalonia Unable to resolve property or method of name 'xxx' on type
   'XamlX.TypeSystem.XamlPseudoType'解决办法
 date: 2024-09-26 00:12:30
 tags:
