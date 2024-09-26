@@ -54,7 +54,7 @@ public class ExploreViewModel : ViewModelBase
     public A[] B { get; set; } = new A[] { ... };
 }
 
-public class B{
+public class A{
     int Id,
     string Name
 }
