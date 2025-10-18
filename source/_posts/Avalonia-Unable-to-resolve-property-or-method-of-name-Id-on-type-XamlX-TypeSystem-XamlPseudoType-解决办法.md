@@ -2,11 +2,12 @@
 title: >-
   Avalonia Unable to resolve property or method of name 'xxx' on type
   'XamlX.TypeSystem.XamlPseudoType'解决办法
-date: 2024-09-26 00:12:30
 tags:
-- Avalonia
-- XAML
-- CSharp
+  - Avalonia
+  - XAML
+  - CSharp
+abbrlink: 79759d31
+date: 2024-09-26 00:12:30
 ---
 
 近期我在使用Avalonia编写桌面程序时，用到了ItemRepeater组件，写出来大概是这样

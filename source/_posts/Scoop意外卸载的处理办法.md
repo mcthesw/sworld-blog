@@ -1,9 +1,10 @@
 ---
 title: Scoop意外卸载的处理办法
-date: 2024-09-12 11:15:19
 tags:
   - 错误解决
   - Scoop
+abbrlink: 6a5cbb2e
+date: 2024-09-12 11:15:19
 ---
 
 这几天发现电脑上的[Scoop](https://scoop.sh/)莫名其妙消失了，我觉得可能是UniGetUI的问题，总之我的Scoop被卸载了，使用Scoop安装的软件的环境变量也失效了，这导致我写代码的相关环境无法使用。

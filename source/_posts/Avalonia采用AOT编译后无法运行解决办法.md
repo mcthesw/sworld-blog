@@ -1,9 +1,10 @@
 ---
 title: Avalonia采用AOT编译后无法运行解决办法
-date: 2024-09-26 16:24:23
 tags:
-- Avalonia
-- CSharp
+  - Avalonia
+  - CSharp
+abbrlink: 185a27cb
+date: 2024-09-26 16:24:23
 ---
 
 近日在制作Avalonia程序过程中，发现调试时很正常，发布后却无法运行，感觉很奇怪，我的发布配置有以下两条：

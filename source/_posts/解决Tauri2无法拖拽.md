@@ -1,9 +1,10 @@
 ---
 title: 解决Tauri2无法拖拽
-date: 2024-12-29 21:07:50
 tags:
   - Rust
   - Tauri
+abbrlink: 7368f4eb
+date: 2024-12-29 21:07:50
 ---
 
 近期将我的[游戏存档管理器](https://github.com/mcthesw/game-save-manager)迁移到Tauri2出现点问题，想起来以前V1的时候也遇到过这个问题，故记录下来。

@@ -1,9 +1,10 @@
 ---
 title: 在Win上编译Rust程序到MacOS和Linux
-date: 2025-03-22 16:18:03
 tags:
-    - Rust
-    - 交叉编译
+  - Rust
+  - 交叉编译
+abbrlink: e57e33c6
+date: 2025-03-22 16:18:03
 ---
 
 我之前写过一篇文章介绍如何在Windows下编译适用于Linux的Rust程序，不过Rust原生的配置方法并不算简单，今天我想介绍一个更简单的方法来编译Rust程序到MacOS和Linux。同理，也可以在这些平台上编译到Windows。
