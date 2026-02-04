@@ -5,7 +5,7 @@ keywords: null
 author: Sworld
 language: zh-CN
 timezone: Asia/Shanghai
-url: http://blog.sworld.club/
+url: https://blog.sworld.club
 permalink: /:year/:month/:abbrlink/
 abbrlink:
   alg: crc32
@@ -63,10 +63,7 @@ include: []
 exclude: []
 ignore: null
 theme: icarus
-deploy:
-  type: git
-  repo: https://github.com/mcthesw/sworld-blog
-  branch: main
+# This project is deployed by Cloudflare Pages (static output). Keep Hexo deploy config empty.
 marked:
   prependRoot: true
   postAsset: true

@@ -6,7 +6,7 @@ head:
     manifest:
         name: Sworld的博客
         short_name: Sw的博客
-        start_url: http://blog.sworld.blog
+        start_url: https://blog.sworld.club/
         theme_color:
         background_color:
         display: standalone
