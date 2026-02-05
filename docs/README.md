@@ -15,6 +15,7 @@ config:
 
     <div class="sw-about-links">
       <a href="https://github.com/mcthesw" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a href="mailto:t.sworld@qq.com">Email</a>
     </div>
 
     <div class="sw-about-section">
