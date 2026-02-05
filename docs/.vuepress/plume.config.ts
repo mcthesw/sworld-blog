@@ -18,12 +18,12 @@ import collections from './collections'
  * @see https://theme-plume.vuejs.press/config/theme/
  */
 export default defineThemeConfig({
-  logo: 'https://theme-plume.vuejs.press/plume.png',
+  logo: '/images/placeholders/avatar.svg',
 
   appearance: true,  // 配置 深色模式
 
   social: [
-    { icon: 'github', link: '/' },
+    { icon: 'github', link: 'https://github.com/mcthesw' },
   ],
   // navbarSocialInclude: ['github'], // 允许显示在导航栏的 social 社交链接
   // aside: true, // 页内侧边栏， 默认显示在右侧
@@ -49,9 +49,9 @@ export default defineThemeConfig({
    * @see https://theme-plume.vuejs.press/config/theme/#profile
    */
   profile: {
-    avatar: 'https://theme-plume.vuejs.press/plume.png',
-    name: 'Sworld\'s World',
-    description: 'Sworld的博客',
+    avatar: '/images/placeholders/avatar.svg',
+    name: 'Sworld',
+    description: 'Sworld 的博客',
     // circle: true,
     // location: '',
     // organization: '',
@@ -77,5 +77,12 @@ export default defineThemeConfig({
   //   postList: true,    // 启用 博客文章列表过渡动画
   //   appearance: 'fade',  // 启用 深色模式切换过渡动画, 或配置过渡动画类型
   // },
+
+  // 尽量克制动效：关闭页面/列表过渡（深色模式保留默认行为）。
+  transition: {
+    page: false,
+    postList: false,
+    appearance: false,
+  },
 
 })

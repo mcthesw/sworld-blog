@@ -7,12 +7,17 @@
 import { defineNavbarConfig } from 'vuepress-theme-plume'
 
 export default defineNavbarConfig([
-  { text: '首页', link: '/' },
-  { text: '博客', link: '/blog/' },
-  { text: '标签', link: '/blog/tags/' },
-  { text: '归档', link: '/blog/archives/' },
+  { text: '计算机', link: '/computer/' },
   {
-    text: '笔记',
-    items: [{ text: '示例', link: '/demo/README.md' }]
+    text: '游戏',
+    items: [
+      { text: '游戏首页', link: '/games/' },
+      { text: 'Demo体验', link: '/games/demo/' },
+      { text: '长评', link: '/games/review/' },
+      { text: '通关记录', link: '/games/clear/' },
+    ],
   },
+  { text: '杂项', link: '/misc/' },
+  { text: '关于我', link: '/' },
+  { text: '标签', link: '/blog/tags/' },
 ])

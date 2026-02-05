@@ -21,7 +21,7 @@ export default defineUserConfig({
 
   head: [
     // 配置站点图标
-    ['link', { rel: 'icon', type: 'image/png', href: 'https://theme-plume.vuejs.press/favicon-32x32.png' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/images/placeholders/avatar.svg' }],
   ],
 
   bundler: viteBundler(),
@@ -90,7 +90,7 @@ export default defineUserConfig({
      * markdown
      * @see https://theme-plume.vuejs.press/config/markdown/
      */
-    // markdown: {
+    markdown: {
     //   abbr: true,         // 启用 abbr 语法  *[label]: content
     //   annotation: true,   // 启用 annotation 语法  [+label]: content
     //   pdf: true,          // 启用 PDF 嵌入 @[pdf](/xxx.pdf)
@@ -129,8 +129,9 @@ export default defineUserConfig({
     //     size: true,       // 启用图片大小
     //   },
     //   include: true,      // 在 Markdown 文件中导入其他 markdown 文件内容
-    //   imageSize: 'local', // 启用 自动填充 图片宽高属性，避免页面抖动
-    // },
+      // 预计算图片尺寸：构建时为图片补充 width/height，避免页面抖动。
+      imageSize: 'local',
+    },
 
     /**
      * 水印
