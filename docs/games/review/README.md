@@ -12,4 +12,4 @@ permalink: /games/review/
 
 ## 长评
 
-<PostMasonry collection="/games/" category="review" />
+<PostMasonry collection="/" category="games/review" />

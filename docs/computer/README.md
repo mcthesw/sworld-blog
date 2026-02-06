@@ -12,4 +12,4 @@ config:
 
 ## 计算机
 
-<PostMasonry />
+<PostMasonry collection="/" category="computer" />

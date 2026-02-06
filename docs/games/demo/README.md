@@ -12,4 +12,4 @@ permalink: /games/demo/
 
 ## Demo体验
 
-<PostMasonry collection="/games/" category="demo" />
+<PostMasonry collection="/" category="games/demo" />

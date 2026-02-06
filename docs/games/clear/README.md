@@ -12,4 +12,4 @@ permalink: /games/clear/
 
 ## 通关记录
 
-<PostMasonry collection="/games/" category="clear" />
+<PostMasonry collection="/" category="games/clear" />

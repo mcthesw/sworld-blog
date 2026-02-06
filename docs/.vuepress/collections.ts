@@ -29,55 +29,27 @@ import { defineCollection, defineCollections } from 'vuepress-theme-plume'
 const blog = defineCollection({
   // post 类型，这里用于实现 博客功能
   type: 'post',
-  // 文档集合所在目录，相对于 `docs`
-  dir: 'computer',
+  // 统一收录正文文章（computer / games / misc），README 等入口页不参与。
+  dir: '',
   // 文档标题，它将用于在页面的面包屑导航中显示
   title: 'Blog',
+  // 一个游戏一个文件夹：仅收集各分类目录下的 `*/index.md`。
+  include: [
+    'computer/**/index.md',
+    'games/demo/**/index.md',
+    'games/review/**/index.md',
+    'games/clear/**/index.md',
+    'misc/**/index.md',
+  ],
   // 文章列表页的链接，如果 `linkPrefix` 未定义，它也将作为 相关的文章的 permalink 的前缀
   link: '/blog/',
-  //   linkPrefix: '/article/', // 相关文章的链接前缀
-  //   postList: true, // 是否启用文章列表页
-  //   tags: true, // 是否启用标签页
-  //   archives: true, // 是否启用归档页
-  //   categories: true, // 是否启用分类页
-  //   postCover: 'right', // 文章封面位置
-  //   pagination: 15, // 每页显示文章数量
-})
-
-const games = defineCollection({
-  type: 'post',
-  dir: 'games',
-  title: 'Games',
-  // 一个游戏一个文件夹：仅收集各分类目录下的 `*/index.md`。
-  include: ['demo/**/index.md', 'review/**/index.md', 'clear/**/index.md'],
-  // 游戏分类页已有独立入口，不额外生成文章列表和归档页。
-  link: '/games/posts/',
+  // 仅保留标签/归档/分类入口，不额外显示 /blog/ 列表页。
   postList: false,
-  archives: false,
-})
-
-const demoDoc = defineCollection({
-  // doc 类型，该类型带有侧边栏
-  type: 'doc',
-  // 文档集合所在目录，相对于 `docs`
-  dir: 'demo',
-  // `dir` 所指向的目录中的所有 markdown 文件，其 permalink 需要以 `linkPrefix` 配置作为前缀
-  // 如果 前缀不一致，则无法生成侧边栏。
-  // 所以请确保  markdown 文件的 permalink 都以 `linkPrefix` 开头
-  linkPrefix: '/demo',
-  // 文档标题，它将用于在页面的面包屑导航中显示
-  title: 'Demo',
-  // 根据文件结构自动生成侧边栏
-  sidebar: 'auto',
 })
 
 /**
  * 导出所有的 collections
- * (blog 为博客示例，如果不需要博客功能，请删除)
- * (demoDoc 为参考示例，如果不需要它，请删除)
  */
 export default defineCollections([
   blog,
-  games,
-  demoDoc,
 ])
