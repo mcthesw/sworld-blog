@@ -13,20 +13,11 @@ const props = withDefaults(
     category?: string
     /** Optional heading rendered above the grid. */
     title?: string
-    /** Card masonry columns. */
-    cols?: number | { sm?: number, md?: number, lg?: number }
-    /** Grid gap in px. */
-    gap?: number
     /** Max number of posts to render. */
     limit?: number
-    /** Fallback cover image when post.cover is empty. */
-    coverFallback?: string
   }>(),
   {
-    cols: () => ({ sm: 1, md: 2, lg: 3 }),
-    gap: 16,
     limit: 999,
-    coverFallback: '',
   },
 )
 
@@ -92,7 +83,7 @@ const filteredPosts = computed(() => {
 /* biome-ignore lint/correctness/noUnusedVariables: used in template */
 const cards = computed(() => {
   return filteredPosts.value.map((post) => {
-    const cover = post.cover || props.coverFallback
+    const cover = post.cover
     const hasCover = !!cover
     return {
       post,
@@ -103,59 +94,40 @@ const cards = computed(() => {
     }
   })
 })
-
-const colsResolved = computed(() => {
-  if (typeof props.cols === 'number') {
-    const n = Math.max(1, Number(props.cols))
-    return { sm: n, md: n, lg: n }
-  }
-
-  const c = props.cols ?? {}
-  return {
-    sm: Math.max(1, Number(c.sm ?? 1)),
-    md: Math.max(1, Number(c.md ?? 2)),
-    lg: Math.max(1, Number(c.lg ?? 3)),
-  }
-})
-
-/* biome-ignore lint/correctness/noUnusedVariables: used in template */
-const masonryStyle = computed(() => ({
-  '--sw-masonry-gap': `${props.gap}px`,
-  '--sw-masonry-cols-sm': String(colsResolved.value.sm),
-  '--sw-masonry-cols-md': String(colsResolved.value.md),
-  '--sw-masonry-cols-lg': String(colsResolved.value.lg),
-}))
 </script>
 
 <template>
-  <section class="sw-post-masonry">
-    <h2 v-if="title" class="sw-post-masonry-title">
+  <section>
+    <h2 v-if="title" class="mb-3 text-lg font-bold">
       {{ title }}
     </h2>
 
-    <div class="sw-masonry" :style="masonryStyle">
+    <div class="columns-1 gap-x-4 md:columns-2 lg:columns-3">
       <article
         v-for="{ post, hasCover, coverSrc, excerpt, meta } in cards"
         :key="post.path"
-        class="sw-post-card sw-masonry-item"
-        :class="{ 'no-cover': !hasCover }"
+        class="mb-4 inline-block w-full break-inside-avoid rounded-xl border shadow-sm [border-color:var(--vp-c-divider)]"
+        :class="[
+          hasCover ? 'bg-[var(--vp-c-bg)]' : 'bg-gradient-to-b from-[var(--vp-c-bg-soft)] to-[var(--vp-c-bg)]',
+        ]"
       >
-        <RouterLink class="sw-post-card-link" :to="post.path">
-          <div v-if="hasCover" class="sw-post-card-cover">
+        <RouterLink class="block no-underline [color:inherit]" :to="post.path">
+          <div v-if="hasCover" class="aspect-video bg-[var(--vp-c-bg-soft)]">
             <img
+              class="h-full w-full object-cover"
               :src="coverSrc"
               :alt="post.title"
               loading="lazy"
             >
           </div>
-          <div class="sw-post-card-body">
-            <div class="sw-post-card-title">
+          <div class="px-3 py-3">
+            <div class="text-sm font-semibold leading-5">
               {{ post.title }}
             </div>
-            <div v-if="meta" class="sw-post-card-meta">
+            <div v-if="meta" class="mt-2 text-xs leading-5 text-[var(--vp-c-text-3)]">
               {{ meta }}
             </div>
-            <div v-if="excerpt" class="sw-post-card-excerpt">
+            <div v-if="excerpt" class="mt-2 text-xs leading-5 text-[var(--vp-c-text-2)]">
               {{ excerpt }}
             </div>
           </div>
@@ -164,89 +136,3 @@ const masonryStyle = computed(() => ({
     </div>
   </section>
 </template>
-
-<style scoped>
-.sw-post-masonry-title {
-  margin: 0 0 12px;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.sw-masonry {
-  column-gap: var(--sw-masonry-gap);
-  column-count: var(--sw-masonry-cols-sm);
-}
-
-@media (min-width: 640px) {
-  .sw-masonry {
-    column-count: var(--sw-masonry-cols-md);
-  }
-}
-
-@media (min-width: 960px) {
-  .sw-masonry {
-    column-count: var(--sw-masonry-cols-lg);
-  }
-}
-
-.sw-masonry-item {
-  display: inline-block;
-  width: 100%;
-  margin: 0 0 var(--sw-masonry-gap);
-  break-inside: avoid;
-}
-
-.sw-post-card {
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
-  background: var(--vp-c-bg);
-  box-shadow: var(--vp-shadow-1);
-  overflow: hidden;
-}
-
-.sw-post-card.no-cover {
-  background: linear-gradient(180deg, var(--vp-c-bg-soft), var(--vp-c-bg));
-}
-
-.sw-post-card-link {
-  display: block;
-  color: inherit;
-  text-decoration: none;
-}
-
-.sw-post-card-cover {
-  aspect-ratio: 16 / 9;
-  background: var(--vp-c-bg-soft);
-}
-
-.sw-post-card-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.sw-post-card-body {
-  padding: 12px 12px 14px;
-}
-
-.sw-post-card-title {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
-}
-
-.sw-post-card-meta {
-  margin-top: 8px;
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--vp-c-text-3);
-}
-
-.sw-post-card-excerpt {
-  margin-top: 8px;
-  font-size: 12px;
-  line-height: 18px;
-  color: var(--vp-c-text-2);
-}
-</style>
