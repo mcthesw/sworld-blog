@@ -23,10 +23,11 @@ const props = withDefaults(
     coverFallback?: string
   }>(),
   {
-    cols: () => ({ sm: 1, md: 2, lg: 3 }),
+    // Use the theme default so it stays multi-column even if media-query fails.
+    cols: () => ({ sm: 2, md: 2, lg: 3 }),
     gap: 16,
     limit: 999,
-    coverFallback: '/images/placeholders/cover.svg',
+    coverFallback: '',
   },
 )
 
@@ -65,6 +66,14 @@ function excerptText(excerpt: string): string {
   return `${text.slice(0, 140)}…`
 }
 
+function metaText(post: ThemePostsItem): string {
+  const date = post.createTime || ''
+  const tags = (post.tags ?? []).slice(0, 4)
+  const tagsText = tags.length ? tags.join(' / ') : ''
+
+  return [date, tagsText].filter(Boolean).join(' · ')
+}
+
 const categorySegments = computed(() => normalizeSegments(props.category))
 
 const allPosts = computed<ThemePostsItem[]>(() => {
@@ -85,10 +94,13 @@ const filteredPosts = computed(() => {
 const cards = computed(() => {
   return filteredPosts.value.map((post) => {
     const cover = post.cover || props.coverFallback
+    const hasCover = !!cover
     return {
       post,
-      coverSrc: withBase(cover),
+      hasCover,
+      coverSrc: hasCover ? withBase(cover) : '',
       excerpt: post.excerpt ? excerptText(post.excerpt) : '',
+      meta: metaText(post),
     }
   })
 })
@@ -101,9 +113,9 @@ const cards = computed(() => {
     </h2>
 
     <CardMasonry :cols="cols" :gap="gap">
-      <article v-for="{ post, coverSrc, excerpt } in cards" :key="post.path" class="sw-post-card">
+      <article v-for="{ post, hasCover, coverSrc, excerpt, meta } in cards" :key="post.path" class="sw-post-card" :class="{ 'no-cover': !hasCover }">
         <RouterLink class="sw-post-card-link" :to="post.path">
-          <div class="sw-post-card-cover">
+          <div v-if="hasCover" class="sw-post-card-cover">
             <img
               :src="coverSrc"
               :alt="post.title"
@@ -113,6 +125,9 @@ const cards = computed(() => {
           <div class="sw-post-card-body">
             <div class="sw-post-card-title">
               {{ post.title }}
+            </div>
+            <div v-if="meta" class="sw-post-card-meta">
+              {{ meta }}
             </div>
             <div v-if="excerpt" class="sw-post-card-excerpt">
               {{ excerpt }}
@@ -137,6 +152,10 @@ const cards = computed(() => {
   background: var(--vp-c-bg);
   box-shadow: var(--vp-shadow-1);
   overflow: hidden;
+}
+
+.sw-post-card.no-cover {
+  background: linear-gradient(180deg, var(--vp-c-bg-soft), var(--vp-c-bg));
 }
 
 .sw-post-card-link {
@@ -165,6 +184,13 @@ const cards = computed(() => {
   font-size: 14px;
   font-weight: 700;
   line-height: 20px;
+}
+
+.sw-post-card-meta {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--vp-c-text-3);
 }
 
 .sw-post-card-excerpt {

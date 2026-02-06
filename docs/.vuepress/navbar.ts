@@ -11,7 +11,7 @@ export default defineNavbarConfig([
   {
     text: '游戏',
     items: [
-      { text: '游戏首页', link: '/games/' },
+      { text: '游戏偏好', link: '/games/' },
       { text: 'Demo体验', link: '/games/demo/' },
       { text: '长评', link: '/games/review/' },
       { text: '通关记录', link: '/games/clear/' },
