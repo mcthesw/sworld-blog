@@ -23,8 +23,7 @@ const props = withDefaults(
     coverFallback?: string
   }>(),
   {
-    // Use the theme default so it stays multi-column even if media-query fails.
-    cols: () => ({ sm: 2, md: 2, lg: 3 }),
+    cols: () => ({ sm: 1, md: 2, lg: 3 }),
     gap: 16,
     limit: 999,
     coverFallback: '',
@@ -104,6 +103,28 @@ const cards = computed(() => {
     }
   })
 })
+
+const colsResolved = computed(() => {
+  if (typeof props.cols === 'number') {
+    const n = Math.max(1, Number(props.cols))
+    return { sm: n, md: n, lg: n }
+  }
+
+  const c = props.cols ?? {}
+  return {
+    sm: Math.max(1, Number(c.sm ?? 1)),
+    md: Math.max(1, Number(c.md ?? 2)),
+    lg: Math.max(1, Number(c.lg ?? 3)),
+  }
+})
+
+/* biome-ignore lint/correctness/noUnusedVariables: used in template */
+const masonryStyle = computed(() => ({
+  '--sw-masonry-gap': `${props.gap}px`,
+  '--sw-masonry-cols-sm': String(colsResolved.value.sm),
+  '--sw-masonry-cols-md': String(colsResolved.value.md),
+  '--sw-masonry-cols-lg': String(colsResolved.value.lg),
+}))
 </script>
 
 <template>
@@ -112,8 +133,13 @@ const cards = computed(() => {
       {{ title }}
     </h2>
 
-    <CardMasonry :cols="cols" :gap="gap">
-      <article v-for="{ post, hasCover, coverSrc, excerpt, meta } in cards" :key="post.path" class="sw-post-card" :class="{ 'no-cover': !hasCover }">
+    <div class="sw-masonry" :style="masonryStyle">
+      <article
+        v-for="{ post, hasCover, coverSrc, excerpt, meta } in cards"
+        :key="post.path"
+        class="sw-post-card sw-masonry-item"
+        :class="{ 'no-cover': !hasCover }"
+      >
         <RouterLink class="sw-post-card-link" :to="post.path">
           <div v-if="hasCover" class="sw-post-card-cover">
             <img
@@ -135,7 +161,7 @@ const cards = computed(() => {
           </div>
         </RouterLink>
       </article>
-    </CardMasonry>
+    </div>
   </section>
 </template>
 
@@ -144,6 +170,30 @@ const cards = computed(() => {
   margin: 0 0 12px;
   font-size: 18px;
   font-weight: 700;
+}
+
+.sw-masonry {
+  column-gap: var(--sw-masonry-gap);
+  column-count: var(--sw-masonry-cols-sm);
+}
+
+@media (min-width: 640px) {
+  .sw-masonry {
+    column-count: var(--sw-masonry-cols-md);
+  }
+}
+
+@media (min-width: 960px) {
+  .sw-masonry {
+    column-count: var(--sw-masonry-cols-lg);
+  }
+}
+
+.sw-masonry-item {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 var(--sw-masonry-gap);
+  break-inside: avoid;
 }
 
 .sw-post-card {
