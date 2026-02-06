@@ -1,3 +1,5 @@
+/// <reference path="./shim.d.ts" />
+
 import { defineClientConfig } from 'vuepress/client'
 // import RepoCard from 'vuepress-theme-plume/features/RepoCard.vue'
 // import NpmBadge from 'vuepress-theme-plume/features/NpmBadge.vue'
@@ -8,6 +10,7 @@ import { defineClientConfig } from 'vuepress/client'
 
 import './theme/styles/tailwind.css'
 
+import AboutHome from './components/AboutHome.vue'
 import PostMasonry from './components/PostMasonry.vue'
 
 export default defineClientConfig({
@@ -21,6 +24,7 @@ export default defineClientConfig({
     // your custom components
     // app.component('CustomComponent', CustomComponent)
 
+    app.component('AboutHome', AboutHome)
     app.component('PostMasonry', PostMasonry)
   },
 })
