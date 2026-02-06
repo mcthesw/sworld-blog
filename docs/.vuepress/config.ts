@@ -21,7 +21,7 @@ export default defineUserConfig({
 
   head: [
     // 配置站点图标
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/images/placeholders/avatar.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', href: 'https://avatars.githubusercontent.com/u/61224072?v=4' }],
   ],
 
   bundler: viteBundler(),

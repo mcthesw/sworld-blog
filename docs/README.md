@@ -9,7 +9,7 @@ config:
 
 <div class="sw-about">
   <div class="sw-about-left">
-    <img class="sw-about-avatar" src="/images/placeholders/avatar.svg" alt="avatar" />
+    <img class="sw-about-avatar" src="https://avatars.githubusercontent.com/u/61224072?v=4" alt="avatar" />
     <h1 class="sw-about-name">Sworld</h1>
     <p class="sw-about-bio">这里会放你的简介（我先放占位符）。你可以写：你是谁、关注什么、最近在做什么。</p>
 

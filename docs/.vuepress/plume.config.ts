@@ -18,7 +18,7 @@ import collections from './collections'
  * @see https://theme-plume.vuejs.press/config/theme/
  */
 export default defineThemeConfig({
-  logo: '/images/placeholders/avatar.svg',
+  logo: 'https://avatars.githubusercontent.com/u/61224072?v=4',
 
   appearance: true,  // 配置 深色模式
 
@@ -49,7 +49,7 @@ export default defineThemeConfig({
    * @see https://theme-plume.vuejs.press/config/theme/#profile
    */
   profile: {
-    avatar: '/images/placeholders/avatar.svg',
+    avatar: 'https://avatars.githubusercontent.com/u/61224072?v=4',
     name: 'Sworld',
     description: 'Sworld 的博客',
     // circle: true,
