@@ -44,6 +44,19 @@ const blog = defineCollection({
   //   pagination: 15, // 每页显示文章数量
 })
 
+const games = defineCollection({
+  type: 'post',
+  dir: 'games',
+  title: 'Games',
+  // 一个游戏一个文件夹：仅收集各分类目录下的 `*/index.md`。
+  include: ['demo/**/index.md', 'review/**/index.md', 'clear/**/index.md'],
+  // 游戏分类页已有独立入口，不额外生成文章列表/标签/归档页。
+  link: '/games/posts/',
+  postList: false,
+  tags: false,
+  archives: false,
+})
+
 const demoDoc = defineCollection({
   // doc 类型，该类型带有侧边栏
   type: 'doc',
@@ -66,5 +79,6 @@ const demoDoc = defineCollection({
  */
 export default defineCollections([
   blog,
+  games,
   demoDoc,
 ])

@@ -7,10 +7,12 @@ import type { ThemePostsItem } from 'vuepress-theme-plume/client'
 const props = withDefaults(
   defineProps<{
     /**
-     * Category path like "游戏/Demo体验".
+     * Category path like "demo" or "游戏/Demo体验".
      * Matches both prefix and suffix of the post's categoryList names.
      */
     category?: string
+    /** Collection key from postsData, for example "/computer/" or "/games/". */
+    collection?: string
     /** Optional heading rendered above the grid. */
     title?: string
     /** Max number of posts to render. */
@@ -28,6 +30,19 @@ function normalizeSegments(input?: string): string[] {
     .split('/')
     .map(s => s.trim())
     .filter(Boolean)
+}
+
+function normalizeCollectionPath(input?: string): string {
+  const trimmed = (input ?? '').trim()
+  if (!trimmed)
+    return ''
+
+  let out = trimmed
+  if (!out.startsWith('/'))
+    out = `/${out}`
+  if (!out.endsWith('/'))
+    out = `${out}/`
+  return out
 }
 
 function matchCategory(post: ThemePostsItem, expected: string[]): boolean {
@@ -65,9 +80,14 @@ function metaText(post: ThemePostsItem): string {
 }
 
 const categorySegments = computed(() => normalizeSegments(props.category))
+const selectedCollection = computed(() => normalizeCollectionPath(props.collection))
 
 const allPosts = computed<ThemePostsItem[]>(() => {
-  // Prefer the current collection dir, and keep '/blog/' as fallback for old data.
+  const collectionKey = selectedCollection.value
+  if (collectionKey)
+    return postsData.value[collectionKey] ?? []
+
+  // Fallback: computer is current default collection, keep '/blog/' for compatibility.
   return postsData.value['/computer/'] ?? postsData.value['/blog/'] ?? []
 })
 
