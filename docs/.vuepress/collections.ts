@@ -30,7 +30,7 @@ const blog = defineCollection({
   // post 类型，这里用于实现 博客功能
   type: 'post',
   // 文档集合所在目录，相对于 `docs`
-  dir: 'blog',
+  dir: 'computer',
   // 文档标题，它将用于在页面的面包屑导航中显示
   title: 'Blog',
   // 文章列表页的链接，如果 `linkPrefix` 未定义，它也将作为 相关的文章的 permalink 的前缀
@@ -55,10 +55,8 @@ const demoDoc = defineCollection({
   linkPrefix: '/demo',
   // 文档标题，它将用于在页面的面包屑导航中显示
   title: 'Demo',
-  // 手动配置侧边栏结构
-  sidebar: ['', 'foo', 'bar'],
   // 根据文件结构自动生成侧边栏
-  // sidebar: 'auto',
+  sidebar: 'auto',
 })
 
 /**

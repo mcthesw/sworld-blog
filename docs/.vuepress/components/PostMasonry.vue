@@ -67,9 +67,8 @@ function metaText(post: ThemePostsItem): string {
 const categorySegments = computed(() => normalizeSegments(props.category))
 
 const allPosts = computed<ThemePostsItem[]>(() => {
-  // Current site uses a single post collection with link '/blog/'.
-  // We read that collection directly to avoid depending on current route context.
-  return postsData.value['/blog/'] ?? []
+  // Prefer the current collection dir, and keep '/blog/' as fallback for old data.
+  return postsData.value['/computer/'] ?? postsData.value['/blog/'] ?? []
 })
 
 const filteredPosts = computed(() => {
