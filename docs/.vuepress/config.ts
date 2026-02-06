@@ -143,17 +143,21 @@ export default defineUserConfig({
      * 评论 comments
      * @see https://theme-plume.vuejs.press/guide/features/comments/
      */
-    // comment: {
-    //   provider: '', // "Artalk" | "Giscus" | "Twikoo" | "Waline"
-    //   comment: true,
-    //   repo: '',
-    //   repoId: '',
-    //   category: '',
-    //   categoryId: '',
-    //   mapping: 'pathname',
-    //   reactionsEnabled: true,
-    //   inputPosition: 'top',
-    // },
+    comment: {
+      // TODO: replace these with real values from https://giscus.app/
+      provider: 'Giscus',
+      comment: true,
+      repo: 'mcthesw/sworld-blog',
+      repoId: 'REPLACE_ME',
+      category: 'Announcements',
+      categoryId: 'REPLACE_ME',
+      mapping: 'pathname',
+      reactionsEnabled: true,
+      inputPosition: 'top',
+      lazyLoading: true,
+      lightTheme: 'light',
+      darkTheme: 'dark_dimmed',
+    },
 
     /**
      * 资源链接替换

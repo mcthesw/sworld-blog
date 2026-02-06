@@ -2,6 +2,7 @@
 title: 长评
 pageLayout: home
 home: true
+comment: false
 config:
   - type: custom
 ---

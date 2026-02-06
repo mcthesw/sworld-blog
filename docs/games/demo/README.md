@@ -2,6 +2,7 @@
 title: Demo体验
 pageLayout: home
 home: true
+comment: false
 config:
   - type: custom
 ---

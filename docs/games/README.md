@@ -2,6 +2,7 @@
 title: 游戏偏好
 pageLayout: home
 home: true
+comment: false
 config:
   - type: custom
 ---
