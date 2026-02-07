@@ -11,6 +11,8 @@
     "docs:dev": "vuepress dev docs",
     "docs:dev-clean": "vuepress dev docs --clean-cache --clean-temp",
     "docs:preview": "http-server docs/.vuepress/dist",
+    "new:game": "node scripts/new-game-post.mjs",
+    "new:post": "node scripts/new-post.mjs",
     "vp-update": "pnpm dlx vp-update"
   },
   "devDependencies": {
