@@ -29,10 +29,10 @@ permalink: /games/
 
 - Demo体验：短时间试玩后的直觉反馈
 - 长评：完整体验后的长文
-- 通关记录：通关时间点 + 简短总结
+- 游玩记录：记录状态（通关！/游玩中/搁置/想玩/放弃）
 
 ### 分类
 
 - [Demo体验](/games/demo/)
 - [长评](/games/review/)
-- [通关记录](/games/clear/)
+- [游玩记录](/games/clear/)
