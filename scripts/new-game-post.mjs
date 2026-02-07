@@ -3,6 +3,15 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
+/**
+ * 游戏文章脚手架。
+ *
+ * 同步约定（修改时请三处一起检查）：
+ * 1) editor-docs/PostMasonry.md（维护文档）
+ * 2) docs/.vuepress/components/PostMasonry.vue（卡片解析逻辑）
+ * 3) scripts/new-game-post.mjs（新建文章默认 Frontmatter）
+ */
+
 const TYPE_META = {
   demo: {
     label: 'Demo体验',

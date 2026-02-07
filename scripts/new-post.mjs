@@ -3,6 +3,15 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 
+/**
+ * 通用文章脚手架（computer / misc）。
+ *
+ * 同步约定（修改时请三处一起检查）：
+ * 1) editor-docs/（维护文档约定）
+ * 2) docs/.vuepress/components/*.vue（列表/卡片展示逻辑）
+ * 3) scripts/new-post.mjs（新建文章默认 Frontmatter）
+ */
+
 const SECTION_META = {
   computer: {
     label: '计算机',
