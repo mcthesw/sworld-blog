@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { mkdir, writeFile } from 'node:fs/promises'
+import { randomBytes } from 'node:crypto'
 import path from 'node:path'
 
 /**
@@ -83,6 +84,17 @@ function ensurePermalink(input) {
   return out
 }
 
+function createAbbrlink() {
+  return randomBytes(4).toString('hex')
+}
+
+function createLegacyPermalink(createTime, abbrlink) {
+  const match = createTime.match(/^(\d{4})\/(\d{2})\//)
+  if (!match) throw new Error('createTime 格式不正确，无法生成 permalink')
+  const [, year, month] = match
+  return `/${year}/${month}/${abbrlink}/`
+}
+
 async function main() {
   const { positional, flags } = parseArgs(process.argv.slice(2))
   const [sectionRaw, nameRaw] = positional
@@ -99,15 +111,16 @@ async function main() {
   }
 
   const title = (flags.title ?? nameRaw).trim()
-  const permalink = flags.permalink
-    ? ensurePermalink(flags.permalink)
-    : `/${section}/${fileName}/`
 
   const targetDir = path.join(process.cwd(), 'docs', section, fileName)
   const targetFile = path.join(targetDir, 'index.md')
 
   const { label, defaultTags, note } = SECTION_META[section]
   const createTime = nowString()
+  const abbrlink = createAbbrlink()
+  const permalink = flags.permalink
+    ? ensurePermalink(flags.permalink)
+    : createLegacyPermalink(createTime, abbrlink)
 
   const content = `---
 # 文章标题（展示在列表与文章页）
@@ -116,9 +129,11 @@ title: ${title}
 # ${note}
 tags:
 ${defaultTags.map((t) => `  - ${t}`).join('\n')}
+# 短链接 ID（用于历史风格 permalink）
+abbrlink: ${abbrlink}
 # 创建时间（格式：YYYY/MM/DD HH:mm:ss）
 createTime: ${createTime}
-# 永久链接（建议唯一，末尾保留 /）
+# 永久链接（默认：/YYYY/MM/abbrlink/，末尾保留 /）
 permalink: ${permalink}
 # 封面图（可选）
 # cover: ${permalink}cover.webp

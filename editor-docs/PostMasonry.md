@@ -32,8 +32,9 @@ tags:
   - 普通标签
   - 另一个标签
 createTime: 2026/02/07 12:00:00
-cover: /games/review/你的文章/cover.webp # 可选，和脚本注释模板一致
-permalink: /games/review/你的文章/
+abbrlink: 1a2b3c4d
+cover: /2026/02/1a2b3c4d/cover.webp # 可选，和脚本注释模板一致
+permalink: /2026/02/1a2b3c4d/
 ---
 ```
 
@@ -63,8 +64,14 @@ pnpm new:game clear "游戏名"
 
 - `title`
 - `tags`
+- `abbrlink`（8 位短链 ID）
 - `createTime`（`YYYY/MM/DD HH:mm:ss`）
-- `permalink`（默认 `/games/<type>/<gameName>/`）
+- `permalink`（默认 `/YYYY/MM/abbrlink/`）
+
+`docs/.vuepress/config.ts` 的 `autoFrontmatter.transform` 也按同样规则兜底：
+
+- 缺 `abbrlink` 时补 8 位短链 ID
+- 缺 `permalink` 时补 `/YYYY/MM/abbrlink/`
 
 ## 游戏卡片规则
 

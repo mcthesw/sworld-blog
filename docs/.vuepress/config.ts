@@ -10,8 +10,27 @@
  */
 
 import { viteBundler } from '@vuepress/bundler-vite'
+import { createHash } from 'node:crypto'
 import { defineUserConfig } from 'vuepress'
 import { plumeTheme } from 'vuepress-theme-plume'
+
+function parseYearMonth(input: unknown): { year: string, month: string } | undefined {
+  if (typeof input !== 'string' && typeof input !== 'number') return undefined
+  const text = String(input).trim()
+  if (!text) return undefined
+
+  const match = text.match(/^(\d{4})[\/-](\d{1,2})[\/-]\d{1,2}/)
+  if (!match) return undefined
+
+  return {
+    year: match[1],
+    month: match[2].padStart(2, '0'),
+  }
+}
+
+function makeAbbrlink(seed: string): string {
+  return createHash('sha1').update(seed).digest('hex').slice(0, 8)
+}
 
 export default defineUserConfig({
   base: '/',
@@ -53,9 +72,31 @@ export default defineUserConfig({
      * @see https://theme-plume.vuejs.press/config/theme/#autofrontmatter
      */
     autoFrontmatter: {
-      permalink: true,  // 是否生成永久链接
+      // 关闭默认 nanoid permalink，改由 transform 生成与历史文章一致的格式。
+      permalink: false,
       createTime: true, // 是否生成创建时间
       title: true,      // 是否生成标题
+      transform: (data, context) => {
+        const relativePath = context.relativePath.replace(/\\/g, '/')
+        const isPost = /^(computer|misc|games\/(demo|review|clear))\/.+\/index\.md$/.test(relativePath)
+        if (!isPost) return data
+
+        const rawAbbrlink = data.abbrlink
+        const abbrlink = (typeof rawAbbrlink === 'string' || typeof rawAbbrlink === 'number')
+          ? String(rawAbbrlink).trim()
+          : ''
+        const nextAbbrlink = abbrlink || makeAbbrlink(`${relativePath}|${String(data.title ?? '')}|${String(data.createTime ?? '')}`)
+        if (!abbrlink) data.abbrlink = nextAbbrlink
+
+        if (!data.permalink) {
+          const yearMonth = parseYearMonth(data.date ?? data.createTime)
+          if (yearMonth) {
+            data.permalink = `/${yearMonth.year}/${yearMonth.month}/${nextAbbrlink}/`
+          }
+        }
+
+        return data
+      },
     },
 
     /* 本地搜索, 默认启用 */
@@ -144,7 +185,6 @@ export default defineUserConfig({
      * @see https://theme-plume.vuejs.press/guide/features/comments/
      */
     comment: {
-      // TODO: replace these with real values from https://giscus.app/
       provider: 'Giscus',
       comment: true,
       repo: 'mcthesw/sworld-blog',
