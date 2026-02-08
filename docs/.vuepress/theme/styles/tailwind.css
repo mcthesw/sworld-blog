@@ -1,2 +1,12 @@
 /* biome-ignore lint: Tailwind directives */
 @tailwind utilities;
+
+/* Override plume default `.vp-doc a { text-decoration: underline; }` */
+.vp-doc a:not(.keep-underline) {
+  text-decoration: none;
+}
+
+/* Optional: footer links are underlined by theme as well */
+.vp-footer a:not(.keep-underline) {
+  text-decoration: none;
+}
