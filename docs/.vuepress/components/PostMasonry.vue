@@ -27,6 +27,11 @@ const props = withDefaults(
 
 const postsData = usePostsData()
 
+const localCoverMap = import.meta.glob<string>(
+  '../../{computer,misc,games}/**/*.{png,jpg,jpeg,webp,avif,gif,PNG,JPG,JPEG,WEBP,AVIF,GIF}',
+  { eager: true, query: '?url', import: 'default' },
+)
+
 const statusAliasMap: Record<string, GamePlayStatus> = {
   '通关': '通关！',
   '通关！': '通关！',
@@ -80,6 +85,31 @@ function excerptText(excerpt: string): string {
     .trim()
   if (text.length <= 120) return text
   return text.slice(0, 120) + '…'
+}
+
+function isAbsoluteCoverPath(input: string): boolean {
+  return /^(?:[a-z]+:)?\/\//i.test(input) || input.startsWith('/') || input.startsWith('data:')
+}
+
+function normalizeCoverPath(input: string): string {
+  return input.trim().replace(/\\/g, '/').replace(/^\.\//, '').replace(/^\/+/, '')
+}
+
+function resolveCoverSrc(post: ThemePostsItem): string {
+  const rawCover = typeof post.cover === 'string' ? post.cover.trim() : ''
+  if (!rawCover) return ''
+
+  if (isAbsoluteCoverPath(rawCover)) return withBase(rawCover)
+
+  const normalizedCover = normalizeCoverPath(rawCover)
+  const categories = postCategorySegments(post)
+  if (categories.length) {
+    const localKey = `../../${categories.join('/')}/${normalizedCover}`
+    const localCover = localCoverMap[localKey]
+    if (localCover) return withBase(localCover)
+  }
+
+  return withBase(rawCover)
 }
 
 function tagBasePath(collectionKey: string): string {
@@ -259,8 +289,8 @@ const filteredPosts = computed(() => {
 /* biome-ignore lint/correctness/noUnusedVariables: used in template */
 const cards = computed(() => {
   return filteredPosts.value.map((post) => {
-    const cover = post.cover
-    const hasCover = !!cover
+    const coverSrc = resolveCoverSrc(post)
+    const hasCover = !!coverSrc
     const variant = detectVariant(post)
     const gameName = gameNameOf(post)
     const { score, expectation, status, displayTags } = splitSpecialTags(post.tags ?? [])
@@ -269,7 +299,7 @@ const cards = computed(() => {
       post,
       variant,
       hasCover,
-      coverSrc: hasCover ? withBase(cover) : '',
+      coverSrc,
       excerpt: post.excerpt ? excerptText(post.excerpt) : '',
       date: post.createTime || '',
       gameName,
@@ -318,7 +348,7 @@ const cards = computed(() => {
         />
 
         <div class="relative z-[3] flex h-full flex-col pointer-events-none">
-          <div v-if="hasCover && variant !== 'game-demo'" class="relative w-full overflow-hidden" :class="variant === 'game-log' ? 'aspect-[21/9]' : 'aspect-[16/9]'">
+          <div v-if="hasCover" class="relative w-full overflow-hidden" :class="variant === 'game-log' ? 'aspect-[21/9]' : 'aspect-[16/9]'">
             <img
               class="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               :src="coverSrc"

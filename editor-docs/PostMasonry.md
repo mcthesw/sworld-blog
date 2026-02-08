@@ -43,6 +43,9 @@ permalink: /2026/02/1a2b3c4d/
 - `tags` 中未被识别为特殊标签的内容，会作为普通标签展示
 - 分类由文章路径决定（如 `docs/games/review/xxx/index.md`），不是在 Frontmatter 里单独写 `category`
 - `games/clear` 的“游戏名”优先取路径第三级目录名（`docs/games/clear/<游戏名>/index.md`）
+- `cover` 支持两种写法：
+  - 绝对路径：`/2026/02/1a2b3c4d/cover.webp`（放在 `public`）
+  - 同目录相对文件名：`cover.webp` / `208472~1.JPG`（图片和 `index.md` 同级）
 
 ## 与根目录脚本的对应关系
 
@@ -92,7 +95,7 @@ pnpm new:game clear "游戏名"
   ```
 
 - `games/demo`（Demo体验）
-  - 展示：标题、期待值
+  - 展示：头图（可选）、标题、期待值
   - 标签（写在 `tags` 里）：`期待:8.5`、`期待值:8.5`、`expect:8.5`、`期待 8.5`
   - 兼容旧数据：若没有期待值但有评分标签，会回退显示该值
 
