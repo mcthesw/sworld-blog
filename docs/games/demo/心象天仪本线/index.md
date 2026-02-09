@@ -8,6 +8,7 @@ abbrlink: trbddn41
 createTime: 2026/02/07 15:53:06
 permalink: /2026/02/trbddn41/
 cover: 208472~1.JPG
+excerpt: 文学、古典乐与铁道，追寻绮罗星的少女们
 ---
 
 > 文学、古典乐与铁道
