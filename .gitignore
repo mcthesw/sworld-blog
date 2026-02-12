@@ -8,3 +8,4 @@ docs/.vuepress/dist
 *.log
 
 .local
+.local/scripts

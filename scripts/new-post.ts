@@ -10,7 +10,7 @@ import path from 'node:path'
  * 同步约定（修改时请三处一起检查）：
  * 1) editor-docs/（维护文档约定）
  * 2) docs/.vuepress/components/*.vue（列表/卡片展示逻辑）
- * 3) scripts/new-post.mjs（新建文章默认 Frontmatter）
+ * 3) scripts/new-post.ts（新建文章默认 Frontmatter）
  */
 
 const SECTION_META = {
@@ -24,12 +24,19 @@ const SECTION_META = {
     defaultTags: ['杂项'],
     note: '按内容自定义标签即可',
   },
+} as const
+
+type CliFlags = {
+  dryRun?: boolean
+  title?: string
+  permalink?: string
+  [key: string]: string | boolean | undefined
 }
 
-function usage() {
+function usage(): void {
   console.log(`
 用法:
-  node scripts/new-post.mjs <computer|misc> "文章名" [--title "标题"] [--permalink "/自定义/"] [--dry-run]
+  pnpm new:post <computer|misc> "文章名" [--title "标题"] [--permalink "/自定义/"] [--dry-run]
 
 示例:
   pnpm new:post computer "Rust异步踩坑记录"
@@ -37,9 +44,9 @@ function usage() {
 `)
 }
 
-function parseArgs(argv) {
-  const positional = []
-  const flags = {}
+function parseArgs(argv: string[]): { positional: string[]; flags: CliFlags } {
+  const positional: string[] = []
+  const flags: CliFlags = {}
 
   for (let i = 0; i < argv.length; i += 1) {
     const arg = argv[i]
@@ -57,6 +64,7 @@ function parseArgs(argv) {
     if (!next || next.startsWith('--')) {
       throw new Error(`参数 ${arg} 需要一个值`)
     }
+
     flags[arg.slice(2)] = next
     i += 1
   }
@@ -64,38 +72,38 @@ function parseArgs(argv) {
   return { positional, flags }
 }
 
-function nowString() {
+function nowString(): string {
   const d = new Date()
-  const pad = (n) => String(n).padStart(2, '0')
+  const pad = (n: number): string => String(n).padStart(2, '0')
   return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
 }
 
-function sanitizeSegment(input) {
+function sanitizeSegment(input: string): string {
   return input
     .trim()
     .replace(/[\\/]/g, '-')
     .replace(/\s+/g, '-')
 }
 
-function ensurePermalink(input) {
+function ensurePermalink(input: string): string {
   let out = input.trim()
   if (!out.startsWith('/')) out = `/${out}`
   if (!out.endsWith('/')) out = `${out}/`
   return out
 }
 
-function createAbbrlink() {
+function createAbbrlink(): string {
   return randomBytes(4).toString('hex')
 }
 
-function createLegacyPermalink(createTime, abbrlink) {
+function createLegacyPermalink(createTime: string, abbrlink: string): string {
   const match = createTime.match(/^(\d{4})\/(\d{2})\//)
   if (!match) throw new Error('createTime 格式不正确，无法生成 permalink')
   const [, year, month] = match
   return `/${year}/${month}/${abbrlink}/`
 }
 
-async function main() {
+async function main(): Promise<void> {
   const { positional, flags } = parseArgs(process.argv.slice(2))
   const [sectionRaw, nameRaw] = positional
   const section = sectionRaw?.trim()
@@ -105,20 +113,21 @@ async function main() {
     process.exit(1)
   }
 
+  const sectionKey = section as keyof typeof SECTION_META
   const fileName = sanitizeSegment(nameRaw)
   if (!fileName) {
     throw new Error('文章名不能为空')
   }
 
-  const title = (flags.title ?? nameRaw).trim()
+  const title = (typeof flags.title === 'string' ? flags.title : nameRaw).trim()
 
-  const targetDir = path.join(process.cwd(), 'docs', section, fileName)
+  const targetDir = path.join(process.cwd(), 'docs', sectionKey, fileName)
   const targetFile = path.join(targetDir, 'index.md')
 
-  const { label, defaultTags, note } = SECTION_META[section]
+  const { label, defaultTags, note } = SECTION_META[sectionKey]
   const createTime = nowString()
   const abbrlink = createAbbrlink()
-  const permalink = flags.permalink
+  const permalink = typeof flags.permalink === 'string'
     ? ensurePermalink(flags.permalink)
     : createLegacyPermalink(createTime, abbrlink)
 
@@ -171,7 +180,8 @@ permalink: ${permalink}
   console.log(`已创建: ${targetFile}`)
 }
 
-main().catch((err) => {
-  console.error(`创建失败: ${err.message}`)
+main().catch((err: unknown) => {
+  const message = err instanceof Error ? err.message : String(err)
+  console.error(`创建失败: ${message}`)
   process.exit(1)
 })

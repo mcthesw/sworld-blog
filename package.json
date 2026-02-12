@@ -11,8 +11,9 @@
     "docs:dev": "vuepress dev docs",
     "docs:dev-clean": "vuepress dev docs --clean-cache --clean-temp",
     "docs:preview": "http-server docs/.vuepress/dist",
-    "new:game": "node scripts/new-game-post.mjs",
-    "new:post": "node scripts/new-post.mjs",
+    "scripts:build": "tsc -p scripts/tsconfig.json",
+    "new:game": "pnpm scripts:build && node .local/scripts/new-game-post.js",
+    "new:post": "pnpm scripts:build && node .local/scripts/new-post.js",
     "vp-update": "pnpm dlx vp-update"
   },
   "devDependencies": {

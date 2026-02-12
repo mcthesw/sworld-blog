@@ -57,7 +57,7 @@ pnpm new:game review "游戏名"
 pnpm new:game clear "游戏名"
 ```
 
-`scripts/new-game-post.mjs` 的默认输出如下：
+`scripts/new-game-post.ts` 的默认输出如下：
 
 - `demo`：`tags: [游戏, Demo体验, 期待:8.5]`
 - `review`：`tags: [游戏, 长评, score:8.5]`
