@@ -13,6 +13,7 @@ import { viteBundler } from '@vuepress/bundler-vite'
 import { createHash } from 'node:crypto'
 import { defineUserConfig } from 'vuepress'
 import { plumeTheme } from 'vuepress-theme-plume'
+import imageWebpPlugin from '@sworld/vuepress-plugin-image-webp'
 
 function parseYearMonth(input: unknown): { year: string, month: string } | undefined {
   if (typeof input !== 'string' && typeof input !== 'number') return undefined
@@ -45,6 +46,16 @@ export default defineUserConfig({
 
   bundler: viteBundler(),
   shouldPrefetch: false, // 站点较大，页面数量较多时，不建议启用
+
+  plugins: [
+    imageWebpPlugin({
+      quality: 82,
+      keepOriginalInDist: false,
+      enableInDev: false,
+      rewriteMarkdown: true,
+      rewriteFrontmatterCover: true,
+    }),
+  ],
 
   theme: plumeTheme({
     /* 添加您的部署域名, 有助于 SEO, 生成 sitemap */

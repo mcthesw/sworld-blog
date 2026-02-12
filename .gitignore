@@ -9,3 +9,4 @@ docs/.vuepress/dist
 
 .local
 .local/scripts
+packages/vuepress-plugin-image-webp/dist

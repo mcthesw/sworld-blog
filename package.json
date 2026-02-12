@@ -7,7 +7,7 @@
   "author": "Sworld <61224072+mcthesw@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "docs:build": "vuepress build docs --clean-cache --clean-temp",
+    "docs:build": "pnpm --filter @sworld/vuepress-plugin-image-webp build && vuepress build docs --clean-cache --clean-temp",
     "docs:dev": "vuepress dev docs",
     "docs:dev-clean": "vuepress dev docs --clean-cache --clean-temp",
     "docs:preview": "http-server docs/.vuepress/dist",
@@ -17,6 +17,7 @@
     "vp-update": "pnpm dlx vp-update"
   },
   "devDependencies": {
+    "@sworld/vuepress-plugin-image-webp": "workspace:*",
     "@vuepress/bundler-vite": "2.0.0-rc.26",
     "autoprefixer": "10.4.20",
     "http-server": "^14.1.1",
