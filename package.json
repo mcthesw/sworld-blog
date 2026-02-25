@@ -7,6 +7,8 @@
   "author": "Sworld <61224072+mcthesw@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
+    "predocs:dev": "pnpm --filter @sworld/vuepress-plugin-image-webp build",
+    "predocs:dev-clean": "pnpm --filter @sworld/vuepress-plugin-image-webp build",
     "docs:build": "pnpm --filter @sworld/vuepress-plugin-image-webp build && vuepress build docs --clean-cache --clean-temp",
     "docs:dev": "vuepress dev docs",
     "docs:dev-clean": "vuepress dev docs --clean-cache --clean-temp",
@@ -31,7 +33,8 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "@parcel/watcher",
-      "esbuild"
+      "esbuild",
+      "sharp"
     ]
   },
   "engines": {
