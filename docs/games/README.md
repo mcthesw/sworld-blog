@@ -34,12 +34,12 @@ permalink: /games/
 #### 近期比较喜欢的作品
 
 - Z.A.T.O. // 我爱这个世界及其中的一切！
+- 动物井
 - Slay the princess：你正走在一条林间小路上，小路的尽头有一座小屋。小屋的地下室里有一位公主。你是来送她上路的。如果你失败了，世界就会走向终结。
 - 毁灭战士黑暗纪元：弹反，爽！
 - 终之空
 - 边缘世界
 - 空之轨迹 the 1st
-- Hypnospace Outlaw：古早互联网审查员模拟器。
 - 天国：拯救2
 - 近月少女的礼仪系列，尤其是少女理论及其周边
 
@@ -53,6 +53,7 @@ permalink: /games/
 - Red Dead Redemption 2
 - ULTRAKILL
 - 喵喵的结合/喵基因/Mewgenics
+- Hypnospace Outlaw：古早互联网审查员模拟器。
 
 #### 期待但还未发售的游戏
 
