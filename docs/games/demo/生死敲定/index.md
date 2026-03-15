@@ -14,9 +14,9 @@ createTime: 2026/03/15 23:28:36
 # 永久链接（默认：/YYYY/MM/abbrlink/，末尾保留 /）
 permalink: /2026/03/defae381/
 # 封面图（可选）
-# cover: /2026/03/defae381/cover.webp
+cover: 20CCB7~1.JPG
 # 摘要（可选，不填可使用 <!-- more --> 自动截断）
-# excerpt: 一句话总结
+excerpt: 事关生死的打字游戏
 # 草稿（可选，true 时不会出现在列表中）
 # draft: true
 ---
