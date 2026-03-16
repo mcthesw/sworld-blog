@@ -11,6 +11,7 @@ import { defineClientConfig } from 'vuepress/client'
 import './theme/styles/tailwind.css'
 
 import AboutHome from './components/AboutHome.vue'
+import FriendLinks from './components/FriendLinks.vue'
 import PostMasonry from './components/PostMasonry.vue'
 
 export default defineClientConfig({
@@ -25,6 +26,7 @@ export default defineClientConfig({
     // app.component('CustomComponent', CustomComponent)
 
     app.component('AboutHome', AboutHome)
+    app.component('FriendLinks', FriendLinks)
     app.component('PostMasonry', PostMasonry)
   },
 })

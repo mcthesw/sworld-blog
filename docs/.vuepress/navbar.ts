@@ -19,6 +19,7 @@ export default defineNavbarConfig([
   },
   { text: '杂项', link: '/misc/' },
   { text: '关于我', link: '/' },
+  { text: '友链', link: '/links/' },
   { text: '标签', link: '/blog/tags/' },
   { text: '全部文章', link: '/blog/archives/' },
 ])
