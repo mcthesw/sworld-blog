@@ -320,11 +320,11 @@ const cards = computed(() => {
       {{ title }}
     </h2>
 
-    <div v-if="cards.length" class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+    <div v-if="cards.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
       <article
         v-for="{ post, variant, hasCover, coverSrc, excerpt, date, gameName, score, expectation, status, showTitleInLog, tags } in cards"
         :key="post.path"
-        class="group relative break-inside-avoid overflow-hidden rounded-[20px] border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]"
+        class="group relative overflow-hidden rounded-[20px] border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]"
         style="--spotlight-x: 50%; --spotlight-y: 50%; --spotlight-opacity: 0;"
         @mousemove="handleCardMouseMove"
         @mouseenter="handleCardMouseEnter"
