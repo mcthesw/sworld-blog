@@ -11,5 +11,5 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true
   },
-  "include": ["new-post.ts", "new-game-post.ts"]
+  "include": ["new-post.ts", "new-game-post.ts", "privacy-guard.ts"]
 }

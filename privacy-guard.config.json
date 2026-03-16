@@ -1,0 +1,91 @@
+{
+  "allowedEmails": [
+    "61224072+mcthesw@users.noreply.github.com",
+    "t.sworld@qq.com"
+  ],
+  "allowedEmailDomains": [
+    "users.noreply.github.com",
+    "example.com",
+    "example.org",
+    "example.net",
+    "example.edu",
+    "localhost",
+    "invalid",
+    "test"
+  ],
+  "ignoredPathPrefixes": [
+    ".local/",
+    "node_modules/",
+    "docs/.vuepress/.cache/",
+    "docs/.vuepress/.temp/",
+    "docs/.vuepress/dist/"
+  ],
+  "textFileExtensions": [
+    ".md",
+    ".txt",
+    ".json",
+    ".jsonc",
+    ".yaml",
+    ".yml",
+    ".toml",
+    ".ini",
+    ".js",
+    ".cjs",
+    ".mjs",
+    ".ts",
+    ".mts",
+    ".cts",
+    ".tsx",
+    ".jsx",
+    ".vue",
+    ".html",
+    ".css",
+    ".scss",
+    ".less",
+    ".svg",
+    ".sh",
+    ".ps1",
+    ".cmd",
+    ".bat",
+    ".gitignore",
+    ".gitattributes",
+    ".npmrc"
+  ],
+  "imageFileExtensions": [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".webp",
+    ".tif",
+    ".tiff",
+    ".heic",
+    ".heif",
+    ".avif"
+  ],
+  "blockedFileExtensions": [
+    ".pem",
+    ".key",
+    ".p8",
+    ".p12",
+    ".pfx",
+    ".kdbx",
+    ".ovpn",
+    ".mobileconfig",
+    ".mobileprovision",
+    ".gpx",
+    ".kml",
+    ".kmz",
+    ".sqlite",
+    ".db"
+  ],
+  "blockedFileNames": [
+    "id_rsa",
+    "id_dsa",
+    "id_ed25519",
+    ".env",
+    ".env.local",
+    ".env.development",
+    ".env.production",
+    ".env.test"
+  ]
+}
