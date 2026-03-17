@@ -22,6 +22,7 @@
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.7",
     "@sworld/vuepress-plugin-image-webp": "workspace:*",
     "@vuepress/bundler-vite": "2.0.0-rc.26",
     "autoprefixer": "10.4.20",
