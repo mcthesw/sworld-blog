@@ -101,6 +101,10 @@ const moreLinkClass = 'mt-auto self-end pt-3 text-xs text-[var(--vp-c-text-3)] n
             <a :class="linkClass" href="https://github.com/mcthesw/game-save-manager" target="_blank" rel="noopener noreferrer">game-save-manager</a>
             <span :class="[tagClass, 'ml-1.5', 'about-tag-accent']">寻找合作者</span>
           </li>
+                    <li>
+            <a :class="linkClass" href="https://github.com/mcthesw/easy-nats" target="_blank" rel="noopener noreferrer">easy-nats</a>
+            <span :class="[tagClass, 'ml-1.5', 'about-tag-accent']">寻找合作者</span>
+          </li>
           <li>
             <a :class="linkClass" href="https://github.com/chevey339/kelivo" target="_blank" rel="noopener noreferrer">kelivo</a>
             <span class="text-xs text-[var(--vp-c-text-3)]">参与贡献</span>
