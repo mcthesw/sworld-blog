@@ -151,7 +151,7 @@ const moreLinkClass = 'mt-auto self-end pt-3 text-xs text-[var(--vp-c-text-3)] n
             <span class="mt-1 block text-xs text-[var(--vp-c-text-3)]">I love the world and everything in it</span>
           </li>
           <li>
-            <a :class="linkClass" href="https://zh.wikipedia.org/zh-cn/%E8%98%91%E8%8F%87%E7%9A%84%E6%93%AC%E6%85%8B%E6%97%A5%E5%B8%B8" target="_blank" rel="noopener noreferrer">蘑菇的拟态日常</a>
+            <a :class="linkClass" href="https://comiccune.jp/series/simejisimulation/" target="_blank" rel="noopener noreferrer">蘑菇的拟态日常</a>
             <span :class="[tagClass, 'ml-1.5']">漫画</span>
           </li>
           <li>
