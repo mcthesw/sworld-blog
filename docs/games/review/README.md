@@ -10,6 +10,6 @@ createTime: 2026/02/07 00:38:29
 permalink: /games/review/
 ---
 
-## 长评
+<GameNav />
 
 <PostMasonry collection="/" category="games/review" />

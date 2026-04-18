@@ -10,6 +10,6 @@ createTime: 2026/02/07 00:38:29
 permalink: /games/clear/
 ---
 
-## 游玩记录
+<GameNav />
 
 <PostMasonry collection="/" category="games/clear" />

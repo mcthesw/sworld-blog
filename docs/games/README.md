@@ -10,7 +10,7 @@ createTime: 2026/02/07 00:38:29
 permalink: /games/
 ---
 
-## 游戏偏好
+<GameNav />
 
 ### 平台
 
@@ -59,9 +59,3 @@ permalink: /games/
 
 - 神界原罪3
 - 废都物语重置
-
-### 分类
-
-- [Demo体验](/games/demo/)
-- [长评](/games/review/)
-- [游玩记录](/games/clear/)

@@ -50,7 +50,7 @@ const socialButtonClass = 'about-social-btn inline-flex items-center gap-1.5 rou
 const socialIconClass = 'h-4 w-4 shrink-0'
 const sponsorLinkClass = 'about-sponsor-link py-0.5 text-xs text-[var(--vp-c-text-3)] no-underline transition-colors duration-200'
 const tagClass = 'inline-flex items-center whitespace-nowrap rounded bg-[var(--vp-c-bg)] px-1.5 py-px align-middle text-[0.6875rem] text-[var(--vp-c-text-3)]'
-const moreLinkClass = 'mt-auto self-end pt-3 text-xs text-[var(--vp-c-text-3)] no-underline transition-colors duration-150 hover:text-[var(--vp-c-brand-1)]'
+const moreLinkClass = 'mt-auto self-end pt-3 inline-flex items-center gap-0.5 text-xs font-medium text-[var(--vp-c-brand-1)] no-underline opacity-60 transition-opacity duration-150 hover:opacity-100'
 </script>
 
 <template>
@@ -125,7 +125,7 @@ const moreLinkClass = 'mt-auto self-end pt-3 text-xs text-[var(--vp-c-text-3)] n
           </li>
           <li v-if="!latestPosts.length" class="text-xs text-[var(--vp-c-text-3)]">暂无文章</li>
         </ul>
-        <RouterLink to="/blog/archives/" :class="moreLinkClass">more</RouterLink>
+        <RouterLink to="/blog/archives/" :class="moreLinkClass">more <span aria-hidden="true">&rarr;</span></RouterLink>
       </div>
 
       <div :class="cardClass">
@@ -211,7 +211,7 @@ const moreLinkClass = 'mt-auto self-end pt-3 text-xs text-[var(--vp-c-text-3)] n
           </li>
           <li v-if="!recentGamePosts.length" class="text-xs text-[var(--vp-c-text-3)]">暂无游戏文章</li>
         </ul>
-        <RouterLink to="/games/" :class="moreLinkClass">more</RouterLink>
+        <RouterLink to="/games/" :class="moreLinkClass">more <span aria-hidden="true">&rarr;</span></RouterLink>
       </div>
     </section>
   </div>

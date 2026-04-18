@@ -10,6 +10,6 @@ createTime: 2026/02/07 00:38:29
 permalink: /games/demo/
 ---
 
-## Demo体验
+<GameNav />
 
 <PostMasonry collection="/" category="games/demo" />

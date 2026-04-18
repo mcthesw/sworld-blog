@@ -12,6 +12,7 @@ import './theme/styles/tailwind.css'
 
 import AboutHome from './components/AboutHome.vue'
 import FriendLinks from './components/FriendLinks.vue'
+import GameNav from './components/GameNav.vue'
 import PostMasonry from './components/PostMasonry.vue'
 
 export default defineClientConfig({
@@ -27,6 +28,7 @@ export default defineClientConfig({
 
     app.component('AboutHome', AboutHome)
     app.component('FriendLinks', FriendLinks)
+    app.component('GameNav', GameNav)
     app.component('PostMasonry', PostMasonry)
   },
 })

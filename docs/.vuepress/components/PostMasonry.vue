@@ -324,7 +324,7 @@ const cards = computed(() => {
       <article
         v-for="{ post, variant, hasCover, coverSrc, excerpt, date, gameName, score, expectation, status, showTitleInLog, tags } in cards"
         :key="post.path"
-        class="group relative overflow-hidden rounded-[20px] border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)]"
+        class="masonry-card group relative overflow-hidden rounded-[20px] border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] transition-[box-shadow,border-color] duration-500"
         style="--spotlight-x: 50%; --spotlight-y: 50%; --spotlight-opacity: 0;"
         @mousemove="handleCardMouseMove"
         @mouseenter="handleCardMouseEnter"
@@ -496,5 +496,23 @@ const cards = computed(() => {
   text-decoration: none !important;
   box-shadow: none !important;
   background-image: none !important;
+}
+
+/* Restful card presence: inset top rim + barely-there ground shadow */
+.masonry-card {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 1px 3px -1px rgba(0, 0, 0, 0.06),
+    0 2px 6px -2px rgba(0, 0, 0, 0.04);
+}
+
+/* Hover: border tints toward brand, shadow becomes a soft brand-colored halo */
+.masonry-card:hover,
+.masonry-card:focus-within {
+  border-color: color-mix(in srgb, var(--vp-c-brand-1) 28%, var(--vp-c-divider));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 2px 8px -2px rgba(0, 0, 0, 0.06),
+    0 8px 24px -6px color-mix(in srgb, var(--vp-c-brand-1) 14%, rgba(0, 0, 0, 0.06));
 }
 </style>
