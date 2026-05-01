@@ -7,6 +7,7 @@ abbrlink: 6a5cbb2e
 date: 2024-09-12T11:15:19.000Z
 createTime: 2024/09/12 11:15:19
 permalink: /2024/09/6a5cbb2e/
+excerpt: 重新安装并执行 scoop reset 可以找回应用环境。
 ---
 
 这几天发现电脑上的[Scoop](https://scoop.sh/)莫名其妙消失了，我觉得可能是UniGetUI的问题，总之我的Scoop被卸载了，使用Scoop安装的软件的环境变量也失效了，这导致我写代码的相关环境无法使用。

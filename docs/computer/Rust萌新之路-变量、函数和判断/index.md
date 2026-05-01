@@ -8,6 +8,7 @@ abbrlink: f1689981
 date: 2022-11-17T06:25:34.000Z
 createTime: 2022/11/17 06:25:34
 permalink: /2022/11/f1689981/
+excerpt: Rustlings 入门刷题记录 - 2。
 ---
 # 我推荐的布局介绍
 

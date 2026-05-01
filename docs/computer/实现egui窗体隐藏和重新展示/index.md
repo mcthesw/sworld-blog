@@ -8,6 +8,7 @@ abbrlink: a7485831
 date: 2025-03-23T21:34:54.000Z
 createTime: 2025/03/23 21:34:54
 permalink: /2025/03/a7485831/
+excerpt: 复现 eframe 隐藏窗口后无法重新展示的问题，并改用 egui_glow 与 egui_winit 控制事件循环。
 ---
 
 近期在使用 `egui` 时遇到一个问题，我想要将窗体隐藏起来，再通过托盘图标唤出，本来以为如此简单的需求应当非常简单，结果我发现 `egui` 官方的框架 `eframe` 对这个功能的支持并不好，在 GitHub 上长期有着相关讨论，例如[这个Issue](https://github.com/emilk/egui/issues/5229#issuecomment-2740135925)。

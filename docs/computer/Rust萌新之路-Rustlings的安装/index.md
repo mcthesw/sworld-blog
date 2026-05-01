@@ -8,6 +8,7 @@ abbrlink: 504048fe
 date: 2022-11-16T02:19:23.000Z
 createTime: 2022/11/16 02:19:23
 permalink: /2022/11/504048fe/
+excerpt: Rustlings 入门安装与基础使用记录 - 1。
 ---
 # 专栏简介
 

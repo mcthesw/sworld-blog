@@ -10,6 +10,7 @@ abbrlink: 79759d31
 date: 2024-09-26T00:12:30.000Z
 createTime: 2024/09/26 00:12:30
 permalink: /2024/09/79759d31/
+excerpt: Avalonia ItemsRepeater 绑定数组时的 XAML 类型解析错误，并改用 ObservableCollection 解决。
 ---
 
 近期我在使用Avalonia编写桌面程序时，用到了ItemRepeater组件，写出来大概是这样

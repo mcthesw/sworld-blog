@@ -7,6 +7,7 @@ abbrlink: ca8f2d0d
 date: 2025-10-18T15:38:43.000Z
 createTime: 2025/10/18 15:38:43
 permalink: /2025/10/ca8f2d0d/
+excerpt: 检查并调试快捷键冲突可解。
 ---
 
 近期在使用Github Copilot时，发现在面对 NES(Next Edit Suggestions) 补全时，按下Tab键经常会出现空格，而非跳转到目标位置，经过一番排查，发现这是因为VSCode的Tab键绑定冲突导致的，本文记录下解决方法。

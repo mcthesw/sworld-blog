@@ -8,6 +8,7 @@ abbrlink: ca23820f
 date: 2022-11-25T23:47:54.000Z
 createTime: 2022/11/25 23:47:54
 permalink: /2022/11/ca23820f/
+excerpt: 记录在 Windows 下使用 musl 目标编译 Linux 版 Rust 程序，并通过 WSL 验证运行结果。
 ---
 最近在尝试在 Windows11 下编译 Linux 可用的程序时遇到了不少问题，我这里总结一个简单的编译方法供大家参考(不过现在都有WSL了，是不是直接在上面编译更好?)
 

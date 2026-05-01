@@ -7,6 +7,7 @@ abbrlink: e57e33c6
 date: 2025-03-22T16:18:03.000Z
 createTime: 2025/03/22 16:18:03
 permalink: /2025/03/e57e33c6/
+excerpt: cross-rs 在 Windows 上交叉编译 Rust 到 macOS 和 Linux 的基础配置与使用方式。
 ---
 
 我之前写过一篇文章介绍如何在Windows下编译适用于Linux的Rust程序，不过Rust原生的配置方法并不算简单，今天我想介绍一个更简单的方法来编译Rust程序到MacOS和Linux。同理，也可以在这些平台上编译到Windows。
