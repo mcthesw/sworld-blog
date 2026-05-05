@@ -27,7 +27,7 @@ excerpt: 检查并调试快捷键冲突可解。
 
 发现类似下方的信息：
 
-![调试信息](check2.png)
+![调试信息](check2.webp)
 
 ```log
 2025-10-18 15:58:06.749 [info] [窗口] [KeybindingService]: / Received  keydown event - modifiers: [], code: Tab, keyCode: 9, key: Tab
@@ -49,6 +49,6 @@ excerpt: 检查并调试快捷键冲突可解。
 
 ![出现补全，可以使用](example3.png)
 
-![日志正常](example4.png)
+![日志正常](example4.webp)
 
 结束后重新按下`Ctrl + Shift + P`搜索`shortcut troubleshooting`以关闭快捷键调试面板。

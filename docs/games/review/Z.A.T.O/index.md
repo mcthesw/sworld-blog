@@ -13,7 +13,7 @@ abbrlink: 13c4426a
 createTime: 2026/05/03 22:20:08
 # 永久链接（默认：/YYYY/MM/abbrlink/，末尾保留 /）
 permalink: /2026/05/13c4426a/
-cover: cover.png
+cover: cover.webp
 # 摘要（可选，不填可使用 <!-- more --> 自动截断）
 excerpt: I love this world and everything in it.
 # 草稿（可选，true 时不会出现在列表中）

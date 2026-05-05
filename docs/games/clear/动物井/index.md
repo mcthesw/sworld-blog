@@ -9,7 +9,7 @@ tags:
 abbrlink: 0629b406
 createTime: 2026/04/18 00:37:59
 permalink: /2026/04/0629b406/
-cover: cover.png
+cover: cover.webp
 excerpt: 纯粹的解谜银河城，优秀的画面风格和地图设计，非常推荐！
 ---
 

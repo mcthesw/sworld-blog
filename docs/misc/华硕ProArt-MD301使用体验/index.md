@@ -11,7 +11,7 @@ abbrlink: 8d28e545
 createTime: 2026/02/25 23:14:45
 permalink: /2026/02/8d28e545/
 excerpt: 我实在受不了罗技了 
-cover: top-view.jpeg
+cover: top-view.webp
 ---
 
 以下是我拍摄的简要开箱和测评视频，内容与本文不同。
@@ -26,7 +26,7 @@ cover: top-view.jpeg
 ## 体验如何呢
 
 说回正题，这个鼠标如何呢？
-![顶部特写与滚轮细节](top-view.jpeg)
+![顶部特写与滚轮细节](top-view.webp)
 
 说实话，我觉得手感是很不错的，我也懒得多写了，写个列表看个大概吧：
 
@@ -52,6 +52,6 @@ cover: top-view.jpeg
 
 ## 其他图片
 
-![鼠标底部开关与传感器](bottom-view.jpeg)
-![前端USB-C充电接口](front-usb-c.jpeg)
-![底部接收器收纳仓](receiver-compartment.jpeg)
+![鼠标底部开关与传感器](bottom-view.webp)
+![前端USB-C充电接口](front-usb-c.webp)
+![底部接收器收纳仓](receiver-compartment.webp)
