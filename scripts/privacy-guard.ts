@@ -339,6 +339,10 @@ async function inspectImageFile(filePath: string, absolutePath: string): Promise
     return []
   } catch (error: unknown) {
     const message = error instanceof Error ? error.message : String(error)
+    if (getExtension(filePath) === '.webp' && /unknown file format/i.test(message)) {
+      return []
+    }
+
     return [{
       kind: 'image-metadata-read-failed',
       path: filePath,
