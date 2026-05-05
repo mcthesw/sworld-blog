@@ -14,6 +14,9 @@
     "docs:dev-clean": "vuepress dev docs --clean-cache --clean-temp",
     "docs:preview": "http-server docs/.vuepress/dist",
     "scripts:build": "tsc -p scripts/tsconfig.json",
+    "images:optimize-staged": "pnpm scripts:build && node .local/scripts/image-webp.js --staged --stage",
+    "images:optimize-all": "pnpm scripts:build && node .local/scripts/image-webp.js --all",
+    "images:test": "pnpm scripts:build && node --test scripts/image-webp.test.mjs",
     "privacy:check-staged": "pnpm scripts:build && node .local/scripts/privacy-guard.js --staged",
     "privacy:audit": "pnpm scripts:build && node .local/scripts/privacy-guard.js --all",
     "new:game": "pnpm scripts:build && node .local/scripts/new-game-post.js",
@@ -50,6 +53,6 @@
     "mermaid": "^11.12.2"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm privacy:check-staged"
+    "pre-commit": "pnpm images:optimize-staged && pnpm privacy:check-staged"
   }
 }
