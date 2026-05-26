@@ -17,6 +17,14 @@ export default defineNavbarConfig([
       { text: '游玩记录', link: '/games/clear/' },
     ],
   },
+  {
+    text: '阅读',
+    items: [
+      { text: '阅读总览', link: '/reading/' },
+      { text: '随读流', link: '/reading/stream/' },
+      { text: '读后长文', link: '/reading/reviews/' },
+    ],
+  },
   { text: '杂项', link: '/misc/' },
   { text: '关于我', link: '/' },
   { text: '友链', link: '/links/' },

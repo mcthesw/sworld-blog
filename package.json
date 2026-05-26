@@ -17,10 +17,12 @@
     "images:optimize-staged": "pnpm scripts:build && node .local/scripts/image-webp.js --staged --stage",
     "images:optimize-all": "pnpm scripts:build && node .local/scripts/image-webp.js --all",
     "images:test": "pnpm scripts:build && node --test scripts/image-webp.test.mjs",
+    "reading:test": "pnpm scripts:build && node --test scripts/new-reading-post.test.mjs",
     "privacy:check-staged": "pnpm scripts:build && node .local/scripts/privacy-guard.js --staged",
     "privacy:audit": "pnpm scripts:build && node .local/scripts/privacy-guard.js --all",
     "privacy:test": "pnpm scripts:build && node --test scripts/privacy-guard.test.mjs",
     "new:game": "pnpm scripts:build && node .local/scripts/new-game-post.js",
+    "new:reading": "pnpm scripts:build && node .local/scripts/new-reading-post.js",
     "new:post": "pnpm scripts:build && node .local/scripts/new-post.js",
     "vp-update": "pnpm dlx vp-update",
     "prepare": "simple-git-hooks"

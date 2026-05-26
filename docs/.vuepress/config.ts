@@ -89,7 +89,7 @@ export default defineUserConfig({
       title: true,      // 是否生成标题
       transform: (data, context) => {
         const relativePath = context.relativePath.replace(/\\/g, '/')
-        const isPost = /^(computer|misc|games\/(demo|review|clear))\/.+\/index\.md$/.test(relativePath)
+        const isPost = /^(computer|misc|games\/(demo|review|clear)|reading\/reviews)\/.+\/index\.md$/.test(relativePath)
         if (!isPost) return data
 
         const rawAbbrlink = data.abbrlink

@@ -13,7 +13,7 @@
 ## Props
 
 - `collection`：文章集合 key，当前统一使用 `"/"`
-- `category`：分类前缀，例如 `computer`、`games/demo`、`games/review`、`games/clear`
+- `category`：分类前缀，例如 `computer`、`games/demo`、`games/review`、`games/clear`、`reading/reviews`
 - `title`：可选标题
 - `limit`：最多显示条数，默认 `999`
 
@@ -41,11 +41,12 @@ permalink: /2026/02/1a2b3c4d/
 说明：
 
 - `tags` 中未被识别为特殊标签的内容，会作为普通标签展示
-- 分类由文章路径决定（如 `docs/games/review/xxx/index.md`），不是在 Frontmatter 里单独写 `category`
+- 分类由文章路径决定（如 `docs/games/review/xxx/index.md`、`docs/reading/reviews/xxx/index.md`），不是在 Frontmatter 里单独写 `category`
 - `games/clear` 的“游戏名”优先取路径第三级目录名（`docs/games/clear/<游戏名>/index.md`）
 - `cover` 支持两种写法：
   - 绝对路径：`/2026/02/1a2b3c4d/cover.webp`（放在 `public`）
   - 同目录相对文件名：`cover.webp` / `208472~1.JPG`（图片和 `index.md` 同级）
+- 同目录封面扫描范围包括 `computer`、`misc`、`games`、`reading`。
 
 ## 与根目录脚本的对应关系
 
@@ -55,6 +56,7 @@ permalink: /2026/02/1a2b3c4d/
 pnpm new:game demo "游戏名"
 pnpm new:game review "游戏名"
 pnpm new:game clear "游戏名"
+pnpm new:reading review "作品名"
 ```
 
 `scripts/new-game-post.ts` 的默认输出如下：
@@ -62,6 +64,10 @@ pnpm new:game clear "游戏名"
 - `demo`：`tags: [游戏, Demo体验, 期待:8.5]`
 - `review`：`tags: [游戏, 长评, score:8.5]`
 - `clear`：`tags: [游戏, 游玩记录, 状态:游玩中]`
+
+`scripts/new-reading-post.ts` 的长文输出如下：
+
+- `review`：`tags: [阅读, 长文]`，可用 `--kind` 增加作品类型标签，可用 `--author` 增加 `作者:xxx` 标签
 
 并且会自动写入：
 

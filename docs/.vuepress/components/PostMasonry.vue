@@ -28,7 +28,7 @@ const props = withDefaults(
 const postsData = usePostsData()
 
 const localCoverMap = import.meta.glob<string>(
-  '../../{computer,misc,games}/**/*.{png,jpg,jpeg,webp,avif,gif,PNG,JPG,JPEG,WEBP,AVIF,GIF}',
+  '../../{computer,misc,games,reading}/**/*.{png,jpg,jpeg,webp,avif,gif,PNG,JPG,JPEG,WEBP,AVIF,GIF}',
   { eager: true, query: '?url', import: 'default' },
 )
 

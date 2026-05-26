@@ -29,17 +29,18 @@ import { defineCollection, defineCollections } from 'vuepress-theme-plume'
 const blog = defineCollection({
   // post 类型，这里用于实现 博客功能
   type: 'post',
-  // 统一收录正文文章（computer / games / misc），README 等入口页不参与。
+  // 统一收录正文文章（computer / games / misc / reading reviews），README 等入口页不参与。
   dir: '',
   // 文档标题，它将用于在页面的面包屑导航中显示
   title: 'Blog',
-  // 一个游戏一个文件夹：仅收集各分类目录下的 `*/index.md`。
+  // 一个主题一个文件夹：仅收集各分类目录下的 `*/index.md`。
   include: [
     'computer/**/index.md',
     'games/demo/**/index.md',
     'games/review/**/index.md',
     'games/clear/**/index.md',
     'misc/**/index.md',
+    'reading/reviews/**/index.md',
   ],
   // 文章列表页的链接，如果 `linkPrefix` 未定义，它也将作为 相关的文章的 permalink 的前缀
   link: '/blog/',
