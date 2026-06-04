@@ -69,8 +69,8 @@ const EMAIL_RE = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,63}/g
 function usage(): void {
   console.log(`
 用法:
-  pnpm privacy:check-staged
-  pnpm privacy:audit
+  node .local/scripts/privacy-guard.js --staged
+  node .local/scripts/privacy-guard.js --all
   node .local/scripts/privacy-guard.js --files path/to/file1 path/to/file2
 `)
 }

@@ -48,7 +48,8 @@ pnpm install
 手动跑全仓审查：
 
 ```bash
-pnpm privacy:audit
+pnpm exec tsc -p scripts/tsconfig.json
+node .local/scripts/privacy-guard.js --all
 ```
 
 ## 配置

@@ -81,7 +81,7 @@
 也可以用脚手架追加一条随读：
 
 ```bash
-pnpm new:reading note "炎拳" --author "藤本树" --year "2016-2018" --kind "漫画" --status "在读" --text "先记一笔。"
+pnpm new reading note "炎拳" --author "藤本树" --year "2016-2018" --kind "漫画" --status "在读" --text "先记一笔。"
 ```
 
 脚手架会按记录日期写入目标页面：当前年份写入 `docs/reading/stream/README.md`，旧年份写入 `docs/reading/stream/<记录年份>/README.md`。如果旧年份页面不存在，会自动创建基础模板。需要补录旧记录时，可以传 `--date "2025-12-31"`。
@@ -97,7 +97,7 @@ docs/reading/reviews/<作品名>/index.md
 创建命令：
 
 ```bash
-pnpm new:reading review "炎拳" --title "《炎拳》读后" --year "2016-2018"
+pnpm new reading review "炎拳" --title "《炎拳》读后" --year "2016-2018"
 ```
 
 长文 Frontmatter 约定：

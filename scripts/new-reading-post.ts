@@ -39,12 +39,12 @@ const STREAM_END_MARKER = '<!-- reading-stream:end -->'
 function usage(): void {
   console.log(`
 用法:
-  pnpm new:reading note "作品名" [--author "作者"] [--year "2016"] [--date "2026-05-26"] [--kind "漫画"] [--status "在读"] [--progress "第 1 卷"] [--tags "标签1,标签2"] [--text "短记录"] [--dry-run]
-  pnpm new:reading review "作品名" [--title "标题"] [--author "作者"] [--year "2016"] [--kind "书籍"] [--permalink "/自定义/"] [--stream "/reading/stream/#note-id"] [--anki "https://..."] [--dry-run]
+  pnpm new reading note "作品名" [--author "作者"] [--year "2016"] [--date "2026-05-26"] [--kind "漫画"] [--status "在读"] [--progress "第 1 卷"] [--tags "标签1,标签2"] [--text "短记录"] [--dry-run]
+  pnpm new reading review "作品名" [--title "标题"] [--author "作者"] [--year "2016"] [--kind "书籍"] [--permalink "/自定义/"] [--stream "/reading/stream/#note-id"] [--anki "https://..."] [--dry-run]
 
 示例:
-  pnpm new:reading note "炎拳" --author "藤本树" --year "2016-2018" --kind "漫画" --status "在读" --text "先记一笔。"
-  pnpm new:reading review "炎拳" --title "《炎拳》读后" --year "2016-2018"
+  pnpm new reading note "炎拳" --author "藤本树" --year "2016-2018" --kind "漫画" --status "在读" --text "先记一笔。"
+  pnpm new reading review "炎拳" --title "《炎拳》读后" --year "2016-2018"
 `)
 }
 

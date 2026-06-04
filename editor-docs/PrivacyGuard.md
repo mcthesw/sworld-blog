@@ -3,7 +3,8 @@
 这个仓库通过 `simple-git-hooks` 在 `pre-commit` 阶段执行：
 
 ```bash
-pnpm privacy:check-staged
+pnpm exec tsc -p scripts/tsconfig.json
+node .local/scripts/privacy-guard.js --staged
 ```
 
 它只检查当前已暂存（staged）的文件，默认拦截以下风险：
@@ -43,11 +44,13 @@ pnpm privacy:check-staged
 全仓审查：
 
 ```bash
-pnpm privacy:audit
+pnpm exec tsc -p scripts/tsconfig.json
+node .local/scripts/privacy-guard.js --all
 ```
 
 按文件试跑：
 
 ```bash
+pnpm exec tsc -p scripts/tsconfig.json
 node .local/scripts/privacy-guard.js --files path/to/file
 ```

@@ -53,10 +53,10 @@ permalink: /2026/02/1a2b3c4d/
 优先使用根目录脚本创建文章，可保证 Frontmatter 与组件解析规则一致。
 
 ```bash
-pnpm new:game demo "游戏名"
-pnpm new:game review "游戏名"
-pnpm new:game clear "游戏名"
-pnpm new:reading review "作品名"
+pnpm new game demo "游戏名"
+pnpm new game review "游戏名"
+pnpm new game clear "游戏名"
+pnpm new reading review "作品名"
 ```
 
 `scripts/new-game-post.ts` 的默认输出如下：

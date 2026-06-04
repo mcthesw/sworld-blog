@@ -7,24 +7,11 @@
   "author": "Sworld <61224072+mcthesw@users.noreply.github.com>",
   "license": "MIT",
   "scripts": {
-    "predocs:dev": "pnpm --filter @sworld/vuepress-plugin-image-webp build",
-    "predocs:dev-clean": "pnpm --filter @sworld/vuepress-plugin-image-webp build",
-    "docs:build": "pnpm --filter @sworld/vuepress-plugin-image-webp build && vuepress build docs --clean-cache --clean-temp",
-    "docs:dev": "vuepress dev docs",
-    "docs:dev-clean": "vuepress dev docs --clean-cache --clean-temp",
-    "docs:preview": "http-server docs/.vuepress/dist",
-    "scripts:build": "tsc -p scripts/tsconfig.json",
-    "images:optimize-staged": "pnpm scripts:build && node .local/scripts/image-webp.js --staged --stage",
-    "images:optimize-all": "pnpm scripts:build && node .local/scripts/image-webp.js --all",
-    "images:test": "pnpm scripts:build && node --test scripts/image-webp.test.mjs",
-    "reading:test": "pnpm scripts:build && node --test scripts/new-reading-post.test.mjs",
-    "privacy:check-staged": "pnpm scripts:build && node .local/scripts/privacy-guard.js --staged",
-    "privacy:audit": "pnpm scripts:build && node .local/scripts/privacy-guard.js --all",
-    "privacy:test": "pnpm scripts:build && node --test scripts/privacy-guard.test.mjs",
-    "new:game": "pnpm scripts:build && node .local/scripts/new-game-post.js",
-    "new:reading": "pnpm scripts:build && node .local/scripts/new-reading-post.js",
-    "new:post": "pnpm scripts:build && node .local/scripts/new-post.js",
-    "vp-update": "pnpm dlx vp-update",
+    "dev": "pnpm --filter @sworld/vuepress-plugin-image-webp build && vuepress dev docs",
+    "build": "pnpm --filter @sworld/vuepress-plugin-image-webp build && vuepress build docs --clean-cache --clean-temp",
+    "preview": "http-server docs/.vuepress/dist",
+    "new": "tsc -p scripts/tsconfig.json && node .local/scripts/new.js",
+    "check": "tsc -p scripts/tsconfig.json && node --test scripts/*.test.mjs && pnpm build",
     "prepare": "simple-git-hooks"
   },
   "devDependencies": {
@@ -56,6 +43,6 @@
     "mermaid": "^11.12.2"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm images:optimize-staged && pnpm privacy:check-staged"
+    "pre-commit": "pnpm exec tsc -p scripts/tsconfig.json && node .local/scripts/image-webp.js --staged --stage && node .local/scripts/privacy-guard.js --staged"
   }
 }

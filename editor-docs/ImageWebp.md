@@ -8,12 +8,14 @@ large PNG/JPEG sources when WebP is materially smaller.
 The pre-commit hook runs:
 
 ```bash
-pnpm images:optimize-staged
-pnpm privacy:check-staged
+pnpm exec tsc -p scripts/tsconfig.json
+node .local/scripts/image-webp.js --staged --stage
+node .local/scripts/privacy-guard.js --staged
 ```
 
-`images:optimize-staged` checks staged `docs/**/*.png`, `docs/**/*.jpg`, and
-`docs/**/*.jpeg` files, excluding `docs/.vuepress/**` and `.local/**`.
+`image-webp.js --staged --stage` checks staged `docs/**/*.png`,
+`docs/**/*.jpg`, and `docs/**/*.jpeg` files, excluding `docs/.vuepress/**` and
+`.local/**`.
 
 For each eligible image, it converts the file to WebP with `sharp` at quality
 82. The source image is replaced only when the WebP output is smaller by at
@@ -25,27 +27,30 @@ source image deletion. Review the final staged diff before committing.
 
 ## Manual Commands
 
-Use this command to optimize staged images exactly as the hook does:
+Use these commands to optimize staged images exactly as the hook does:
 
 ```bash
-pnpm images:optimize-staged
+pnpm exec tsc -p scripts/tsconfig.json
+node .local/scripts/image-webp.js --staged --stage
 ```
 
 Use this command to optimize all tracked source images under `docs/` without
 automatically staging the result:
 
 ```bash
-pnpm images:optimize-all
+pnpm exec tsc -p scripts/tsconfig.json
+node .local/scripts/image-webp.js --all
 ```
 
 Run the script test after changing the optimizer:
 
 ```bash
-pnpm images:test
+pnpm exec tsc -p scripts/tsconfig.json
+node --test scripts/image-webp.test.mjs
 ```
 
 Run the site build after a bulk image migration:
 
 ```bash
-pnpm docs:build
+pnpm build
 ```

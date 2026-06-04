@@ -36,11 +36,11 @@ type CliFlags = {
 function usage(): void {
   console.log(`
 用法:
-  pnpm new:post <computer|misc> "文章名" [--title "标题"] [--permalink "/自定义/"] [--dry-run]
+  pnpm new post <computer|misc> "文章名" [--title "标题"] [--permalink "/自定义/"] [--dry-run]
 
 示例:
-  pnpm new:post computer "Rust异步踩坑记录"
-  pnpm new:post misc "随记-2026-02"
+  pnpm new post computer "Rust异步踩坑记录"
+  pnpm new post misc "随记-2026-02"
 `)
 }
 

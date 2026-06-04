@@ -41,12 +41,12 @@ type CliFlags = {
 function usage(): void {
   console.log(`
 用法:
-  pnpm new:game <demo|review|clear> "游戏名" [--title "标题"] [--permalink "/自定义/"] [--dry-run]
+  pnpm new game <demo|review|clear> "游戏名" [--title "标题"] [--permalink "/自定义/"] [--dry-run]
 
 示例:
-  pnpm new:game demo "心象天仪本线"
-  pnpm new:game review "空洞骑士" --title "空洞骑士长评"
-  pnpm new:game clear "杀戮尖塔" --permalink "/2026/02/slaythe12/"
+  pnpm new game demo "心象天仪本线"
+  pnpm new game review "空洞骑士" --title "空洞骑士长评"
+  pnpm new game clear "杀戮尖塔" --permalink "/2026/02/slaythe12/"
 `)
 }
 
