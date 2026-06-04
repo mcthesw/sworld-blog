@@ -37,6 +37,21 @@ config:
 
 </ReadingNote>
 
+<ReadingNote
+  id="reading-2026-06-04-e47d501d"
+  book="营养学 概念与争论"
+  author="塞泽尔, 惠特尼"
+  kind="教材"
+  status="在读"
+  date="2026-06-04"
+>
+
+感觉人类只要饮酒基本上就过度啊……
+
+本书的趣味性和实用性感觉都还不错
+
+</ReadingNote>
+
 <!-- reading-stream:end -->
 
 </ReadingStream>
