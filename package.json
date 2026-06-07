@@ -8,9 +8,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "pnpm --filter @sworld/vuepress-plugin-image-webp build && vuepress dev docs",
-    "docs:dev": "pnpm dev",
     "build": "pnpm --filter @sworld/vuepress-plugin-image-webp build && vuepress build docs --clean-cache --clean-temp",
-    "docs:build": "pnpm build",
     "preview": "http-server docs/.vuepress/dist",
     "new": "tsc -p scripts/tsconfig.json && node .local/scripts/new.js",
     "check": "tsc -p scripts/tsconfig.json && node --test scripts/*.test.mjs && pnpm build",
