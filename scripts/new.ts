@@ -12,16 +12,44 @@ type ReadingMode = 'note' | 'review'
 type PostSection = 'computer' | 'misc'
 type ReadlineInterface = ReturnType<typeof createInterface>
 
+const CANCELLED = '已取消'
+
 class Prompt {
   #rl: ReadlineInterface | undefined
   #lines: AsyncIterator<string> | undefined
+  #rejectPending: ((err: Error) => void) | undefined
+
+  // 文本输入走 cooked 模式的 readline，Ctrl+C 会被翻译成 'SIGINT' 事件。
+  // 没有监听时它会把当前 question 解析成空串，导致 askRequired 的 while 死循环。
+  // 这里挂一次监听，把当前 pending 的 question reject 掉，让取消信号干净冒泡。
+  #ensureInterface(): ReadlineInterface {
+    if (this.#rl) return this.#rl
+    const rl = createInterface({ input, output })
+    rl.on('SIGINT', () => {
+      const reject = this.#rejectPending
+      if (reject) reject(new Error(CANCELLED))
+    })
+    this.#rl = rl
+    return rl
+  }
 
   async question(label: string): Promise<string> {
-    this.#rl ??= createInterface({ input, output })
-    this.#lines ??= this.#rl[Symbol.asyncIterator]()
+    const rl = this.#ensureInterface()
+    this.#lines ??= rl[Symbol.asyncIterator]()
     output.write(label)
-    const next = await this.#lines.next()
-    return next.done ? '' : next.value
+    return new Promise<string>((resolve, reject) => {
+      this.#rejectPending = reject
+      this.#lines!.next().then(
+        (next) => {
+          this.#rejectPending = undefined
+          resolve(next.done ? '' : next.value)
+        },
+        (err) => {
+          this.#rejectPending = undefined
+          reject(err)
+        },
+      )
+    })
   }
 
   close(): void {
@@ -287,6 +315,10 @@ async function main(): Promise<void> {
 
 main().catch((err: unknown) => {
   const message = err instanceof Error ? err.message : String(err)
+  if (message === CANCELLED) {
+    console.error(message)
+    process.exit(130)
+  }
   console.error(`创建失败: ${message}`)
   usage()
   process.exit(1)
