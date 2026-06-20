@@ -189,8 +189,8 @@ const moreLinkClass = 'mt-auto self-end pt-3 inline-flex items-center gap-0.5 te
         <h2 :class="cardTitleClass">Now Playing</h2>
         <ul :class="cardListClass">
           <li>以撒的结合</li>
-          <li>动物井</li>
-          <li>杀戮尖塔 2</li>
+          <li>幽灵镇少女</li>
+          <li>Dusk</li>
           <li>天国拯救 2</li>
         </ul>
       </div>
