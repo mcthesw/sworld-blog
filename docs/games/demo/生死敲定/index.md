@@ -6,7 +6,7 @@ title: 生死敲定
 tags:
   - 游戏
   - Demo体验
-  - 期待:4
+  - 期待:3
 # 短链接 ID（用于历史风格 permalink）
 abbrlink: defae381
 # 创建时间（格式：YYYY/MM/DD HH:mm:ss）

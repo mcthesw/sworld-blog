@@ -6,7 +6,7 @@ title: 浣熊推币机
 tags:
   - 游戏
   - Demo体验
-  - 期待:7
+  - 期待:6
   - Steam新品节
 # 短链接 ID（用于历史风格 permalink）
 abbrlink: 8de0e4f6
