@@ -358,24 +358,19 @@ const cards = computed(() => {
             <div class="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
           </div>
 
-          <div v-if="variant === 'game-review'" class="flex flex-1 flex-col gap-4 p-6">
-            <div class="flex items-center justify-between gap-3">
-              <span class="inline-flex items-center rounded-full bg-[var(--vp-c-bg-soft)] px-2.5 py-1 text-xs font-semibold text-[var(--vp-c-text-2)]">{{ gameName }}</span>
+          <div v-if="variant === 'game-review'" class="flex flex-1 flex-col gap-3 p-5">
+            <div class="flex items-center justify-between gap-3 text-xs text-[var(--vp-c-text-3)]">
+              <span>{{ date }}</span>
               <span class="inline-flex items-center rounded-full bg-[var(--vp-c-brand-soft)] px-2.5 py-1 text-xs font-bold text-[var(--vp-c-brand-1)]">{{ score ? '评分 ' + score + '/10' : '未评分' }}</span>
             </div>
 
-            <h3 class="text-lg font-bold leading-snug tracking-tight text-[var(--vp-c-text-1)] transition-colors duration-300 group-hover:text-[var(--vp-c-brand-1)]">
+            <h3 class="m-0 text-xl font-bold leading-snug tracking-tight text-[var(--vp-c-text-1)] transition-colors duration-300 group-hover:text-[var(--vp-c-brand-1)]">
               {{ post.title }}
             </h3>
 
-            <p class="line-clamp-2 text-sm leading-relaxed text-[var(--vp-c-text-2)]">
+            <p class="m-0 line-clamp-2 text-sm leading-relaxed text-[var(--vp-c-text-2)]">
               {{ excerpt || '待补充一句话简评。' }}
             </p>
-
-            <div class="mt-auto flex items-center justify-between text-xs text-[var(--vp-c-text-3)]">
-              <span>{{ date }}</span>
-              <span class="opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-[var(--vp-c-brand-1)]">查看文章 &rarr;</span>
-            </div>
 
             <div v-if="tags.length" class="pointer-events-auto flex flex-wrap gap-2">
               <RouterLink
@@ -390,17 +385,21 @@ const cards = computed(() => {
             </div>
           </div>
 
-          <div v-else-if="variant === 'game-demo'" class="flex flex-1 flex-col gap-4 p-6">
+          <div v-else-if="variant === 'game-demo'" class="flex flex-1 flex-col gap-3 p-5">
             <div class="flex items-center justify-between text-xs text-[var(--vp-c-text-3)]">
               <span>{{ date }}</span>
               <span class="inline-flex items-center rounded-full bg-[var(--vp-c-brand-soft)] px-2.5 py-1 text-xs font-bold text-[var(--vp-c-brand-1)]">{{ expectation ? '期待 ' + expectation + '/10' : '未标注期待值' }}</span>
             </div>
 
-            <h3 class="text-xl font-bold leading-snug tracking-tight text-[var(--vp-c-text-1)] transition-colors duration-300 group-hover:text-[var(--vp-c-brand-1)]">
+            <h3 class="m-0 text-xl font-bold leading-snug tracking-tight text-[var(--vp-c-text-1)] transition-colors duration-300 group-hover:text-[var(--vp-c-brand-1)]">
               {{ post.title }}
             </h3>
 
-            <div v-if="tags.length" class="pointer-events-auto mt-auto flex flex-wrap gap-2">
+            <p v-if="excerpt" class="m-0 line-clamp-2 text-sm leading-relaxed text-[var(--vp-c-text-2)]">
+              {{ excerpt }}
+            </p>
+
+            <div v-if="tags.length" class="pointer-events-auto flex flex-wrap gap-2">
               <RouterLink
                 v-for="tag in tags"
                 :key="post.path + '-' + tag"
@@ -421,7 +420,7 @@ const cards = computed(() => {
               <span class="inline-flex items-center rounded-full px-2.5 py-1 text-xs font-bold" :class="statusTone(status)">{{ status || '未标注' }}</span>
             </div>
 
-            <p v-if="showTitleInLog" class="line-clamp-1 text-sm text-[var(--vp-c-text-2)]">{{ post.title }}</p>
+            <p v-if="showTitleInLog" class="m-0 line-clamp-1 text-sm text-[var(--vp-c-text-2)]">{{ post.title }}</p>
 
             <div class="mt-auto text-xs text-[var(--vp-c-text-3)]">{{ date }}</div>
 
@@ -444,7 +443,7 @@ const cards = computed(() => {
               <span class="opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 text-[var(--vp-c-brand-1)]">查看文章 &rarr;</span>
             </div>
 
-            <h3 class="text-lg font-bold leading-snug tracking-tight text-[var(--vp-c-text-1)] transition-colors duration-300 group-hover:text-[var(--vp-c-brand-1)]">
+            <h3 class="m-0 text-lg font-bold leading-snug tracking-tight text-[var(--vp-c-text-1)] transition-colors duration-300 group-hover:text-[var(--vp-c-brand-1)]">
               {{ post.title }}
             </h3>
 
@@ -496,6 +495,12 @@ const cards = computed(() => {
   text-decoration: none !important;
   box-shadow: none !important;
   background-image: none !important;
+}
+
+/* Theme Plume adds article margins; cards use flex gaps for their spacing. */
+.masonry-card h3,
+.masonry-card p {
+  margin: 0;
 }
 
 /* Restful card presence: inset top rim + barely-there ground shadow */
