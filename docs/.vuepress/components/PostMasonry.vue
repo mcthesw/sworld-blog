@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { withBase } from 'vuepress/client'
 import { type ThemePostsItem, usePostsData } from 'vuepress-theme-plume/client'
 
@@ -286,7 +286,6 @@ const filteredPosts = computed(() => {
   return list.slice(0, Math.max(0, props.limit))
 })
 
-/* biome-ignore lint/correctness/noUnusedVariables: used in template */
 const cards = computed(() => {
   return filteredPosts.value.map((post) => {
     const coverSrc = resolveCoverSrc(post)
@@ -311,6 +310,127 @@ const cards = computed(() => {
     }
   })
 })
+
+/*
+ * Lightweight per-column masonry.
+ *
+ * Mobile (default / SSR): 1 column, md (>=768px): 2 columns,
+ * lg (>=1024px): 3 columns. Column count and container width are read on
+ * the client only so the server render stays deterministic.
+ */
+const GAP = 24
+
+const columnCount = ref(1)
+const containerWidth = ref(0)
+const containerRef = ref<HTMLElement | null>(null)
+
+type Card = (typeof cards.value)[number]
+
+function estimateCardHeight(card: Card, colWidth: number): number {
+  const w = colWidth > 0 ? colWidth : 320
+  const variant = card.variant
+  const padY = variant === 'default' ? 48 : 40
+  const innerGap = variant === 'default' ? 16 : 12
+  const items: number[] = []
+
+  if (card.hasCover) {
+    items.push(w * (variant === 'game-log' ? 9 / 21 : 9 / 16))
+  }
+
+  items.push(20)
+
+  const titleText = variant === 'game-log' ? card.gameName : card.post.title
+  const titleSize = variant === 'game-log' ? 16 : variant === 'default' ? 18 : 20
+  const titleCharsPerLine = Math.max(4, Math.floor(w / (titleSize * 0.55)))
+  const titleLines = Math.max(1, Math.ceil(titleText.length / titleCharsPerLine))
+  items.push(titleLines * titleSize * 1.375)
+
+  if (variant === 'game-log') {
+    if (card.showTitleInLog) items.push(14 * 1.625)
+  } else if (card.excerpt) {
+    const clamp = variant === 'default' ? 3 : 2
+    const charsPerLine = Math.max(4, Math.floor(w / (14 * 0.55)))
+    const lines = Math.min(clamp, Math.max(1, Math.ceil(card.excerpt.length / charsPerLine)))
+    items.push(lines * 14 * 1.625)
+  }
+
+  if (card.tags.length) {
+    const tagGap = 8
+    const tagWidth = (tag: string): number => tag.length * 6.5 + 16
+    const totalTagsWidth = card.tags.reduce((total, tag) => total + tagWidth(tag), 0) + (card.tags.length - 1) * tagGap
+    const tagRows = Math.max(1, Math.ceil(totalTagsWidth / w))
+    items.push(tagRows * 24 + (tagRows - 1) * tagGap)
+  }
+
+  const itemsHeight = items.reduce((total, height) => total + height, 0)
+  const gapsHeight = Math.max(0, items.length - 1) * innerGap
+  return padY + itemsHeight + gapsHeight
+}
+
+/* biome-ignore lint/correctness/noUnusedVariables: used in template */
+const columns = computed<Card[][]>(() => {
+  const list = cards.value
+  const count = columnCount.value
+  if (count <= 1) return [list]
+
+  const out: Card[][] = Array.from({ length: count }, (): Card[] => [])
+  const heights = new Array<number>(count).fill(0)
+  const colWidth = containerWidth.value > 0 ? (containerWidth.value - (count - 1) * GAP) / count : 0
+
+  for (const card of list) {
+    let targetIndex = 0
+    for (let i = 1; i < count; i += 1) {
+      if (heights[i] < heights[targetIndex]) targetIndex = i
+    }
+
+    out[targetIndex].push(card)
+    heights[targetIndex] += estimateCardHeight(card, colWidth) + GAP
+  }
+
+  return out
+})
+
+let mdQuery: MediaQueryList | null = null
+let lgQuery: MediaQueryList | null = null
+let resizeObserver: ResizeObserver | null = null
+
+function syncColumnCount(): void {
+  if (!mdQuery || !lgQuery) return
+  if (lgQuery.matches) columnCount.value = 3
+  else if (mdQuery.matches) columnCount.value = 2
+  else columnCount.value = 1
+}
+
+function syncContainerWidth(): void {
+  const el = containerRef.value
+  if (!el) return
+  containerWidth.value = el.getBoundingClientRect().width
+}
+
+onMounted(() => {
+  if (typeof window === 'undefined') return
+
+  mdQuery = window.matchMedia('(min-width: 768px)')
+  lgQuery = window.matchMedia('(min-width: 1024px)')
+  mdQuery.addEventListener('change', syncColumnCount)
+  lgQuery.addEventListener('change', syncColumnCount)
+  syncColumnCount()
+
+  if (typeof ResizeObserver !== 'undefined' && containerRef.value) {
+    resizeObserver = new ResizeObserver(syncContainerWidth)
+    resizeObserver.observe(containerRef.value)
+  }
+  syncContainerWidth()
+})
+
+onBeforeUnmount(() => {
+  mdQuery?.removeEventListener('change', syncColumnCount)
+  lgQuery?.removeEventListener('change', syncColumnCount)
+  resizeObserver?.disconnect()
+  mdQuery = null
+  lgQuery = null
+  resizeObserver = null
+})
 </script>
 
 <template>
@@ -320,18 +440,19 @@ const cards = computed(() => {
       {{ title }}
     </h2>
 
-    <div v-if="cards.length" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
-      <article
-        v-for="{ post, variant, hasCover, coverSrc, excerpt, date, gameName, score, expectation, status, showTitleInLog, tags } in cards"
-        :key="post.path"
-        class="masonry-card group relative overflow-hidden rounded-[20px] border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] transition-[box-shadow,border-color] duration-500"
-        style="--spotlight-x: 50%; --spotlight-y: 50%; --spotlight-opacity: 0;"
-        @mousemove="handleCardMouseMove"
-        @mouseenter="handleCardMouseEnter"
-        @mouseleave="handleCardMouseLeave"
-        @focusin="handleCardFocus"
-        @focusout="handleCardBlur"
-      >
+    <div v-if="cards.length" ref="containerRef" class="masonry-grid">
+      <div v-for="(column, columnIndex) in columns" :key="columnIndex" class="masonry-column">
+        <article
+          v-for="{ post, variant, hasCover, coverSrc, excerpt, date, gameName, score, expectation, status, showTitleInLog, tags } in column"
+          :key="post.path"
+          class="masonry-card group relative overflow-hidden rounded-[20px] border border-[var(--vp-c-divider)] bg-[var(--vp-c-bg)] transition-[box-shadow,border-color] duration-500"
+          style="--spotlight-x: 50%; --spotlight-y: 50%; --spotlight-opacity: 0;"
+          @mousemove="handleCardMouseMove"
+          @mouseenter="handleCardMouseEnter"
+          @mouseleave="handleCardMouseLeave"
+          @focusin="handleCardFocus"
+          @focusout="handleCardBlur"
+        >
         <div
           class="pointer-events-none absolute inset-0 z-[1] rounded-[inherit] opacity-[var(--spotlight-opacity)] transition-opacity duration-500 ease-out"
           style="background: radial-gradient(320px circle at var(--spotlight-x) var(--spotlight-y), color-mix(in srgb, var(--vp-c-brand-1) 24%, transparent), transparent 72%);"
@@ -464,7 +585,8 @@ const cards = computed(() => {
             </div>
           </div>
         </div>
-      </article>
+        </article>
+      </div>
     </div>
 
     <div
@@ -479,6 +601,20 @@ const cards = computed(() => {
 </template>
 
 <style scoped>
+.masonry-grid {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.masonry-column {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .masonry-card-link,
 .masonry-card-link:hover,
 .masonry-card-link:focus,
