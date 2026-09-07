@@ -122,6 +122,10 @@ const moreLinkClass = 'mt-auto self-end pt-3 inline-flex items-center gap-0.5 te
             <span :class="[tagClass, 'ml-1.5', 'about-tag-accent']">以撒联机小工具</span>
           </li>
           <li>
+            <a :class="linkClass" href="https://github.com/mcthesw/game-shelf-card" target="_blank" rel="noopener noreferrer">game-shelf-card</a>
+            <span :class="[tagClass, 'ml-1.5', 'about-tag-accent']">GitHub Profile游戏图</span>
+          </li>
+          <li>
             <a :class="linkClass" href="https://github.com/chevey339/kelivo" target="_blank" rel="noopener noreferrer">kelivo</a>
             <span :class="[tagClass, 'ml-1.5', 'about-tag-accent']">参与贡献</span>
           </li>
