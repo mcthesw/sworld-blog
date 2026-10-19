@@ -8,8 +8,14 @@ abbrlink: a7485831
 date: 2025-03-23T21:34:54.000Z
 createTime: 2025/03/23 21:34:54
 permalink: /2025/03/a7485831/
-excerpt: 复现 eframe 隐藏窗口后无法重新展示的问题，并改用 egui_glow 与 egui_winit 控制事件循环。
+excerpt: 记录 eframe 隐藏窗口问题与绕过方案，补充 0.34.0 的修复消息。
 ---
+
+2026-10-19 更新：这个问题终于修好了！官方在 eframe 0.34.0 中修复了隐藏窗口后无法重新显示的问题，现在直接使用 eframe 就能实现本文中的隐藏和唤出功能了，下面的绕过方案也就用不上了。相关修复见 [PR #7905](https://github.com/emilk/egui/pull/7905)。
+
+现在隐藏和显示窗口，直接调用 `ctx.send_viewport_cmd(egui::ViewportCommand::Visible(false))` 和 `ctx.send_viewport_cmd(egui::ViewportCommand::Visible(true))` 就行了，不需要再自己处理事件循环。如果要把下面的旧代码迁移到新版，可以查阅[当前版本的 eframe 文档](https://docs.rs/eframe/latest/eframe/)，或者直接把这篇文章和项目代码交给自己的 agent，让它按当前版本改一下。
+
+原文和代码保留，作为当时折腾的记录。
 
 近期在使用 `egui` 时遇到一个问题，我想要将窗体隐藏起来，再通过托盘图标唤出，本来以为如此简单的需求应当非常简单，结果我发现 `egui` 官方的框架 `eframe` 对这个功能的支持并不好，在 GitHub 上长期有着相关讨论，例如[这个Issue](https://github.com/emilk/egui/issues/5229#issuecomment-2740135925)。
 
