@@ -16,9 +16,9 @@
   "ignoredPathPrefixes": [
     ".local/",
     "node_modules/",
-    "docs/.vuepress/.cache/",
-    "docs/.vuepress/.temp/",
-    "docs/.vuepress/dist/"
+    "public/",
+    ".quartz/",
+    ".quartz-cache/"
   ],
   "textFileExtensions": [
     ".md",

@@ -1,0 +1,48 @@
+.swp-dialog { display: flex; flex-direction: column; min-height: 0; max-height: calc(100vh - 32px); }
+.swp-dialog > .b3-dialog__header { flex-shrink: 0; }
+.swp-dialog > .b3-dialog__body { display: flex; flex-direction: column; flex: 1; min-height: 0; overflow: hidden; }
+.swp-panel { flex: 1; min-height: 0; width: 100%; padding: 0 24px; box-sizing: border-box; display: grid; grid-template-rows: 48px minmax(0, 1fr) 44px; gap: 16px; overflow: hidden; color: var(--b3-theme-on-background); }
+.swp-panel p { margin: 0; }
+.swp-tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--b3-border-color); }
+.swp-tabs button { appearance: none; background: none; border: 0; border-bottom: 2px solid transparent; padding: 0 2px; font: inherit; color: var(--b3-theme-on-surface); cursor: pointer; }
+.swp-tabs button[aria-selected="true"] { color: var(--b3-theme-primary); border-bottom-color: currentColor; font-weight: 600; }
+.swp-tabs button:focus-visible { outline: 2px solid var(--b3-theme-primary); outline-offset: -4px; }
+.swp-tabs .swp-tab-error { color: var(--b3-theme-error, #b53939); }
+.swp-views { min-height: 0; overflow: hidden; }
+.swp-view { height: 100%; min-height: 0; box-sizing: border-box; }
+.swp-view[hidden] { display: none; }
+.swp-export { display: grid; grid-template-rows: auto 36px 20px minmax(100px, 1fr); gap: 12px; overflow: auto; scrollbar-gutter: stable; }
+.swp-current { border-bottom: 1px solid var(--b3-border-color); padding-bottom: 12px; }
+.swp-eyebrow, .swp-count { color: var(--b3-theme-on-surface); font-size: 12px; line-height: 1.5; }
+.swp-current-title { font-size: 18px; font-weight: 600; line-height: 28px; height: 28px; margin: 4px 0 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.swp-permission { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+.swp-actions, .swp-result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.swp-panel .b3-button { min-height: 36px; justify-content: center; white-space: nowrap; }
+.swp-result { display: grid; grid-template-rows: 38px minmax(0, 1fr) 36px; gap: 8px; min-height: 0; }
+.swp-summary { font-size: 13px; font-weight: 600; line-height: 19px; overflow: auto; }
+.swp-plan { min-height: 0; overflow: auto; scrollbar-gutter: stable; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.swp-plan ul { margin: 0; padding: 0; list-style: none; }
+.swp-plan li { padding: 4px 0; }
+.swp-result-actions > button { grid-column: 2; }
+.swp-result-actions > button[data-ready="false"] { visibility: hidden; }
+.swp-notice { height: 44px; box-sizing: border-box; border-top: 1px solid var(--b3-border-color); padding-top: 10px; font-size: 13px; line-height: 20px; overflow: auto; scrollbar-gutter: stable; }
+.swp-notice[data-error="true"] { color: var(--b3-theme-error, #b53939); }
+.swp-management { display: grid; grid-template-rows: auto 34px minmax(0, 1fr) auto; gap: 10px; }
+.swp-toolbar { display: flex; align-items: center; gap: 10px; }
+.swp-toolbar input[name="search"] { flex: 1; min-width: 0; }
+.swp-toolbar label { white-space: nowrap; font-size: 12px; }
+.swp-head, .swp-row { display: grid; grid-template-columns: 40px 48px minmax(0, 1fr); align-items: center; gap: 8px; padding: 8px 4px; }
+.swp-head { font-size: 12px; color: var(--b3-theme-on-surface); border-bottom: 1px solid var(--b3-border-color); }
+.swp-documents { min-height: 0; overflow: auto; scrollbar-gutter: stable; }
+.swp-row:hover { background: var(--b3-list-hover); }
+.swp-row input { justify-self: center; }
+.swp-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.swp-management-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.swp-management-actions .b3-button { font-size: 12px; }
+.swp-settings { overflow: auto; scrollbar-gutter: stable; }
+.swp-settings label { display: block; margin-bottom: 20px; font-size: 13px; }
+.swp-settings input { margin-top: 8px; width: 100%; box-sizing: border-box; }
+.swp-details { overflow: hidden; }
+.swp-log { height: 100%; box-sizing: border-box; margin: 0; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; padding: 12px; background: var(--b3-theme-background); border-radius: 6px; scrollbar-gutter: stable; }
+.swp-confirm p { white-space: pre-wrap; line-height: 1.7; }
+@media (max-width: 480px) { .swp-panel { padding: 0 14px; } .swp-tabs { gap: 20px; } .swp-actions, .swp-result-actions { gap: 8px; } .swp-panel .b3-button { font-size: 12px; } }

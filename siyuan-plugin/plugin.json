@@ -1,0 +1,22 @@
+{
+  "name": "sworld-publisher",
+  "author": "mcthesw",
+  "url": "https://blog.sworld.club",
+  "version": "0.1.0",
+  "minAppVersion": "3.8.9",
+  "frontends": [
+    "desktop"
+  ],
+  "backends": [
+    "windows"
+  ],
+  "disabledInPublish": true,
+  "displayName": {
+    "default": "Sworld Publisher",
+    "zh-CN": "网站导出"
+  },
+  "description": {
+    "default": "Preview and export SiYuan notes to a local Quartz site.",
+    "zh-CN": "检查公开列表、隔离预览、WebP 图片压缩与本地网站导出。不自动部署。"
+  }
+}

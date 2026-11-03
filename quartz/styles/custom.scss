@@ -1,3 +1,228 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+body {
+  font-family:
+    var(--bodyFont), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
+    sans-serif;
+}
+
+body[data-slug="index"] {
+  .article-title,
+  .content-meta {
+    display: none;
+  }
+
+  article h2 {
+    margin-top: 2.4rem;
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    color: var(--gray);
+    font-weight: 600;
+  }
+}
+
+.home-hero {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  margin: 0.5rem 0 1.75rem;
+
+  .home-avatar {
+    width: 104px;
+    height: 104px;
+    border-radius: 24px;
+    margin: 0;
+    flex: none;
+    box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.6);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 2.2rem;
+    line-height: 1.1;
+  }
+
+  .home-quote {
+    margin: 0.4rem 0 0.8rem;
+    color: var(--gray);
+    font-style: italic;
+  }
+
+  .home-social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      background: none;
+      color: var(--darkgray);
+      border: 1px solid var(--lightgray);
+      border-radius: 50%;
+      padding: 0;
+      transition:
+        color 0.2s,
+        border-color 0.2s;
+
+      &:hover,
+      &:focus-visible {
+        color: var(--secondary);
+        border-color: var(--secondary);
+      }
+
+      svg {
+        width: 1.2rem;
+        height: 1.2rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.7;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .external-icon {
+        display: none;
+      }
+    }
+  }
+}
+
+.home-now {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.9rem 1rem;
+  border-radius: 12px;
+  background: var(--highlight);
+  font-size: 0.92rem;
+
+  span {
+    display: inline-block;
+    min-width: 2.6rem;
+    margin-right: 0.6rem;
+    font-size: 0.75rem;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+  }
+
+  a {
+    background: none;
+    padding: 0;
+  }
+}
+
+.home-projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.6rem;
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 10px;
+    background: none;
+    color: var(--dark);
+    transition:
+      border-color 0.2s,
+      transform 0.2s;
+
+    &:hover {
+      border-color: var(--secondary);
+      transform: translateY(-2px);
+    }
+
+    span {
+      font-size: 0.78rem;
+      color: var(--gray);
+      font-weight: 400;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .home-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+iframe.bilibili,
+iframe.youtube {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 8px;
+}
+
+.friend-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+
+  .friend-link {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.75rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 10px;
+    background: none;
+    color: var(--darkgray);
+
+    &:hover {
+      border-color: var(--secondary);
+    }
+
+    img {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      margin: 0;
+    }
+
+    span {
+      display: flex;
+      flex-direction: column;
+    }
+
+    small {
+      color: var(--gray);
+    }
+  }
+}
+
+.home-hero .home-social a svg.external-icon,
+.home-projects a svg.external-icon {
+  display: none;
+}
+
+article .sw-cover-grid.compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 600px) {
+  article .sw-cover-grid.compact {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.center:has(article.list-page) .content-meta {
+  display: none;
+}
+
+body[data-slug="not-public"] {
+  .content-meta,
+  .graph,
+  .backlinks {
+    display: none;
+  }
+}

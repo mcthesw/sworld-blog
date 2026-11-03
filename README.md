@@ -1,27 +1,14 @@
-# sworld-s-world
+# Sworld's World
 
-The Site is generated using [vuepress](https://vuepress.vuejs.org/) and [vuepress-theme-plume](https://github.com/pengzhanbo/vuepress-theme-plume)
+个人博客：[blog.sworld.club](https://blog.sworld.club)
 
-## Install
-
-```sh
-pnpm i
-```
-
-## Usage
+思源写作，Quartz 展示
 
 ```sh
-# start dev server
+pnpm install --frozen-lockfile
 pnpm dev
-# build for production
-pnpm build
-# preview production build in local
-pnpm preview
-# update vuepress and theme
-pnpm dlx vp-update
 ```
 
-## Documents
+构建：`pnpm build`，产物位于 `public/`
 
-- [vuepress](https://vuepress.vuejs.org/)
-- [vuepress-theme-plume](https://theme-plume.vuejs.press/)
+维护说明：[发布流程](editor-docs/publishing.md)、[Quartz 边界](editor-docs/quartz-maintenance.md)、[Cloudflare 接入](editor-docs/deployment.md)
