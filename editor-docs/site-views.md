@@ -1,30 +1,25 @@
-# 时间线、双链与专题展示
+# 时间线、双链与聚合页展示
 
 ## 页面与查询
 
-- 导航由 `site/components/SiteNav.tsx` 提供，`quartz.ts` 将它追加到现有左侧栏；桌面竖排在搜索下方，800px 以下换行横排。“笔记”沿用 `/posts` URL，不启用文件目录树。
-- 首页顺序为个人介绍、近况、项目、近期笔记、推荐。社交入口采用内联 SVG 图标，链接的 `title` 提供浏览器原生提示、`aria-label` 提供无障碍名称；项目保留名称和描述。
-- `configuration.enablePopovers: false` 关闭链接悬停页面预览，图标名称的原生 tooltip 不受影响。
-- `content/posts.md` 是完整时间线，`content/index.md` 显示最新 8 篇。两者按 `date` 倒序，只要求 Markdown 和发布日期，不要求 `type`、标签或封面。
-- `content/games.md` 保留游戏卡片及个人偏好，专题通过可选 `type: 游戏` 收录。`kind` 区分 Demo，状态和评分均可省略。
-- 查询直接放在页面的原生 `base` 代码块中；不创建独立 `.base` 文件。独立查询页会把查询结果作为出链，而页内查询只渲染列表，不给图谱制造收录关系。
-- 页面、游戏卡片和列表不自动新增笔记之间的正文引用。关联由作者在正文中表达。
+- 左侧导航由 `site/components/SiteNav.tsx` 提供，分为主内容区（`首页`、`时间线`、`项目`、`游戏`、`随记`）与个人站点区（`关于我`、`厉害的人们`）。桌面端竖排在搜索框下方，800px 以下自适应横排。
+- `content/index.md`（首页）依次展示个人简介、精选文章、主题脉络（按专题串联代表性笔记的正文双链）、正在维护的项目与近期更新。
+- `content/posts.md`（时间线）按年份分组倒序展示全站笔记，并提供「全部 / 文章 / 精选」视图切换。
+- `content/projects.md`（项目）集中展示维护与参与的开源项目（如 `easy-nats`、`game-save-manager`），并在正文中关联相关技术笔记。
+- `content/games.md`（游戏）通过 `type: 游戏` 收录游玩记录与新品节 Demo 卡片；个人游戏口味与待玩清单归入 `content/about.md`（关于我）。
+- `content/reading.md`（随记）按时间倒序收纳对书籍、漫画、游戏等作品的即兴短评，支持在思源中通过 `custom-backlinks=true` 从日记反向链接块采集。
+- 动态列表与卡片直接写在页面内的 `base` 代码块中，不创建独立 `.base` 文件，避免将查询收录结果注入全局图谱。
 
 ## 组件约定
 
-`site/components/bases-views.tsx` 向现有 Bases 插件注册两个视图：
+`site/components/bases-views.tsx` 向 `@quartz-community/bases-page` 注册两个自定义视图：
 
-- `post-list`：日期＋标题；可选 `more: posts` 显示“全部笔记”。不展示分类标签。
-- `cover-grid`：封面卡片；思源导出时 `cover` 来自原生题头图 `title-img`，未提供图片型题头图时使用标题渐变占位。`kind`、`status`、`score`、`expect` 仅作为可选卡片信息，不参与知识关系。
-
-直接从 `@quartz-community/bases-page` 的公开入口导入注册表与类型，兼容本仓库现有 TypeScript 模块解析配置。
-
-`source: siyuan` 的正文由同步器生成，不手改；专题页面目前由仓库维护。不要为了进入时间线添加标签，或把这些页面复制成另一套分类目录。
+- `post-list`：支持按年份分组的时间线模式（`grouped: true`）、摘要展示（`showDescription: true`）以及底部跳转链接（`more`、`moreText`）。
+- `cover-grid`：封面卡片网格；`cover` 来自思源原生题头图 `title-img`，无封面时使用低饱和单色标题占位。状态、评分与期待值展示在卡片底部信息栏，不遮挡封面画面。
 
 ## 图谱与反向链接
 
-- 反向链接由 Quartz 原生 Backlinks 提供。
-- 局部图谱深度为 1，全局和局部图谱均不展示标签节点。
-- 关闭标签页和自动文件夹页，不创建年月目录节点。
-- `not-public` 是统一提示页，使用 `unlisted: true` 退出发现索引。公开页面仍能点击它，但图谱不会以它为共同节点聚合私人引用。
-- 提示页的日期、图谱和反向链接由 `quartz/styles/custom.scss` 隐藏，避免把它呈现成一篇普通笔记。
+- 反向链接由 Quartz 原生 Backlinks 提供；仅正文中显式书写的站内链接生成图谱边与反向链接。
+- 局部图谱深度为 1，不展示标签节点；关闭标签页和自动文件夹索引。
+- 无反向链接的页面自动隐藏空的反向链接区块；纯查询或外链聚合页（`posts`、`reading`、`links`、`not-public`）隐藏右侧图谱与反向链接。
+
