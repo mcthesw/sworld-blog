@@ -12,7 +12,7 @@
     "url": "https://github.com/mcthesw/sworld-blog.git"
   },
   "scripts": {
-    "dev": "node quartz/bootstrap-cli.mjs build --serve",
+    "dev": "node quartz/bootstrap-cli.mjs build --serve --port 43781 --wsPort 43782",
     "build": "pnpm run install-plugins && node quartz/bootstrap-cli.mjs build",
     "install-plugins": "tsx quartz/plugins/loader/install-plugins.ts",
     "check": "tsc --noEmit && tsc -p scripts/tsconfig.json && node --test scripts/*.test.mjs",

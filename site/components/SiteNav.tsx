@@ -1,27 +1,34 @@
 import { FullSlug, resolveRelative } from "../../quartz/util/path"
 import { QuartzComponent, QuartzComponentProps } from "../../quartz/components/types"
 
-const items: { text: string; slug: string }[] = [
+const primaryItems: { text: string; slug: string }[] = [
   { text: "首页", slug: "index" },
-  { text: "笔记", slug: "posts" },
+  { text: "时间线", slug: "posts" },
+  { text: "项目", slug: "projects" },
   { text: "游戏", slug: "games" },
-  { text: "阅读", slug: "reading" },
-  { text: "友链", slug: "links" },
+  { text: "随记", slug: "reading" },
+]
+
+const secondaryItems: { text: string; slug: string }[] = [
+  { text: "关于我", slug: "about" },
+  { text: "厉害的人们", slug: "links" },
 ]
 
 const SiteNav: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const current = fileData.slug as FullSlug
+  const renderLink = (item: { text: string; slug: string }) => (
+    <a
+      href={resolveRelative(current, item.slug as FullSlug)}
+      class={current === item.slug ? "internal active" : "internal"}
+      aria-current={current === item.slug ? "page" : undefined}
+    >
+      {item.text}
+    </a>
+  )
   return (
     <nav class="site-nav" aria-label="全站导航">
-      {items.map((item) => (
-        <a
-          href={resolveRelative(current, item.slug as FullSlug)}
-          class={current === item.slug ? "internal active" : "internal"}
-          aria-current={current === item.slug ? "page" : undefined}
-        >
-          {item.text}
-        </a>
-      ))}
+      <div class="site-nav-group">{primaryItems.map(renderLink)}</div>
+      <div class="site-nav-group site-nav-secondary">{secondaryItems.map(renderLink)}</div>
     </nav>
   )
 }
@@ -30,15 +37,25 @@ SiteNav.css = `
 .site-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.85rem;
   margin: 0.5rem 0 0;
-  font-size: 0.95rem;
+  font-size: 0.94rem;
+}
+.site-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.site-nav-secondary {
+  padding-top: 0.65rem;
+  border-top: 1px solid var(--lightgray);
 }
 .site-nav a {
   color: var(--darkgray);
   background: none;
-  padding: 0.35rem 0;
+  padding: 0.25rem 0;
   font-weight: 500;
+  transition: color 0.15s ease;
 }
 .site-nav a:hover,
 .site-nav a.active {
@@ -50,10 +67,20 @@ SiteNav.css = `
     flex: 0 0 100%;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 0.25rem 1.25rem;
-    margin: 1rem 0 0;
+    gap: 0.35rem 1.15rem;
+    margin: 0.85rem 0 0;
+  }
+  .site-nav-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.15rem;
+  }
+  .site-nav-secondary {
+    padding-top: 0;
+    border-top: none;
   }
 }
 `
 
 export default () => SiteNav
+
