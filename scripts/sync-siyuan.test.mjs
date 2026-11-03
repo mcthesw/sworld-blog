@@ -28,6 +28,9 @@ cp.execFileSync = (command, args) => {
       const id = query.match(/where id = '([^']+)'/)[1]
       const root = db.roots[id]
       result = root ? [{ root_id: root }] : []
+    } else if (query.includes("from refs where def_block_root_id")) {
+      const targetId = query.match(/def_block_root_id = '([^']+)'/)[1]
+      result = db.backlinks?.[targetId] ?? []
     } else {
       const ids = query.includes("select block_id")
         ? Object.keys(db.attrs).filter(id => db.attrs[id]["custom-publish"] === "true")
@@ -255,3 +258,35 @@ test("asset links support definitions and leave code examples literal", (t) => {
   assert.match(read("first"), /!\[示例\]\(assets\/not-a-file.png\)/)
   assert.ok(existsSync(join(root, "content/assets/first", imageName("image.png"))))
 })
+
+test("featured flag and backlink collection extract only cited blocks from daily notes", (t) => {
+  const { root, db, a, b, privateId, run, read } = fixture(t)
+  db.attrs[a]["custom-featured"] = "true"
+  db.attrs[b]["custom-backlinks"] = "true"
+  const itemBlock = "20260103120000-item001"
+  const paraBlock = "20260103120001-para001"
+  db.backlinks = {
+    [b]: [
+      {
+        id: paraBlock,
+        parent_id: itemBlock,
+        type: "p",
+        created: "20260103120001",
+        parent_type: "i",
+        parent_created: "20260103120000",
+      },
+    ],
+  }
+  db.markdown[itemBlock] =
+    `* ((${b} "随记"))：读《((${privateId} "未公开作品"))》，联想到 ((${a} "公开甲"))\n  第二行感想`
+  run()
+  const fmFirst = parse(read("first").match(/^---\n([\s\S]*?)\n---/)[1])
+  assert.equal(fmFirst.featured, true)
+  const second = read("second")
+  assert.match(second, /### 2026-01-03/)
+  assert.match(second, /读《\[未公开作品\]\(\.\.\/\.\.\/not-public\)》，联想到 \[公开甲\]\(\.\.\/\.\.\/2026\/01\/first\)/)
+  assert.match(second, /第二行感想/)
+  assert.ok(!second.includes("日记正文不应被读取"))
+  assert.ok(!second.includes(b + ' "随记"'))
+})
+

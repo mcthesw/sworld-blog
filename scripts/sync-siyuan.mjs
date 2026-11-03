@@ -94,13 +94,15 @@ function rootId(blockId) {
   return rootOf.get(blockId)
 }
 
-async function convert({ doc, attrs, path }, warnings) {
-  const id = basename(path)
-  let md = execFileSync("siyuan", ["block", "kramdown", "--id", doc.id, "-v", "off", ...workspaceArgs], {
+function getBlockKramdown(blockId) {
+  return execFileSync("siyuan", ["block", "kramdown", "--id", blockId, "-v", "off", ...workspaceArgs], {
     encoding: "utf8",
     maxBuffer: 64 * 1024 * 1024,
   })
-  md = md
+}
+
+function cleanKramdown(raw, warnings) {
+  return raw
     .replace(/\r\n/g, "\n")
     .replace(/^\{:[^}\n]*\}\s*$/gm, "")
     .replace(/\{:[^}\n]*\}/g, "")
@@ -112,6 +114,59 @@ async function convert({ doc, attrs, path }, warnings) {
       return ""
     })
     .replace(/(^|\s)#([^#\s][^#\n]*?)#(?=\s|$)/g, "$1$2")
+}
+
+function stripSelfReference(markdown, docId) {
+  const selfRef = new RegExp(
+    String.raw`(?:\(\(${docId}(?:\s+(?:'(?:\\.|[^'\\])*'|"(?:\\.|[^"\\])*"))?\s*\)\)|\[(?:\\.|[^\]\\])*\]\(siyuan://blocks/${docId}(?:[/?#][^\s)]*)?\))[ \t:：·]*`,
+    "g",
+  )
+  return markdown.replace(selfRef, "")
+}
+
+function normalizeBacklinkEntry(markdown, containerType) {
+  if (containerType === "i") {
+    const lines = markdown.split("\n")
+    lines[0] = lines[0].replace(/^\s*(?:[*+-]|\d+\.)\s+/, "")
+    for (let i = 1; i < lines.length; i++) {
+      lines[i] = lines[i].replace(/^ {1,4}/, "")
+    }
+    return lines.join("\n").trim()
+  }
+  return markdown.trim()
+}
+
+function collectBacklinks(docId, warnings) {
+  const rows =
+    sql(
+      `select b.id, b.parent_id, b.type, b.created, p.type as parent_type, p.created as parent_created from blocks b left join blocks p on p.id = b.parent_id where b.root_id != '${esc(docId)}' and b.id in (select block_id from refs where def_block_root_id = '${esc(docId)}') order by b.created desc`,
+    ) ?? []
+  const seen = new Set()
+  const entries = []
+  for (const row of rows) {
+    const useParent = row.parent_type === "i" || row.parent_type === "b"
+    const entryId = useParent ? row.parent_id : row.id
+    const created = (useParent ? row.parent_created : row.created) || row.created
+    if (!entryId || seen.has(entryId)) continue
+    seen.add(entryId)
+    const cleaned = normalizeBacklinkEntry(
+      stripSelfReference(cleanKramdown(getBlockKramdown(entryId), warnings), docId),
+      useParent ? row.parent_type : row.type,
+    )
+    if (!cleaned) continue
+    const date = toIsoDate(created).slice(0, 10)
+    entries.push(`### ${date}\n\n${cleaned}`)
+  }
+  return entries.join("\n\n")
+}
+
+async function convert({ doc, attrs, path }, warnings) {
+  const id = basename(path)
+  let md = cleanKramdown(getBlockKramdown(doc.id), warnings)
+  if (attrs["custom-backlinks"] === "true") {
+    const collected = collectBacklinks(doc.id, warnings)
+    md = [md.trim(), collected].filter(Boolean).join("\n\n")
+  }
 
   md = rewriteReferences(md, path, (ref) => published.get(rootId(ref)))
   const privateLinks = (md.match(/\]\([^\n)]*not-public\)/g) ?? []).length
@@ -138,6 +193,7 @@ async function convert({ doc, attrs, path }, warnings) {
     date: toIsoDate(attrs["custom-date"] || doc.created),
     updated: toIsoDate(doc.updated),
     type: attrs["custom-type"],
+    featured: attrs["custom-featured"] === "true" ? true : undefined,
     kind: attrs["custom-kind"],
     status: attrs["custom-status"],
     score: num(attrs["custom-score"]),
