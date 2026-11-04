@@ -141,6 +141,33 @@ const CoverGrid = ({ entries, slug, view }: ViewRendererProps) => {
   )
 }
 
+const ProjectShowcase = ({ entries, slug }: ViewRendererProps) => (
+  <div class="sw-showcase">
+    {entries.map((e) => {
+      const href = resolveRelative(slug as FullSlug, e.slug as FullSlug)
+      const cover = prop(e, "cover") as string | undefined
+      const desc = prop(e, "description") as string | undefined
+      const status = prop(e, "status") as string | undefined
+      return (
+        <section class="sw-showcase-item">
+          <div class="sw-showcase-head">
+            <a class="internal" href={href}>
+              {e.title}
+            </a>
+            {status && <span>{status}</span>}
+          </div>
+          {desc && <p>{desc}</p>}
+          {cover && (
+            <a class="internal sw-showcase-cover" href={href}>
+              <img src={assetUrl(slug, cover)} alt="" loading="lazy" />
+            </a>
+          )}
+        </section>
+      )
+    })}
+  </div>
+)
+
 const css = `
 .bases-view-meta { display: none; }
 
@@ -243,9 +270,23 @@ const css = `
 }
 .sw-cover-body time { font-size: 0.72rem; color: var(--gray); font-family: var(--codeFont); }
 .sw-cover-grid.compact { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.sw-showcase { display: flex; flex-direction: column; gap: 2.75rem; margin-top: 1rem; }
+.sw-showcase-head { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; }
+.sw-showcase-head a {
+  background: none; padding: 0; color: var(--dark);
+  font-family: var(--headerFont); font-size: 1.5rem; font-weight: 700; line-height: 1.25;
+}
+.sw-showcase-head a:hover { color: var(--secondary); }
+.sw-showcase-head span { font-size: 0.8rem; color: var(--gray); }
+.sw-showcase-item p { margin: 0.35rem 0 0; color: var(--darkgray); }
+.sw-showcase-cover { display: block; margin-top: 0.9rem; background: none; padding: 0; }
+.sw-showcase-cover img {
+  display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; margin: 0; border-radius: 8px;
+}
 `
 
 export function registerSiteViews() {
   viewRegistry.register({ id: "post-list", name: "列表", icon: "list", render: PostList, css })
   viewRegistry.register({ id: "cover-grid", name: "卡片", icon: "layout-grid", render: CoverGrid, css })
+  viewRegistry.register({ id: "project-showcase", name: "项目", icon: "folder", render: ProjectShowcase, css })
 }
