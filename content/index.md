@@ -52,6 +52,7 @@ filters:
     - file.ext == "md"
     - file.hasProperty("date")
     - note.type != "随记"
+    - note.type != "项目"
     - note.featured != true
 views:
   - type: post-list

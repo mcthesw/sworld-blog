@@ -205,7 +205,8 @@ body[data-slug="posts"],
 body[data-slug="projects"],
 body[data-slug="about"],
 body[data-slug="reading"],
-body[data-slug="links"] {
+body[data-slug="links"],
+body[data-slug^="projects/"] {
   .content-meta,
   .graph,
   .backlinks {
