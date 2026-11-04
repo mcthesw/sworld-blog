@@ -25,12 +25,7 @@ enableToc: false
 filters:
   and:
     - file.ext == "md"
-    - or:
-        - note.featured == true
-        - note.abbrlink == "phantom-data-yamux"
-        - note.abbrlink == "6c2e5cd3"
-        - note.abbrlink == "f4b3b128"
-        - note.abbrlink == "d70d6661"
+    - note.featured == true
 views:
   - type: post-list
     name: 精选
@@ -57,6 +52,7 @@ filters:
     - file.ext == "md"
     - file.hasProperty("date")
     - note.type != "随记"
+    - note.featured != true
 views:
   - type: post-list
     name: 最近

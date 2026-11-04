@@ -3,6 +3,7 @@ title: "向 Yamux 学 PhantomData：当作编译期标签用"
 date: "2026-06-06T14:42:00+08:00"
 updated: "2026-11-03T01:32:28+08:00"
 type: "技术"
+featured: true
 description: "从 rust-yamux 的源码出发，看 PhantomData 如何让同一份数据拥有不同的方法。"
 abbrlink: "phantom-data-yamux"
 source: "siyuan"

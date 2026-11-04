@@ -35,12 +35,8 @@ views:
     grouped: false
     showDescription: true
     filters:
-      or:
+      and:
         - note.featured == true
-        - note.abbrlink == "phantom-data-yamux"
-        - note.abbrlink == "6c2e5cd3"
-        - note.abbrlink == "f4b3b128"
-        - note.abbrlink == "d70d6661"
     sort:
       - property: date
         direction: DESC
