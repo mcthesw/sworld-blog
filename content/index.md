@@ -56,6 +56,7 @@ filters:
   and:
     - file.ext == "md"
     - file.hasProperty("date")
+    - note.type != "随记"
 views:
   - type: post-list
     name: 最近
