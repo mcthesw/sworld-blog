@@ -104,7 +104,8 @@ function getBlockKramdown(blockId) {
 function cleanKramdown(raw, warnings) {
   return raw
     .replace(/\r\n/g, "\n")
-    .replace(/^\{:[^}\n]*\}\s*$/gm, "")
+    // 整行 IAL 连同换行一起删除，否则相邻列表项之间会留下空行变成松散列表。
+    .replace(/^[ \t]*\{:[^}\n]*\}[ \t]*(?:\n|$)/gm, "")
     .replace(/\{:[^}\n]*\}/g, "")
     .replace(/[\u200b\u200d\ufeff]/g, "")
     .replace(/^[　]+/gm, "")
@@ -127,9 +128,11 @@ function stripSelfReference(markdown, docId) {
 function normalizeBacklinkEntry(markdown, containerType) {
   if (containerType === "i") {
     const lines = markdown.split("\n")
-    lines[0] = lines[0].replace(/^\s*(?:[*+-]|\d+\.)\s+/, "")
+    const marker = lines[0].match(/^\s*(?:[*+-]|\d+\.)\s+/)?.[0] ?? ""
+    lines[0] = lines[0].slice(marker.length)
+    const indent = new RegExp(`^ {1,${Math.max(marker.length, 1)}}`)
     for (let i = 1; i < lines.length; i++) {
-      lines[i] = lines[i].replace(/^ {1,4}/, "")
+      lines[i] = lines[i].replace(indent, "")
     }
     return lines.join("\n").trim()
   }
@@ -139,10 +142,10 @@ function normalizeBacklinkEntry(markdown, containerType) {
 function collectBacklinks(docId, warnings) {
   const rows =
     sql(
-      `select b.id, b.parent_id, b.type, b.created, p.type as parent_type, p.created as parent_created from blocks b left join blocks p on p.id = b.parent_id where b.root_id != '${esc(docId)}' and b.id in (select block_id from refs where def_block_root_id = '${esc(docId)}') order by b.created desc`,
+      `select b.id, b.parent_id, b.type, b.created, p.type as parent_type, p.created as parent_created, (select a.value from attributes a where a.block_id = b.root_id and a.name like 'custom-dailynote-%' limit 1) as dailynote from blocks b left join blocks p on p.id = b.parent_id where b.root_id != '${esc(docId)}' and b.id in (select block_id from refs where def_block_root_id = '${esc(docId)}') order by b.created desc`,
     ) ?? []
   const seen = new Set()
-  const entries = []
+  const byDate = new Map()
   for (const row of rows) {
     const useParent = row.parent_type === "i" || row.parent_type === "b"
     const entryId = useParent ? row.parent_id : row.id
@@ -154,10 +157,17 @@ function collectBacklinks(docId, warnings) {
       useParent ? row.parent_type : row.type,
     )
     if (!cleaned) continue
-    const date = toIsoDate(created).slice(0, 10)
-    entries.push(`### ${date}\n\n${cleaned}`)
+    // 补记到旧日记里的块创建时间晚于日记本身，日期以所在日记为准。
+    const day = /^\d{8}$/.test(row.dailynote ?? "") ? row.dailynote : null
+    const date = day
+      ? `${day.slice(0, 4)}-${day.slice(4, 6)}-${day.slice(6, 8)}`
+      : toIsoDate(created).slice(0, 10)
+    byDate.set(date, [...(byDate.get(date) ?? []), cleaned])
   }
-  return entries.join("\n\n")
+  return [...byDate]
+    .sort(([a], [b]) => b.localeCompare(a))
+    .map(([date, list]) => `### ${date}\n\n${list.join("\n\n")}`)
+    .join("\n\n")
 }
 
 async function convert({ doc, attrs, path }, warnings) {

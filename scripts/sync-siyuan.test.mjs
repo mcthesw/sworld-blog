@@ -290,19 +290,20 @@ test("featured flag and backlink collection extract only cited blocks from daily
   assert.ok(!second.includes(b + ' "随记"'))
 })
 
-test("backlink entry keeps child items when the cited list item only holds the reference", (t) => {
+test("backlink entry keeps child items and uses the daily note date", (t) => {
   const { db, b, run, read } = fixture(t)
   db.attrs[b]["custom-backlinks"] = "true"
-  const itemBlock = "20260104120000-item002"
+  const itemBlock = "20261104120000-item002"
   db.backlinks = {
     [b]: [
       {
-        id: "20260104120001-para002",
+        id: "20261104120001-para002",
         parent_id: itemBlock,
         type: "p",
-        created: "20260104120001",
+        created: "20261104120001",
         parent_type: "i",
-        parent_created: "20260104120000",
+        parent_created: "20261104120000",
+        dailynote: "20260104",
       },
     ],
   }
@@ -312,11 +313,14 @@ test("backlink entry keeps child items when the cited list item only holds the r
     ``,
     `  - {: id="20260104120002-chld001"}今天的1`,
     `    {: id="20260104120002-chld0p1"}`,
+    `    - {: id="20260104120005-gchd001"}细节`,
+    `      {: id="20260104120005-gchd0p1"}`,
+    `    {: id="20260104120005-list002"}`,
     `  - {: id="20260104120003-chld002"}2`,
     `    {: id="20260104120003-chld0p2"}`,
     `  {: id="20260104120004-list001"}`,
   ].join("\n")
   run()
   const entry = read("second").split("### 2026-01-04")[1]
-  assert.match(entry, /^\s*- 今天的1\s*\n\s*- 2\s*$/)
+  assert.equal(entry.trim(), "- 今天的1\n  - 细节\n- 2")
 })
