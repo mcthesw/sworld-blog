@@ -149,7 +149,7 @@ plugins:
     enabled: true
     options:
       localGraph:
-        depth: 1
+        depth: 2
         scale: 1
         repelForce: 0.6
         centerForce: 0.35
