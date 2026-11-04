@@ -70,10 +70,10 @@ const PostList = ({ entries, slug, view }: ViewRendererProps) => {
       <ul class="sw-featured">
         {entries.map((e) => (
           <li>
-            <a class="internal" href={href(e)}>
-              {e.title}
+            <a class="internal sw-item" href={href(e)}>
+              <strong class="sw-item-title">{e.title}</strong>
+              {prop(e, "description") && <p>{String(prop(e, "description"))}</p>}
             </a>
-            {prop(e, "description") && <p>{String(prop(e, "description"))}</p>}
           </li>
         ))}
       </ul>
@@ -85,16 +85,16 @@ const PostList = ({ entries, slug, view }: ViewRendererProps) => {
     const badge = prop(e, "type") === "游戏" ? String(prop(e, "kind") ?? "游戏") : undefined
     return (
       <li>
-        <time class={fullDate ? "is-full" : undefined}>{day(e, fullDate)}</time>
-        <div class="sw-post-content">
-          <div class="sw-post-head">
-            <a class="internal" href={href(e)}>
-              {e.title}
-            </a>
-            {badge && <span class="sw-meta">{badge}</span>}
-          </div>
-          {desc && <p class="sw-meta">{desc}</p>}
-        </div>
+        <a class="internal sw-item" href={href(e)}>
+          <time class={fullDate ? "is-full" : undefined}>{day(e, fullDate)}</time>
+          <span class="sw-post-content">
+            <span class="sw-post-head">
+              <span class="sw-item-title">{e.title}</span>
+              {badge && <span class="sw-meta">{badge}</span>}
+            </span>
+            {desc && <span class="sw-meta">{desc}</span>}
+          </span>
+        </a>
       </li>
     )
   }
@@ -182,13 +182,10 @@ const ProjectShowcase = ({ entries, slug, view }: ViewRendererProps) => {
         <ul>
           {entries.map((e) => (
             <li>
-              <div class="sw-post-head">
-                <a class="internal" href={href(e)}>
-                  {e.title}
-                </a>
-                {status(e) && <span class="sw-meta">{status(e)}</span>}
-              </div>
-              {desc(e) && <p class="sw-meta">{desc(e)}</p>}
+              <a class="internal sw-item" href={href(e)}>
+                <strong class="sw-item-title">{e.title}</strong>
+                {desc(e) && <span class="sw-meta">{desc(e)}</span>}
+              </a>
             </li>
           ))}
         </ul>
@@ -233,7 +230,12 @@ const css = `
 .sw-meta { font-size: var(--sw-meta-size); line-height: 1.5; color: var(--gray); font-weight: 400; margin: 0; }
 
 .sw-post-list ul, .sw-featured, .sw-projects-compact ul { list-style: none; padding: 0; margin: 0; }
-.sw-post-list li { display: flex; align-items: baseline; gap: 1rem; padding: 0.55rem 0; }
+.sw-item {
+  display: flex; background: none; padding: 0; border-radius: 0; color: inherit; font-weight: 400;
+}
+.sw-item-title { color: var(--dark); font-weight: 600; transition: color 0.15s ease; }
+.sw-item:hover .sw-item-title { color: var(--secondary); }
+.sw-post-list .sw-item { align-items: baseline; gap: 1rem; padding: 0.55rem 0; }
 .sw-post-list time {
   flex: none; min-width: 3.2em; font-size: var(--sw-meta-size); color: var(--gray);
   font-variant-numeric: tabular-nums;
@@ -241,15 +243,11 @@ const css = `
 .sw-post-list time.is-full { min-width: 5.8em; }
 .sw-post-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
 .sw-post-head { display: flex; align-items: baseline; gap: 0.6rem; min-width: 0; }
-.sw-post-head a {
-  min-width: 0; background: none; padding: 0; color: var(--dark); font-weight: 600;
-  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-.sw-post-head a:hover, .sw-featured a:hover { color: var(--secondary); }
+.sw-post-head .sw-item-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .sw-post-head .sw-meta { flex: none; }
-.sw-timeline li { padding: 0.7rem 0; }
-.sw-timeline.is-compact li { padding: 0.3rem 0; }
-.sw-timeline.is-compact .sw-post-head a { font-weight: 400; }
+.sw-timeline .sw-item { padding: 0.7rem 0; }
+.sw-timeline.is-compact .sw-item { padding: 0.3rem 0; }
+.sw-timeline.is-compact .sw-item-title { font-weight: 400; }
 .sw-more {
   display: inline-block; margin-top: 0.75rem; background: none; padding: 0;
   font-size: var(--sw-meta-size); color: var(--secondary);
@@ -268,10 +266,8 @@ const css = `
 }
 
 .sw-featured { display: flex; flex-direction: column; gap: 1.5rem; }
-.sw-featured a {
-  background: none; padding: 0; color: var(--dark);
-  font-family: var(--headerFont); font-size: 1.12rem; font-weight: 700; line-height: 1.4;
-}
+.sw-featured .sw-item { flex-direction: column; }
+.sw-featured .sw-item-title { font-family: var(--headerFont); font-size: 1.12rem; font-weight: 700; line-height: 1.4; }
 .sw-featured p { margin: 0.3rem 0 0; color: var(--darkgray); }
 
 .sw-cover-grid {
@@ -320,7 +316,7 @@ const css = `
 .sw-cover-grid.compact { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
 
 .sw-projects-compact ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem 2rem; }
-.sw-projects-compact li { display: flex; flex-direction: column; gap: 0.1rem; }
+.sw-projects-compact .sw-item { flex-direction: column; gap: 0.1rem; }
 
 .sw-showcase { display: flex; flex-direction: column; gap: 2.5rem; margin-top: 0.5rem; }
 .sw-showcase-item {

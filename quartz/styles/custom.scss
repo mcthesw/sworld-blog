@@ -160,6 +160,47 @@ article .sw-cover-grid.compact {
   }
 }
 
+article a.games-taste {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  background: none;
+  color: var(--darkgray);
+  font-weight: 400;
+  transition: border-color 0.15s ease;
+
+  strong {
+    flex: none;
+    color: var(--dark);
+    font-family: var(--headerFont);
+    font-size: 1.12rem;
+  }
+
+  span {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &::after {
+    content: "›";
+    color: var(--secondary);
+  }
+
+  &:hover {
+    border-color: var(--secondary);
+
+    strong {
+      color: var(--secondary);
+    }
+  }
+}
+
 .center:has(article.list-page) .content-meta {
   display: none;
 }
@@ -174,6 +215,7 @@ body[data-slug="projects"],
 body[data-slug="about"],
 body[data-slug="reading"],
 body[data-slug="links"],
+body[data-slug="games/taste"],
 body[data-slug^="projects/"] {
   .content-meta,
   .graph,

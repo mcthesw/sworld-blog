@@ -61,6 +61,7 @@ filters:
     - file.hasProperty("date")
     - note.type != "随记"
     - note.type != "项目"
+    - note.type != "页面"
     - note.featured != true
 views:
   - type: post-list
