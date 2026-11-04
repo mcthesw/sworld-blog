@@ -7,7 +7,7 @@
 - `content/posts.md`（时间线）按年份分组倒序展示全站笔记，并提供「全部 / 文章 / 精选」视图切换。
 - `content/projects.md`（项目）列出维护与参与的开源项目；`content/about.md`（关于我）列出近况。
 - `content/games.md`（游戏）通过 `type: 游戏` 收录游玩记录与新品节 Demo 卡片，下方为手写的游戏偏好。
-- `content/reading.md`（随记）按时间倒序收纳对书籍、漫画、游戏等作品的即兴短评，支持在思源中通过 `custom-backlinks=true` 从日记反向链接块采集。
+- `content/reading.md`（随记）由思源 `/对象/阅读随记` 同步生成（`custom-permalink=/reading/`、`custom-backlinks=true`、`custom-type=随记`）：正文为文档本身内容，「随读」部分来自日记中引用该文档的列表项。在日记里写一个只含 `[[阅读随记]]` 的列表项，把短评写在它的子项中即可。时间线与首页按 `note.type != "随记"` 排除该页。
 - 动态列表与卡片直接写在页面内的 `base` 代码块中，不创建独立 `.base` 文件，避免将查询收录结果注入全局图谱。
 
 ## 组件约定
