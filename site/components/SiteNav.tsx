@@ -28,7 +28,7 @@ const SiteNav: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   return (
     <nav class="site-nav" aria-label="全站导航">
       <div class="site-nav-group">{primaryItems.map(renderLink)}</div>
-      <div class="site-nav-group site-nav-secondary">{secondaryItems.map(renderLink)}</div>
+      <div class="site-nav-group">{secondaryItems.map(renderLink)}</div>
     </nav>
   )
 }
@@ -37,7 +37,7 @@ SiteNav.css = `
 .site-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 1.25rem;
   margin: 0.5rem 0 0;
   font-size: 0.94rem;
 }
@@ -45,10 +45,6 @@ SiteNav.css = `
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-}
-.site-nav-secondary {
-  padding-top: 0.65rem;
-  border-top: 1px solid var(--lightgray);
 }
 .site-nav a {
   color: var(--darkgray);
@@ -74,10 +70,6 @@ SiteNav.css = `
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.35rem 1.15rem;
-  }
-  .site-nav-secondary {
-    padding-top: 0;
-    border-top: none;
   }
 }
 `

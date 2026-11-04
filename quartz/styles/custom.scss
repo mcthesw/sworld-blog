@@ -1,10 +1,11 @@
 @use "./variables.scss" as *;
 
+// put your custom CSS here!
+
 body {
   font-family:
     var(--bodyFont), "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans CJK SC",
     sans-serif;
-  line-height: 1.72;
 }
 
 body[data-slug="index"] {
@@ -14,55 +15,39 @@ body[data-slug="index"] {
   }
 
   article h2 {
-    margin: 2.4rem 0 0.9rem;
-    font-size: 0.95rem;
+    margin-top: 2.4rem;
+    font-size: 1.05rem;
     letter-spacing: 0.08em;
     color: var(--gray);
     font-weight: 600;
-    border-bottom: 1px solid var(--lightgray);
-    padding-bottom: 0.45rem;
   }
 }
 
 .home-hero {
   display: flex;
-  gap: 1.35rem;
+  gap: 1.5rem;
   align-items: center;
-  margin: 0.25rem 0 1.85rem;
+  margin: 0.5rem 0 1.75rem;
 
   .home-avatar {
-    width: 88px;
-    height: 88px;
-    border-radius: 20px;
+    width: 104px;
+    height: 104px;
+    border-radius: 24px;
     margin: 0;
     flex: none;
-    border: 1px solid var(--lightgray);
+    box-shadow: 0 12px 30px -18px rgba(0, 0, 0, 0.6);
   }
 
   h1 {
     margin: 0;
-    font-size: 1.95rem;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
+    font-size: 2.2rem;
+    line-height: 1.1;
   }
 
   .home-quote {
-    margin: 0.3rem 0 0.35rem;
+    margin: 0.4rem 0 0.8rem;
     color: var(--gray);
-    font-size: 0.92rem;
-  }
-
-  .home-intro {
-    margin: 0 0 0.75rem;
-    color: var(--darkgray);
-    font-size: 0.92rem;
-
-    a {
-      margin-left: 0.35rem;
-      background: none;
-      padding: 0;
-      font-weight: 500;
-    }
+    font-style: italic;
   }
 
   .home-social {
@@ -75,16 +60,16 @@ body[data-slug="index"] {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 2.15rem;
-      height: 2.15rem;
+      width: 2.5rem;
+      height: 2.5rem;
       background: none;
       color: var(--darkgray);
       border: 1px solid var(--lightgray);
-      border-radius: 8px;
+      border-radius: 50%;
       padding: 0;
       transition:
-        color 0.15s,
-        border-color 0.15s;
+        color 0.2s,
+        border-color 0.2s;
 
       &:hover,
       &:focus-visible {
@@ -93,8 +78,8 @@ body[data-slug="index"] {
       }
 
       svg {
-        width: 1.05rem;
-        height: 1.05rem;
+        width: 1.2rem;
+        height: 1.2rem;
         fill: none;
         stroke: currentColor;
         stroke-width: 1.7;
@@ -109,166 +94,34 @@ body[data-slug="index"] {
   }
 }
 
-.reading-trails {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-  margin: 0.5rem 0;
-
-  .trail-card {
-    padding: 1rem 1.15rem;
-    border: 1px solid var(--lightgray);
-    border-radius: 8px;
-    background: none;
-
-    h3 {
-      margin: 0 0 0.3rem;
-      font-size: 1rem;
-      color: var(--dark);
-    }
-
-    p {
-      margin: 0 0 0.7rem;
-      font-size: 0.83rem;
-      color: var(--gray);
-      line-height: 1.5;
-    }
-
-    ul {
-      margin: 0;
-      padding-left: 1.05rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    li {
-      font-size: 0.9rem;
-      line-height: 1.45;
-    }
-
-    a {
-      background: none;
-      padding: 0;
-      font-weight: 500;
-    }
-  }
-}
-
 .home-projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1rem;
-
-  .project-feature {
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-    padding: 1rem 1.15rem;
-    border: 1px solid var(--lightgray);
-    border-radius: 8px;
-
-    .project-feature-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-
-      strong {
-        font-size: 1rem;
-        color: var(--dark);
-      }
-    }
-
-    p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--darkgray);
-      line-height: 1.55;
-    }
-  }
-}
-
-.project-tag {
-  font-size: 0.72rem;
-  line-height: 1.4;
-  padding: 0.1rem 0.45rem;
-  border-radius: 4px;
-  background: var(--highlight);
-  color: var(--secondary);
-  font-weight: 500;
-
-  &.is-muted {
-    color: var(--gray);
-  }
-}
-
-.project-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  margin-top: auto;
-  padding-top: 0.3rem;
-  font-size: 0.84rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.6rem;
 
   a {
-    background: none;
-    padding: 0;
-    font-weight: 500;
-  }
-}
-
-.projects-showcase {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin: 1rem 0 2rem;
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 0.9rem;
-  margin: 0.75rem 0 2rem;
-}
-
-.project-card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
-  padding: 1.1rem 1.25rem;
-  border: 1px solid var(--lightgray);
-  border-radius: 8px;
-
-  &.is-primary {
-    border-left: 3px solid var(--secondary);
-  }
-
-  .project-card-header {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--lightgray);
+    border-radius: 10px;
+    background: none;
+    color: var(--dark);
+    transition:
+      border-color 0.2s,
+      transform 0.2s;
 
-    h2,
-    h3 {
-      margin: 0;
-      font-size: 1.12rem;
-      line-height: 1.3;
+    &:hover {
+      border-color: var(--secondary);
+      transform: translateY(-2px);
     }
 
-    .project-subtitle {
-      margin: 0.2rem 0 0;
-      font-size: 0.84rem;
+    span {
+      font-size: 0.78rem;
       color: var(--gray);
+      font-weight: 400;
     }
-  }
-
-  .project-desc {
-    margin: 0;
-    font-size: 0.9rem;
-    color: var(--darkgray);
-    line-height: 1.6;
   }
 }
 
@@ -290,53 +143,42 @@ iframe.youtube {
 .friend-links {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 0.85rem;
-  margin: 0.75rem 0 2rem;
+  gap: 0.75rem;
 
   .friend-link {
     display: flex;
-    gap: 0.8rem;
+    gap: 0.75rem;
     align-items: center;
-    padding: 0.8rem 0.95rem;
+    padding: 0.75rem;
     border: 1px solid var(--lightgray);
-    border-radius: 8px;
+    border-radius: 10px;
     background: none;
     color: var(--darkgray);
-    transition: border-color 0.15s ease;
 
     &:hover {
       border-color: var(--secondary);
     }
 
     img {
-      width: 42px;
-      height: 42px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       margin: 0;
-      flex: none;
     }
 
     span {
       display: flex;
       flex-direction: column;
-      gap: 0.1rem;
-    }
-
-    strong {
-      color: var(--dark);
-      font-size: 0.95rem;
     }
 
     small {
       color: var(--gray);
-      font-size: 0.8rem;
     }
   }
 }
 
 .home-hero .home-social a svg.external-icon,
-.project-links a svg.external-icon,
-.friend-links .friend-link svg.external-icon {
+.home-projects a svg.external-icon {
   display: none;
 }
 
@@ -354,25 +196,14 @@ article .sw-cover-grid.compact {
   display: none;
 }
 
-body[data-slug="index"] article a.internal,
-body[data-slug="projects"] article a.internal,
-body[data-slug="games"] article a.internal,
-body[data-slug="about"] article a.internal,
-body[data-slug="reading"] article a.internal,
-body[data-slug="links"] article a.internal,
-article.list-page a.internal {
-  background: none;
-  padding: 0;
-  font-weight: 500;
-}
-
-// 隐藏无反向链接时的空占位与纯查询聚合页的空图谱
 .backlinks:not(:has(ul li a)) {
   display: none;
 }
 
 body[data-slug="not-public"],
 body[data-slug="posts"],
+body[data-slug="projects"],
+body[data-slug="about"],
 body[data-slug="reading"],
 body[data-slug="links"] {
   .content-meta,
@@ -381,120 +212,3 @@ body[data-slug="links"] {
     display: none;
   }
 }
-
-// 视觉变体：纯粹极简（Ultra-Minimal）
-html[data-style="minimal"] {
-  .home-hero {
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    .home-avatar {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
-    }
-    .home-social a {
-      width: auto;
-      height: auto;
-      border: none;
-      padding: 0.2rem;
-    }
-  }
-  body[data-slug="index"] article h2 {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin: 2rem 0 0.6rem;
-  }
-  .reading-trails {
-    grid-template-columns: 1fr;
-    gap: 1.2rem;
-    .trail-card {
-      padding: 0;
-      border: none;
-    }
-  }
-  .home-projects {
-    grid-template-columns: 1fr;
-    gap: 0.9rem;
-    .project-feature {
-      padding: 0 0 0.85rem;
-      border: none;
-      border-bottom: 1px solid var(--lightgray);
-      border-radius: 0;
-    }
-  }
-  .project-card {
-    padding: 0.85rem 0;
-    border: none;
-    border-bottom: 1px solid var(--lightgray);
-    border-radius: 0;
-    &.is-primary {
-      border-left: none;
-    }
-  }
-  .sw-cover-card {
-    border-radius: 4px;
-  }
-  .friend-links .friend-link {
-    padding: 0.5rem 0;
-    border: none;
-    border-bottom: 1px solid var(--lightgray);
-    border-radius: 0;
-  }
-}
-
-// 视觉变体：高对比瑞士网格（Linear / Swiss Grid）
-html[data-style="grid"] {
-  body[data-slug="index"] article h2 {
-    font-family: var(--codeFont);
-    font-size: 0.82rem;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    background: var(--highlight);
-    padding: 0.35rem 0.65rem;
-    border: 1px solid var(--lightgray);
-  }
-  .reading-trails,
-  .home-projects {
-    gap: 0;
-    border: 1px solid var(--lightgray);
-    .trail-card,
-    .project-feature {
-      border: none;
-      border-right: 1px solid var(--lightgray);
-      border-radius: 0;
-      &:last-child {
-        border-right: none;
-      }
-    }
-  }
-  .project-card,
-  .sw-cover-card,
-  .friend-links .friend-link {
-    border-radius: 2px;
-  }
-}
-
-// 视觉变体：温润数字花园（Soft Bento）
-html[data-style="bento"] {
-  .home-hero {
-    padding: 1.25rem 1.4rem;
-    background: var(--highlight);
-    border-radius: 16px;
-  }
-  body[data-slug="index"] article h2 {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-  .reading-trails .trail-card,
-  .home-projects .project-feature,
-  .project-card,
-  .friend-links .friend-link {
-    background: var(--highlight);
-    border-color: transparent;
-    border-radius: 14px;
-  }
-  .sw-cover-card {
-    border-radius: 14px;
-  }
-}
-

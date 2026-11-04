@@ -17,9 +17,9 @@ cssclasses:
   </a>
 </div>
 
-## 互换链接
+## 交换友链
 
-欢迎在下方评论区留言互换链接，我的站点信息：
+欢迎在下方评论区留言交换友链，我的信息：
 
 ```yaml
 name: Sworld's World
@@ -27,4 +27,3 @@ url: https://blog.sworld.club
 avatar: https://avatars.githubusercontent.com/u/61224072?v=4
 description: 写 Rust、玩游戏、学语言
 ```
-
