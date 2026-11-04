@@ -39,7 +39,6 @@ SiteNav.css = `
   flex-direction: column;
   gap: 1.25rem;
   margin: 0.5rem 0 0;
-  font-size: 0.94rem;
 }
 .site-nav-group {
   display: flex;
