@@ -1,6 +1,9 @@
 @use "./variables.scss" as *;
 
-// put your custom CSS here!
+// 字形规范：标题沿用 Markdown h1-h3，自定义组件只使用正文（1rem，强调用 600）与辅助（--sw-meta-size，灰色）。
+:root {
+  --sw-meta-size: 0.85rem;
+}
 
 body {
   font-family:
@@ -15,11 +18,7 @@ body[data-slug="index"] {
   }
 
   article h2 {
-    margin-top: 2.4rem;
-    font-size: 1.05rem;
-    letter-spacing: 0.08em;
-    color: var(--gray);
-    font-weight: 600;
+    margin-top: 2.75rem;
   }
 }
 
@@ -40,8 +39,8 @@ body[data-slug="index"] {
 
   h1 {
     margin: 0;
-    font-size: 2.2rem;
-    line-height: 1.1;
+    font-size: 2rem;
+    line-height: 1.2;
   }
 
   .home-quote {
@@ -94,37 +93,6 @@ body[data-slug="index"] {
   }
 }
 
-.home-projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 0.6rem;
-
-  a {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-    padding: 0.65rem 0.85rem;
-    border: 1px solid var(--lightgray);
-    border-radius: 10px;
-    background: none;
-    color: var(--dark);
-    transition:
-      border-color 0.2s,
-      transform 0.2s;
-
-    &:hover {
-      border-color: var(--secondary);
-      transform: translateY(-2px);
-    }
-
-    span {
-      font-size: 0.78rem;
-      color: var(--gray);
-      font-weight: 400;
-    }
-  }
-}
-
 @media (max-width: 600px) {
   .home-hero {
     flex-direction: column;
@@ -172,13 +140,13 @@ iframe.youtube {
     }
 
     small {
+      font-size: var(--sw-meta-size);
       color: var(--gray);
     }
   }
 }
 
-.home-hero .home-social a svg.external-icon,
-.home-projects a svg.external-icon {
+.home-hero .home-social a svg.external-icon {
   display: none;
 }
 

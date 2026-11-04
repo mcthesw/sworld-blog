@@ -29,6 +29,7 @@ filters:
 views:
   - type: post-list
     name: 精选
+    featured: true
     sort:
       - property: date
         direction: DESC
@@ -36,13 +37,20 @@ views:
 
 ## 项目
 
-<div class="home-projects">
-  <a href="https://github.com/mcthesw/game-save-manager"><strong>game-save-manager</strong><span>游戏存档管理器</span></a>
-  <a href="https://github.com/mcthesw/easy-nats"><strong>easy-nats</strong><span>NATS 桌面客户端</span></a>
-  <a href="https://github.com/mcthesw/TractorBeam"><strong>tractor-beam</strong><span>以撒联机小工具</span></a>
-  <a href="https://github.com/mcthesw/game-shelf-card"><strong>game-shelf-card</strong><span>GitHub 游戏卡</span></a>
-  <a href="https://github.com/chevey339/kelivo"><strong>kelivo</strong><span>参与贡献</span></a>
-</div>
+```base
+filters:
+  and:
+    - file.ext == "md"
+    - note.type == "项目"
+views:
+  - type: project-showcase
+    name: 项目
+    compact: true
+    more: projects
+    sort:
+      - property: date
+        direction: ASC
+```
 
 ## 最近的笔记
 

@@ -17,7 +17,6 @@ views:
   - type: post-list
     name: 全部
     grouped: true
-    showDescription: true
     sort:
       - property: date
         direction: DESC
@@ -33,8 +32,7 @@ views:
         direction: DESC
   - type: post-list
     name: 精选
-    grouped: false
-    showDescription: true
+    featured: true
     filters:
       and:
         - note.featured == true
@@ -42,4 +40,3 @@ views:
       - property: date
         direction: DESC
 ```
-
