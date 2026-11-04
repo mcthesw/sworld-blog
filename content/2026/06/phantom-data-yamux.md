@@ -230,9 +230,7 @@ fn cast<U>(self) -> Header<U> {
 在 Yamux 这个例子里：
 
 - 解析网络包时用 `enum Tag` 识别类型
-
 - 确认后用 `into_data()` 等转换成 phantom type
-
 - 后续代码在类型安全的上下文中工作，不再纠结 "这个 length 到底是什么"
 
 `enum` 适合表达"不同类型的值是不同东西"，phantom type 适合表达"同一个值在不同上下文中含义不同"。
@@ -253,5 +251,4 @@ struct RefWrapper<'a, T> {
 ## 参考
 
 - [rust-yamux/frame/header.rs](https://github.com/libp2p/rust-yamux/blob/master/yamux/src/frame/header.rs)
-
 - [Yamux 协议规范](https://github.com/hashicorp/yamux/blob/master/spec.md)
