@@ -13,6 +13,7 @@ filters:
     - file.hasProperty("date")
     - note.type != "随记"
     - note.type != "项目"
+    - note.type != "页面"
 views:
   - type: post-list
     name: 全部

@@ -5,4 +5,4 @@ comments: false
 enableToc: false
 ---
 
-[返回时间线](posts)
+<a href="./" data-router-ignore onclick="if (history.length > 1) { history.back(); return false }">返回</a>
