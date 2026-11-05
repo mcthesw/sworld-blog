@@ -19,6 +19,9 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.7.4
         version: 1.8.0
+      '@mcthesw/quartz-simple-search':
+        specifier: github:mcthesw/quartz-simple-search#v1.0.1
+        version: https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/0e6a87d4bf72ba623e4129bcd0a454d375f8bb71(preact@10.29.8)
       '@myriaddreamin/rehype-typst':
         specifier: ^0.7.0
         version: 0.7.0
@@ -133,9 +136,6 @@ importers:
       '@quartz-community/roam':
         specifier: ^1.0.0
         version: 1.0.0(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)
-      '@quartz-community/search':
-        specifier: ^1.0.0
-        version: 1.0.0(github-slugger@2.0.0)(hast-util-to-jsx-runtime@2.3.6)(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)
       '@quartz-community/spacer':
         specifier: ^1.0.0
         version: 1.0.0(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)
@@ -770,6 +770,13 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@mcthesw/quartz-simple-search@https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/0e6a87d4bf72ba623e4129bcd0a454d375f8bb71':
+    resolution: {tarball: https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/0e6a87d4bf72ba623e4129bcd0a454d375f8bb71}
+    version: 1.0.1
+    engines: {node: '>=22'}
+    peerDependencies:
+      preact: ^10.0.0
+
   '@myriaddreamin/rehype-typst@0.7.0':
     resolution: {integrity: sha512-FS8GQrJMRwWRcni/qjrp8FGA21PTMeQzswvreEXv12j/AyxThF/jaSAAeliBWCPvHX3VrZ7k31VRHbT7N21kyg==}
 
@@ -1297,12 +1304,6 @@ packages:
 
   '@quartz-community/roam@1.0.0':
     resolution: {integrity: sha512-kI9THmJO5SDOYF29Wd7MIhKcXtFZG8h7U9iMuh6IItn8mkOEACKNNycqJ26uOntI+l/qNG5N3BYlmdjVhfYb6g==}
-    engines: {node: '>=22', npm: '>=10.9.2'}
-    peerDependencies:
-      preact: ^10.0.0
-
-  '@quartz-community/search@1.0.0':
-    resolution: {integrity: sha512-7xLorEeOQg9p2eA5QIRAcj3vh35w6eHlsMehJGP2oe7gXx7Ngqn9SWpORNXB5qHN5Wx1pRfo8ljvilqvbDYhiA==}
     engines: {node: '>=22', npm: '>=10.9.2'}
     peerDependencies:
       preact: ^10.0.0
@@ -2895,6 +2896,10 @@ snapshots:
   '@img/sharp-win32-x64@0.35.4':
     optional: true
 
+  '@mcthesw/quartz-simple-search@https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/0e6a87d4bf72ba623e4129bcd0a454d375f8bb71(preact@10.29.8)':
+    dependencies:
+      preact: 10.29.8(preact-render-to-string@6.7.0)
+
   '@myriaddreamin/rehype-typst@0.7.0':
     dependencies:
       '@myriaddreamin/typst-ts-node-compiler': 0.7.0
@@ -3465,17 +3470,6 @@ snapshots:
       '@quartz-community/types': 1.0.0(unified@11.0.5)(vfile@6.0.3)
       preact: 10.29.8(preact-render-to-string@6.7.0)
     transitivePeerDependencies:
-      - unified
-      - vfile
-
-  '@quartz-community/search@1.0.0(github-slugger@2.0.0)(hast-util-to-jsx-runtime@2.3.6)(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)':
-    dependencies:
-      '@quartz-community/types': 1.0.0(unified@11.0.5)(vfile@6.0.3)
-      '@quartz-community/utils': 1.0.1(github-slugger@2.0.0)(hast-util-to-jsx-runtime@2.3.6)(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)
-      preact: 10.29.8(preact-render-to-string@6.7.0)
-    transitivePeerDependencies:
-      - github-slugger
-      - hast-util-to-jsx-runtime
       - unified
       - vfile
 
