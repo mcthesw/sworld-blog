@@ -72,9 +72,3 @@ views:
         direction: DESC
     limit: 8
 ```
-
-## 推荐
-
-- [Z.A.T.O.](https://store.steampowered.com/app/4122860)：I love the world and everything in it
-- [蘑菇的拟态日常](https://comiccune.jp/series/simejisimulation/)
-- [WezTerm](https://github.com/wez/wezterm)、[Anki](https://apps.ankiweb.net/)
