@@ -58,8 +58,10 @@ module.exports = class SworldPublisher extends Plugin {
     for (const button of this.dialog.element.querySelectorAll("button[data-action]")) {
       const action = button.dataset.action
       if (action === "apply") button.dataset.ready = String(this.batch?.mode === "prepare" && !!this.batch.pages?.length && !!this.batch.changes?.length)
+      if (action === "publish") button.dataset.ready = String(this.batch?.mode === "applied")
       button.disabled = this.busy
         || (action === "apply" && (this.batch?.mode !== "prepare" || !this.batch.pages?.length || !this.batch.changes?.length))
+        || (action === "publish" && this.batch?.mode !== "applied")
         || (action === "prepare" && !publicCount)
         || (action === "preview-current" && !this.currentDocument())
         || (action === "preview" && !this.selected.size)
@@ -197,6 +199,7 @@ module.exports = class SworldPublisher extends Plugin {
           <p class="swp-summary"></p><div class="swp-plan"></div>
           <div class="swp-result-actions">
             <button class="b3-button" data-action="apply">导出到本地</button>
+            <button class="b3-button" data-action="publish">发布上线</button>
           </div>
         </section>
         </section>
@@ -276,6 +279,7 @@ module.exports = class SworldPublisher extends Plugin {
         }
         if (action === "preview" || action === "prepare") await this.prepare(action)
         if (action === "apply") await this.apply()
+        if (action === "publish") await this.publish()
       })
     })
     this.renderDocuments(); this.renderBatch()
@@ -431,7 +435,8 @@ module.exports = class SworldPublisher extends Plugin {
     } else {
       const pages = this.batch.changes.filter(change => change.file.endsWith(".md"))
       const count = action => pages.filter(change => change.action === action).length
-      summary.textContent = this.batch.mode === "applied" ? "已导出到本地"
+      summary.textContent = this.batch.mode === "published" ? "已发布上线"
+        : this.batch.mode === "applied" ? "已导出到本地"
         : `新增 ${count("add")}，更新 ${count("update")}，撤回 ${count("remove")}，资源变更 ${this.batch.changes.length - pages.length}`
       const list = document.createElement("ul")
       for (const change of pages) {
@@ -453,5 +458,14 @@ module.exports = class SworldPublisher extends Plugin {
     this.batch.mode = "applied"; this.renderBatch()
     this.status("本地导出完成；尚未提交、推送或部署；线上站点没有变化")
     this.notice("已导出到本地")
+  }
+
+  async publish() {
+    if (this.batch?.mode !== "applied") throw new Error("请先导出到本地")
+    if (!await this.ask("提交 content/ 的变更并推送到 GitHub main？\n推送后网站会自动部署上线")) return
+    const { commit } = await this.launch("publish").promise
+    this.batch.mode = "published"; this.renderBatch()
+    this.status(`已提交 ${commit} 并推送到 main；Cloudflare Pages 将自动部署`)
+    this.notice("已发布上线")
   }
 }
