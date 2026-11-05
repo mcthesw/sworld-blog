@@ -11,8 +11,17 @@ import { relativeLink } from "./references.mjs"
 const parser = unified().use(remarkParse)
 const raster = /\.(?:png|jpe?g|webp|gif|avif|tiff?)$/i
 
-export async function websiteAsset(name, input) {
+// cacheDir 是上一次导出该文章资源的目录。输出文件名带有原图哈希，同名文件即由同一张原图转换而来，
+// 可直接复用；转换参数变化时需清空 content/assets 才会重新编码。
+export async function websiteAsset(name, input, cacheDir) {
   if (!raster.test(name)) return { name, data: input, image: false }
+  const fingerprint = createHash("sha256").update(input).digest("hex").slice(0, 12)
+  // Quartz 发布时把资源文件名转为小写，封面等 frontmatter 路径不会被它改写，故在此统一小写。
+  const outputName = `${name.slice(0, -extname(name).length).toLowerCase()}-${fingerprint}.webp`
+  if (cacheDir) {
+    try { return { name: outputName, data: readFileSync(join(cacheDir, outputName)), image: true } }
+    catch { /* 没有缓存则重新转换 */ }
+  }
   // libvips does not decode APNG animation; failing is preferable to losing frames.
   if (/\.png$/i.test(name)) {
     for (let offset = 8; offset + 12 <= input.length;) {
@@ -29,12 +38,10 @@ export async function websiteAsset(name, input) {
     data = await pipeline.resize({ width: 2560, withoutEnlargement: true })
       .webp({ quality: 85, alphaQuality: 100, effort: 4 }).toBuffer()
   }
-  const fingerprint = createHash("sha256").update(input).digest("hex").slice(0, 12)
-  // Quartz 发布时把资源文件名转为小写，封面等 frontmatter 路径不会被它改写，故在此统一小写。
-  return { name: `${name.slice(0, -extname(name).length).toLowerCase()}-${fingerprint}.webp`, data, image: true }
+  return { name: outputName, data, image: true }
 }
 
-export async function prepareResources({ markdown, cover, path, id, workspace, warnings }) {
+export async function prepareResources({ markdown, cover, path, id, workspace, cacheDir, warnings }) {
   const nodes = []
   visit(parser.parse(markdown), (node) => {
     if (node.type === "html" && /\b(?:src|href)\s*=\s*["']assets\//i.test(node.value))
@@ -53,7 +60,7 @@ export async function prepareResources({ markdown, cover, path, id, workspace, w
     try { input = readFileSync(join(workspace, "data", "assets", name)) }
     catch (error) { throw new Error(`缺少资源或无法读取：${name}`, { cause: error }) }
     let result
-    try { result = await websiteAsset(name, input) }
+    try { result = await websiteAsset(name, input, cacheDir) }
     catch (error) { throw new Error(`图片转换失败：${name}：${error.message}`, { cause: error }) }
     const output = safeRelativePath(result.name)
     const previous = assets.find((asset) => asset.name === output)

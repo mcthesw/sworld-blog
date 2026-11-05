@@ -16,7 +16,7 @@ const mock = `import fs from "node:fs"
 import cp from "node:child_process"
 import { syncBuiltinESMExports } from "node:module"
 const db = JSON.parse(fs.readFileSync("fixture.json", "utf8"))
-cp.execFileSync = (command, args) => {
+const respond = (command, args) => {
   if (command !== "siyuan") throw new Error("Unexpected command")
   let result
   if (args[0] === "workspace") result = { path: process.cwd() }
@@ -24,10 +24,11 @@ cp.execFileSync = (command, args) => {
   else if (args[0] === "block") return db.markdown[args[args.indexOf("--id") + 1]]
   else if (args[0] === "sql") {
     const query = args[1]
-    if (query.startsWith("select root_id")) {
-      const id = query.match(/where id = '([^']+)'/)[1]
-      const root = db.roots[id]
-      result = root ? [{ root_id: root }] : []
+    if (query.startsWith("select id, root_id")) {
+      result = [...query.matchAll(/'(\\d{14}-[a-z0-9]{7})'/g)]
+        .map((m) => m[1])
+        .filter((id) => db.roots[id])
+        .map((id) => ({ id, root_id: db.roots[id] }))
     } else if (query.includes("from refs where def_block_root_id")) {
       const targetId = query.match(/def_block_root_id = '([^']+)'/)[1]
       result = db.backlinks?.[targetId] ?? []
@@ -39,6 +40,9 @@ cp.execFileSync = (command, args) => {
     }
   } else throw new Error("Unexpected CLI operation: " + args[0])
   return JSON.stringify(result)
+}
+cp.execFile = (command, args, options, done) => {
+  try { done(null, respond(command, args)) } catch (error) { done(error) }
 }
 syncBuiltinESMExports()
 `
