@@ -6,10 +6,13 @@ cssclasses:
   - list-page
 ---
 
-<a class="internal games-taste" href="games/taste">
-  <strong>我的偏好</strong>
-  <span>我想要尽可能多地体验各种类型的游戏！</span>
-</a>
+<div class="games-taste">
+
+<a class="internal" href="games/taste">我的偏好</a>
+
+![[games/taste#最爱的几款游戏]]
+
+</div>
 
 ```base
 filters:

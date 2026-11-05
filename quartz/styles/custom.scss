@@ -160,44 +160,103 @@ article .sw-cover-grid.compact {
   }
 }
 
-article a.games-taste {
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  padding: 0.9rem 1.1rem;
+// 偏好卡：标题链接的伪元素铺满整张卡片，嵌入的偏好片段只作展示。
+article .games-taste {
+  position: relative;
+  margin: 1.25rem 0 0;
+  padding: 0.9rem 1.1rem 1rem;
   border: 1px solid var(--lightgray);
   border-radius: 8px;
-  background: none;
-  color: var(--darkgray);
-  font-weight: 400;
   transition: border-color 0.15s ease;
 
-  strong {
-    flex: none;
+  > p {
+    margin: 0;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  > p > a.internal {
+    background: none;
+    padding: 0;
     color: var(--dark);
     font-family: var(--headerFont);
     font-size: 1.12rem;
-  }
+    font-weight: 700;
 
-  span {
-    flex: 1;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
 
-  &::after {
-    content: "›";
-    color: var(--secondary);
+    &::after {
+      content: " ›";
+      color: var(--secondary);
+    }
   }
 
   &:hover {
     border-color: var(--secondary);
 
-    strong {
+    > p > a.internal {
       color: var(--secondary);
     }
+  }
+
+  blockquote.transclude {
+    margin: 0.35rem 0 0;
+    padding: 0;
+    border: 0;
+
+    h3 {
+      margin: 0 0 0.35rem;
+      font-family: var(--bodyFont);
+      font-size: var(--sw-meta-size);
+      font-weight: 400;
+      color: var(--gray);
+
+      a[role="anchor"] {
+        display: none;
+      }
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-position: inside;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2rem;
+    }
+
+    li {
+      margin: 0.15rem 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      a {
+        display: inline;
+        background: none;
+        padding: 0;
+        color: inherit;
+        font: inherit;
+        white-space: inherit;
+      }
+    }
+
+    .transclude-src {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  article .games-taste blockquote.transclude ul {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
