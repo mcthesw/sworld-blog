@@ -1,9 +1,12 @@
 ---
-title: 关于我
+title: "关于我"
+date: "2026-11-05T17:18:20.362Z"
+updated: "2026-11-06T01:18:20+08:00"
+type: "页面"
+abbrlink: "about"
 comments: false
-enableToc: false
-cssclasses:
-  - list-page
+source: "siyuan"
+siyuan-id: "20261106011820-u9gicvk"
 ---
 
 - 在玩：雨世界、Hyperbolica、以撒的结合、天国：拯救 2
