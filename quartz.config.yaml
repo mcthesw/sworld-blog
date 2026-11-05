@@ -154,13 +154,14 @@ plugins:
         repelForce: 0.6
         centerForce: 0.35
         linkDistance: 26
-        fontSize: 0.55
+        fontSize: 0.7
+        opacityScale: 3
         showTags: false
         focusOnHover: true
       globalGraph:
         depth: -1
         scale: 0.9
-        fontSize: 0.6
+        fontSize: 0.7
         showTags: false
         focusOnHover: true
         enableRadial: true
