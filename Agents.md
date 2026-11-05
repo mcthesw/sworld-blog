@@ -15,7 +15,7 @@
 
 ## 内容与同步约束
 
-- `content/` 中 `source: "siyuan"` 的文件由同步器生成，不手工修改；顶层聚合页（`index.md`、`posts.md`、`projects.md`、`games.md`、`about.md`、`links.md`）在仓库维护；`reading.md`（随记）由思源「阅读随记」同步生成。
+- `content/` 中 `source: "siyuan"` 的文件由同步器生成，不手工修改；顶层聚合页（`index.md`、`posts.md`、`projects.md`、`games.md`、`links.md`）在仓库维护；`reading.md`（随记）、`about.md`（关于我）与 `games/taste.md`（我的游戏偏好）分别由思源「阅读随记」「关于我」「我的游戏偏好」同步生成。
 - 旧文章路径 `content/YYYY/MM/<abbrlink>.md` 保留原 URL；新文档根据创建时间与文档 ID 生成稳定路径，改标题不改变 URL。
 - `custom-date` 保留原发布日期及显式时区，页面按发布日期排序。
 - 双链目标只有在本轮导出集合内才生成站内链接；未公开、缺失及禁止导出的目标保留引用文字，统一指向 `not-public`（`unlisted`），不泄露私人正文或块 ID。

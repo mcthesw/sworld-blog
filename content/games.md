@@ -8,7 +8,7 @@ cssclasses:
 
 <div class="games-taste">
 
-<a class="internal" href="games/taste">我的偏好</a>
+<a class="internal" href="games/taste">我的游戏偏好</a>
 
 ![[games/taste#最爱的几款游戏]]
 

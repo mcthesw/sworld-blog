@@ -1,7 +1,7 @@
 ---
-title: "我的偏好"
+title: "我的游戏偏好"
 date: "2026-11-05T02:11:42+08:00"
-updated: "2026-11-05T02:18:40+08:00"
+updated: "2026-11-06T01:19:40+08:00"
 type: "页面"
 abbrlink: "taste"
 source: "siyuan"
