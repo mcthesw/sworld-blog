@@ -6,7 +6,7 @@ type: "游戏"
 kind: "Demo"
 expect: 3
 description: "事关生死的打字游戏"
-cover: "/assets/defae381/20CCB71-20261103013311-dfyxwa6-fe01d8626ed6.webp"
+cover: "/assets/defae381/20ccb71-20261103013311-dfyxwa6-fe01d8626ed6.webp"
 abbrlink: "defae381"
 source: "siyuan"
 siyuan-id: "20261103013310-7m8ua23"
@@ -22,11 +22,11 @@ siyuan-id: "20261103013310-7m8ua23"
 
 ## 初印象
 
-![选关页面](../../assets/defae381/20B6A01-20261103013310-kphr8e5-d5e48f5d8b1c.webp)
+![选关页面](../../assets/defae381/20b6a01-20261103013310-kphr8e5-d5e48f5d8b1c.webp)
 
 这个游戏似乎是一个打字游戏，打字同时承担了推进游戏进展（如同生死时速），也承担了和“眼睛”沟通的功能，例如你说“吾辈乃是猫”，除了是为了打出文章的一句话，眼睛也会问你“为什么要撒谎”，这个设定乍一看很有趣，但是实际上存在很多meta游戏的一个通病：强行谴责玩家，让我想起了《你和她和她的恋爱》中的剧情安排。
 
-![免责条款？](../../assets/defae381/20698F1-20261103013310-pggfqy7-b5d47c5d7a4a.webp)
+![免责条款？](../../assets/defae381/20698f1-20261103013310-pggfqy7-b5d47c5d7a4a.webp)
 ![执行cmd](../../assets/defae381/2057991-20261103013310-7idf2mi-30481dd7a8c4.webp)
 
 在demo中，我们还会有执行`sudo rm -rf /`的情节（值得一提的是，现实中不要执行这个命令），对于一些人可能会觉得比较有趣，不过我对此无感。

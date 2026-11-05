@@ -30,7 +30,8 @@ export async function websiteAsset(name, input) {
       .webp({ quality: 85, alphaQuality: 100, effort: 4 }).toBuffer()
   }
   const fingerprint = createHash("sha256").update(input).digest("hex").slice(0, 12)
-  return { name: `${name.slice(0, -extname(name).length)}-${fingerprint}.webp`, data, image: true }
+  // Quartz 发布时把资源文件名转为小写，封面等 frontmatter 路径不会被它改写，故在此统一小写。
+  return { name: `${name.slice(0, -extname(name).length).toLowerCase()}-${fingerprint}.webp`, data, image: true }
 }
 
 export async function prepareResources({ markdown, cover, path, id, workspace, warnings }) {

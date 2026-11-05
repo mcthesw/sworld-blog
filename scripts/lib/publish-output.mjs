@@ -150,6 +150,8 @@ export function publishOutput({ content, documents, selected = false, retireLega
   if (images.length) console.log(`WebP：${images.length} 张，${images.reduce((n, a) => n + a.inputBytes, 0)} -> ${images.reduce((n, a) => n + a.data.length, 0)} bytes`)
   if (dryRun) return
 
+  // 先删后写：Windows 等大小写不敏感的文件系统上，仅大小写不同的旧文件与新文件是同一个文件。
+  for (const file of staleAssets) rmSync(file)
   for (const [file, data] of assets) {
     mkdirSync(dirname(file), { recursive: true })
     writeFileSync(file, data)
@@ -159,5 +161,4 @@ export function publishOutput({ content, documents, selected = false, retireLega
     writeFileSync(page.file, page.text)
   }
   for (const page of removed) rmSync(page.file)
-  for (const file of staleAssets) rmSync(file)
 }
