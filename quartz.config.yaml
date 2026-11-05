@@ -168,7 +168,7 @@ plugins:
     layout:
       position: right
       priority: 10
-  - source: "@quartz-community/search"
+  - source: "@mcthesw/quartz-simple-search"
     enabled: true
     layout:
       position: left

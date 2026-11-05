@@ -31,7 +31,9 @@ Quartz 5 当前加载器不使用根入口导出的 `layout`，`quartz.ts` 因�
 
 `patches/@quartz-community__graph.patch`（`pnpm.patchedDependencies`）做两处修改：节点点击从整页跳转改为 `window.spaNavigate`，避免整页重载时的白屏闪烁；节点文字初始透明度按 `opacityScale` 计算（与缩放时同一公式），默认缩放下即可看到文字。补丁锁定在当前版本，版本变化后补丁无法应用时 `pnpm install` 会直接报错。升级 `@quartz-community/graph` 时先确认上游是否已提供这两项行为，已提供则删除对应修改；否则用 `pnpm patch @quartz-community/graph` 在新版本中重做这两处替换，再 `pnpm patch-commit`。
 
-升级后运行 `pnpm check`、`pnpm build`，验证导航、列表、评论、局部图谱及思源隔离预览。插件依赖应在 `package.json` 中声明并锁定，构建时不依赖临时下载未锁定的插件。
+站内搜索使用自研插件 `@mcthesw/quartz-simple-search`（仓库 `mcthesw/quartz-simple-search`），替代官方 `@quartz-community/search`：标题或正文包含全部搜索词才命中，不分词，因此中文和英文都能按任意片段搜索。依赖按 Git 标签声明，`pnpm-lock.yaml` 锁定到具体提交。修改插件时在插件仓库中改源码、`pnpm check`、`pnpm build`，连同 `dist/` 一起提交并打新标签，再更新本仓库 `package.json` 中的标签并 `pnpm install`。
+
+升级后运行 `pnpm check`、`pnpm build`，验证导航、列表、评论、局部图谱、搜索及思源隔离预览。插件依赖应在 `package.json` 中声明并锁定，构建时不依赖临时下载未锁定的插件。
 
 ## 内容与工具
 

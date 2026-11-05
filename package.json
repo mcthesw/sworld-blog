@@ -39,6 +39,7 @@
   "dependencies": {
     "@clack/prompts": "^1.8.0",
     "@floating-ui/dom": "^1.7.4",
+    "@mcthesw/quartz-simple-search": "github:mcthesw/quartz-simple-search#v1.0.1",
     "@myriaddreamin/rehype-typst": "^0.7.0",
     "@napi-rs/simple-git": "1.1.0",
     "@quartz-community/alias-redirects": "^1.0.0",
@@ -78,7 +79,6 @@
     "@quartz-community/recent-notes": "^1.0.0",
     "@quartz-community/remove-draft": "^1.0.0",
     "@quartz-community/roam": "^1.0.0",
-    "@quartz-community/search": "^1.0.0",
     "@quartz-community/spacer": "^1.0.0",
     "@quartz-community/stacked-pages": "^1.0.0",
     "@quartz-community/syntax-highlighting": "^1.0.1",
