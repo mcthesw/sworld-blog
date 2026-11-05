@@ -142,6 +142,9 @@
       "@parcel/watcher",
       "esbuild",
       "sharp"
-    ]
+    ],
+    "patchedDependencies": {
+      "@quartz-community/graph": "patches/@quartz-community__graph.patch"
+    }
   }
 }
