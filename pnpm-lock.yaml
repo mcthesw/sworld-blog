@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   '@quartz-community/graph':
-    hash: 2a17b9d64979f015ecc21ff51213ceb9d0aa774156c328c21106ba0f48235761
+    hash: 13dec73fa813761aca6f426beaa6db5188ffcca29f60ef9cd7727c8b491d1d70
     path: patches/@quartz-community__graph.patch
 
 importers:
@@ -96,7 +96,7 @@ importers:
         version: 1.0.0(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)
       '@quartz-community/graph':
         specifier: ^1.0.0
-        version: 1.0.0(patch_hash=2a17b9d64979f015ecc21ff51213ceb9d0aa774156c328c21106ba0f48235761)(github-slugger@2.0.0)(hast-util-to-jsx-runtime@2.3.6)(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)
+        version: 1.0.0(patch_hash=13dec73fa813761aca6f426beaa6db5188ffcca29f60ef9cd7727c8b491d1d70)(github-slugger@2.0.0)(hast-util-to-jsx-runtime@2.3.6)(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)
       '@quartz-community/hard-line-breaks':
         specifier: ^1.0.0
         version: 1.0.0(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)
@@ -3329,7 +3329,7 @@ snapshots:
       - unified
       - vfile
 
-  '@quartz-community/graph@1.0.0(patch_hash=2a17b9d64979f015ecc21ff51213ceb9d0aa774156c328c21106ba0f48235761)(github-slugger@2.0.0)(hast-util-to-jsx-runtime@2.3.6)(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)':
+  '@quartz-community/graph@1.0.0(patch_hash=13dec73fa813761aca6f426beaa6db5188ffcca29f60ef9cd7727c8b491d1d70)(github-slugger@2.0.0)(hast-util-to-jsx-runtime@2.3.6)(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)':
     dependencies:
       '@quartz-community/types': 1.0.0(unified@11.0.5)(vfile@6.0.3)
       '@quartz-community/utils': 1.0.1(github-slugger@2.0.0)(hast-util-to-jsx-runtime@2.3.6)(preact@10.29.8)(unified@11.0.5)(vfile@6.0.3)

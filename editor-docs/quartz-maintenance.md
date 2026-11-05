@@ -29,7 +29,7 @@ Quartz 5 当前加载器不使用根入口导出的 `layout`，`quartz.ts` 因�
 
 在独立 Quartz 工作副本比较上述基线与待升级提交，只更新上游文件和需要配套的依赖；保留站点样式及根目录的项目配置。更新这里的基线提交，使用 pnpm 更新唯一的 `pnpm-lock.yaml`，不引入第二份包管理器锁文件。
 
-`patches/@quartz-community__graph.patch`（`pnpm.patchedDependencies`）把图谱节点点击从整页跳转改为 `window.spaNavigate`，避免整页重载时的白屏闪烁；升级 `@quartz-community/graph` 时先确认上游是否已改用 SPA 导航，已改则删除补丁，否则重新生成。
+`patches/@quartz-community__graph.patch`（`pnpm.patchedDependencies`）做两处修改：节点点击从整页跳转改为 `window.spaNavigate`，避免整页重载时的白屏闪烁；节点文字初始透明度按 `opacityScale` 计算（与缩放时同一公式），默认缩放下即可看到文字。补丁锁定在当前版本，版本变化后补丁无法应用时 `pnpm install` 会直接报错。升级 `@quartz-community/graph` 时先确认上游是否已提供这两项行为，已提供则删除对应修改；否则用 `pnpm patch @quartz-community/graph` 在新版本中重做这两处替换，再 `pnpm patch-commit`。
 
 升级后运行 `pnpm check`、`pnpm build`，验证导航、列表、评论、局部图谱及思源隔离预览。插件依赖应在 `package.json` 中声明并锁定，构建时不依赖临时下载未锁定的插件。
 
