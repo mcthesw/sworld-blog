@@ -276,9 +276,7 @@ body[data-slug="reading"],
 body[data-slug="links"],
 body[data-slug="games/taste"],
 body[data-slug^="projects/"] {
-  .content-meta,
-  .graph,
-  .backlinks {
+  .content-meta {
     display: none;
   }
 }
