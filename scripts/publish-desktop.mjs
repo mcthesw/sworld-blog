@@ -114,6 +114,17 @@ if (["preview", "prepare"].includes(values.mode)) {
   }
   for (const change of diff.filter((item) => item.action === "remove")) rmSync(join(repo, "content", change.file))
   result({ applied: true, count: diff.length })
+} else if (values.mode === "publish") {
+  const git = (...args) => execFileSync("git", ["-C", repo, ...args], { encoding: "utf8", windowsHide: true, stdio: ["ignore", "pipe", "pipe"] }).trim()
+  if (!git("status", "--porcelain", "--", "content")) throw new Error("content/ 没有需要发布的变更")
+  git("fetch", "origin", "main")
+  try { git("merge-base", "--is-ancestor", "origin/main", "HEAD") }
+  catch { throw new Error("本地分支不包含线上 main 的最新提交，请先同步后再发布") }
+  // 只提交 content/，仓库里其他未提交的修改保持原样。
+  git("add", "-A", "--", "content")
+  git("commit", "-m", "content: publish from siyuan", "--", "content")
+  git("push", "origin", "HEAD:main")
+  result({ published: true, commit: git("rev-parse", "--short", "HEAD") })
 } else if (values.mode === "serve") {
   const { stage } = stageData()
   const server = createServer((request, response) => {
@@ -123,4 +134,4 @@ if (["preview", "prepare"].includes(values.mode)) {
       .catch(() => { response.statusCode = 500; response.end("Preview error") })
   })
   server.listen(0, "127.0.0.1", () => result({ url: `http://127.0.0.1:${server.address().port}` }))
-} else throw new Error("mode 必须是 preview、prepare、apply 或 serve")
+} else throw new Error("mode 必须是 preview、prepare、apply、publish 或 serve")

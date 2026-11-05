@@ -29,7 +29,8 @@
 .swp-plan { min-height: 0; overflow: auto; scrollbar-gutter: stable; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
 .swp-plan ul { margin: 0; padding: 0; list-style: none; }
 .swp-plan li { padding: 4px 0; }
-.swp-result-actions > button { grid-column: 2; }
+/* 导出与发布共用同一格，按步骤只显示其中一个，避免布局跳动。 */
+.swp-result-actions > button { grid-column: 2; grid-row: 1; }
 .swp-result-actions > button[data-ready="false"] { visibility: hidden; }
 .swp-notice { height: 44px; box-sizing: border-box; border-top: 1px solid var(--b3-border-color); padding-top: 10px; font-size: 13px; line-height: 20px; overflow: auto; scrollbar-gutter: stable; }
 .swp-notice[data-error="true"] { color: var(--b3-theme-error, #b53939); }

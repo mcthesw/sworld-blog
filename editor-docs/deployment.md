@@ -32,6 +32,6 @@
 
 ## 发布权限
 
-本地导出完成不表示已上线。推送前须确认 Cloudflare 的自动部署范围；GitHub Actions 和 Cloudflare 手动部署、配置变更分别取得授权，不通过部署来探测配置。
+本地导出完成不表示已上线；插件的「发布上线」把 `content/` 推送到 `main` 后才会部署。推送前须确认 Cloudflare 的自动部署范围；GitHub Actions 和 Cloudflare 手动部署、配置变更分别取得授权，不通过部署来探测配置。
 
 参考：[Pages 构建配置](https://developers.cloudflare.com/pages/configuration/build-configuration/)、[构建镜像](https://developers.cloudflare.com/pages/configuration/build-image/)、[Workers 静态资源](https://developers.cloudflare.com/workers/static-assets/)
