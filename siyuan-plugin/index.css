@@ -42,6 +42,11 @@
 .swp-settings { overflow: auto; scrollbar-gutter: stable; }
 .swp-settings label { display: block; margin-bottom: 20px; font-size: 13px; }
 .swp-settings input { margin-top: 8px; width: 100%; box-sizing: border-box; }
+.swp-props { overflow: auto; scrollbar-gutter: stable; }
+.swp-props label:not(.swp-permission) { display: block; margin-bottom: 16px; font-size: 13px; }
+.swp-props label:not(.swp-permission) input { margin-top: 6px; width: 100%; box-sizing: border-box; }
+.swp-props .swp-permission { font-size: 13px; margin-bottom: 16px; }
+.swp-props .swp-props-title { margin-bottom: 16px; }
 .swp-details { overflow: hidden; }
 .swp-log { height: 100%; box-sizing: border-box; margin: 0; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; padding: 12px; background: var(--b3-theme-background); border-radius: 6px; scrollbar-gutter: stable; }
 .swp-confirm p { white-space: pre-wrap; line-height: 1.7; }
