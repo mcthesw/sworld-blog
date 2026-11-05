@@ -16,6 +16,12 @@
 .swp-eyebrow, .swp-count { color: var(--b3-theme-on-surface); font-size: 12px; line-height: 1.5; }
 .swp-current-title { font-size: 18px; font-weight: 600; line-height: 28px; height: 28px; margin: 4px 0 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .swp-permission { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+.swp-props { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px 12px; margin-top: 10px; }
+.swp-props label { display: flex; flex-direction: column; gap: 4px; min-width: 0; font-size: 12px; color: var(--b3-theme-on-surface); }
+.swp-props label input.b3-text-field { width: 100%; box-sizing: border-box; }
+.swp-props input:disabled { opacity: 0.45; }
+.swp-prop-wide { grid-column: 1 / -1; }
+.swp-prop-switch { flex-direction: row !important; align-items: center; justify-content: space-between; align-self: end; height: 32px; }
 .swp-actions, .swp-result-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .swp-panel .b3-button { min-height: 36px; justify-content: center; white-space: nowrap; }
 .swp-result { display: grid; grid-template-rows: 38px minmax(0, 1fr) 36px; gap: 8px; min-height: 0; }
@@ -42,11 +48,6 @@
 .swp-settings { overflow: auto; scrollbar-gutter: stable; }
 .swp-settings label { display: block; margin-bottom: 20px; font-size: 13px; }
 .swp-settings input { margin-top: 8px; width: 100%; box-sizing: border-box; }
-.swp-props { overflow: auto; scrollbar-gutter: stable; }
-.swp-props label:not(.swp-permission) { display: block; margin-bottom: 16px; font-size: 13px; }
-.swp-props label:not(.swp-permission) input { margin-top: 6px; width: 100%; box-sizing: border-box; }
-.swp-props .swp-permission { font-size: 13px; margin-bottom: 16px; }
-.swp-props .swp-props-title { margin-bottom: 16px; }
 .swp-details { overflow: hidden; }
 .swp-log { height: 100%; box-sizing: border-box; margin: 0; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; padding: 12px; background: var(--b3-theme-background); border-radius: 6px; scrollbar-gutter: stable; }
 .swp-confirm p { white-space: pre-wrap; line-height: 1.7; }

@@ -3,7 +3,8 @@ const { Plugin, Dialog, fetchPost, getFrontend, getActiveEditor } = require("siy
 const api = (url, data) => new Promise((resolve, reject) => {
   fetchPost(url, data, (response) => response.code === 0 ? resolve(response.data) : reject(new Error(response.msg || url)))
 })
-const propNames = ["description", "featured", "type", "status", "kind", "score", "expect"]
+const propNames = ["description", "type", "status", "kind", "score", "expect", "featured"]
+const propTypes = { status: ["游戏", "项目"], kind: ["游戏"], score: ["游戏"], expect: ["游戏"] }
 const defaults = { repo: "", node: "node", root: "D:/Coding/temp/sworld-publisher" }
 
 module.exports = class SworldPublisher extends Plugin {
@@ -108,28 +109,30 @@ module.exports = class SworldPublisher extends Plugin {
       if (selected && focus) tab.focus()
     }
     for (const view of panel.querySelectorAll("[data-view]")) view.hidden = view.dataset.view !== name
-    if (name === "props") this.work(() => this.loadProps())
   }
 
   propField(name) {
     return this.dialog.element.querySelector(`.swp-props [name="${name}"]`)
   }
 
-  syncPropsVisibility() {
+  // 不适用的字段只置灰，不隐藏，避免切换类型时布局跳动。
+  syncPropsEnabled() {
     const type = this.propField("type").value.trim()
-    for (const extra of this.dialog.element.querySelectorAll(".swp-props-extra")) extra.hidden = !extra.dataset.types.split(",").includes(type)
+    for (const name of propNames) {
+      this.propField(name).disabled = !this.currentId || (propTypes[name] && !propTypes[name].includes(type))
+    }
   }
 
   async loadProps() {
-    if (!this.currentId) throw new Error("没有打开的文章")
+    if (!this.dialog) return
+    if (!this.currentId) return this.syncPropsEnabled()
     const attrs = await api("/api/attr/getBlockAttrs", { id: this.currentId })
-    this.dialog.element.querySelector(".swp-props-title").textContent = attrs.title || ""
     for (const name of propNames) {
       const value = attrs["custom-" + name] ?? ""
       if (name === "featured") this.propField(name).checked = value === "true"
       else this.propField(name).value = value
     }
-    this.syncPropsVisibility()
+    this.syncPropsEnabled()
     // 候选值取自已有文档，避免同一含义出现不同写法。
     const rows = await api("/api/query/sql", { stmt: "select name, value from attributes where name in ('custom-type','custom-kind','custom-status') group by name, value" })
     const lists = { "custom-type": "swp-types", "custom-kind": "swp-kinds", "custom-status": "swp-statuses" }
@@ -140,18 +143,19 @@ module.exports = class SworldPublisher extends Plugin {
     }
   }
 
-  async saveProps() {
-    if (!this.currentId) throw new Error("没有打开的文章")
-    this.syncPropsVisibility()
-    const attrs = {}
-    for (const name of propNames) {
-      const field = this.propField(name)
-      const hidden = field.closest(".swp-props-extra")?.hidden
-      // 空字符串会让思源删除该属性；切换类型后不再适用的字段也一并清除。
-      attrs["custom-" + name] = hidden ? "" : name === "featured" ? (field.checked ? "true" : "") : field.value.trim()
+  async saveProp(name) {
+    const field = this.propField(name)
+    // 空字符串会让思源删除该属性。
+    const attrs = { ["custom-" + name]: name === "featured" ? (field.checked ? "true" : "") : field.value.trim() }
+    if (name === "type") {
+      const type = field.value.trim()
+      for (const other of propNames) {
+        if (propTypes[other] && !propTypes[other].includes(type)) { attrs["custom-" + other] = ""; this.propField(other).value = "" }
+      }
+      this.syncPropsEnabled()
     }
     await api("/api/attr/setBlockAttrs", { id: this.currentId, attrs })
-    this.status("已保存文章属性；网站尚未更新")
+    this.status(`已保存属性 ${name}；网站尚未更新`)
     this.notice("已保存文章属性")
   }
 
@@ -159,12 +163,11 @@ module.exports = class SworldPublisher extends Plugin {
     if (this.dialog) return
     this.currentId = getActiveEditor()?.protyle?.block?.rootID
     this.dialog = new Dialog({
-      title: "网站导出", width: "680px", height: "min(560px, 85vh)",
+      title: "网站导出", width: "680px", height: "min(720px, 92vh)",
       content: `<div class="swp-panel">
         <div class="swp-tabs" role="tablist" aria-label="网站导出功能">
           <button type="button" role="tab" id="swp-tab-export" aria-controls="swp-view-export" data-tab="export">导出</button>
           <button type="button" role="tab" id="swp-tab-articles" aria-controls="swp-view-articles" data-tab="articles">文章</button>
-          <button type="button" role="tab" id="swp-tab-props" aria-controls="swp-view-props" data-tab="props">属性</button>
           <button type="button" role="tab" id="swp-tab-settings" aria-controls="swp-view-settings" data-tab="settings">设置</button>
           <button type="button" role="tab" id="swp-tab-logs" aria-controls="swp-view-logs" data-tab="logs">日志</button>
         </div>
@@ -174,6 +177,16 @@ module.exports = class SworldPublisher extends Plugin {
           <div class="swp-eyebrow">当前文章</div>
           <div class="swp-current-title"></div>
           <label class="swp-permission">允许公开<input type="checkbox" class="b3-switch" aria-label="允许公开当前文章"></label>
+          <div class="swp-props">
+            <label class="swp-prop-wide">描述<input class="b3-text-field" name="description"></label>
+            <label>类型<input class="b3-text-field" name="type" list="swp-types" placeholder="留空为普通文章"></label>
+            <label>状态<input class="b3-text-field" name="status" list="swp-statuses"></label>
+            <label>种类<input class="b3-text-field" name="kind" list="swp-kinds"></label>
+            <label>评分<input class="b3-text-field" name="score" type="number" step="any"></label>
+            <label>期待<input class="b3-text-field" name="expect" type="number" step="any"></label>
+            <label class="swp-prop-switch">精选<input type="checkbox" class="b3-switch" name="featured"></label>
+            <datalist id="swp-types"></datalist><datalist id="swp-kinds"></datalist><datalist id="swp-statuses"></datalist>
+          </div>
         </section>
         <div class="swp-actions">
           <button class="b3-button b3-button--outline" data-action="preview-current">预览当前文章</button>
@@ -197,22 +210,6 @@ module.exports = class SworldPublisher extends Plugin {
             <button class="b3-button" data-action="save-public">保存设置</button>
             <button class="b3-button b3-button--outline" data-action="preview">预览所选</button>
           </div>
-        </section>
-        <section class="swp-view swp-props" data-view="props" id="swp-view-props" role="tabpanel" aria-labelledby="swp-tab-props" hidden>
-          <div class="swp-current-title swp-props-title"></div>
-          <label>描述<input class="b3-text-field fn__block" name="description"></label>
-          <label class="swp-permission">精选<input type="checkbox" class="b3-switch" name="featured"></label>
-          <label>类型<input class="b3-text-field fn__block" name="type" list="swp-types" placeholder="留空为普通文章"></label>
-          <div class="swp-props-extra" data-types="游戏,项目">
-            <label>状态<input class="b3-text-field fn__block" name="status" list="swp-statuses"></label>
-          </div>
-          <div class="swp-props-extra" data-types="游戏">
-            <label>种类<input class="b3-text-field fn__block" name="kind" list="swp-kinds"></label>
-            <label>评分<input class="b3-text-field fn__block" name="score" type="number" step="any"></label>
-            <label>期待<input class="b3-text-field fn__block" name="expect" type="number" step="any"></label>
-          </div>
-          <datalist id="swp-types"></datalist><datalist id="swp-kinds"></datalist><datalist id="swp-statuses"></datalist>
-          <button class="b3-button" data-action="save-props">保存属性</button>
         </section>
         <section class="swp-view swp-settings" data-view="settings" id="swp-view-settings" role="tabpanel" aria-labelledby="swp-tab-settings" hidden>
           <label>Quartz 仓库目录<input class="b3-text-field fn__block" name="repo"></label>
@@ -243,7 +240,12 @@ module.exports = class SworldPublisher extends Plugin {
         : (index + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length
       this.showTab(tabs[next].dataset.tab, true)
     })
-    panel.querySelector('.swp-props [name="type"]').addEventListener("input", () => this.syncPropsVisibility())
+    panel.querySelector('.swp-props [name="type"]').addEventListener("input", () => this.syncPropsEnabled())
+    for (const name of propNames) {
+      this.propField(name).addEventListener("change", () => {
+        this.saveProp(name).catch(error => { this.status("错误：" + error.message); this.notice(error.message, true); this.loadProps() })
+      })
+    }
     panel.querySelector('[name="search"]').addEventListener("input", () => this.renderDocuments())
     panel.querySelector('[name="public-only"]').addEventListener("change", () => this.renderDocuments())
     panel.querySelector(".swp-current input").addEventListener("change", event => {
@@ -267,7 +269,6 @@ module.exports = class SworldPublisher extends Plugin {
           this.renderDocuments()
         }
         if (action === "save-public") await this.savePublic()
-        if (action === "save-props") await this.saveProps()
         if (action === "preview-current") {
           const doc = this.currentDocument()
           if (!doc) throw new Error("没有可预览的当前文章")
@@ -279,6 +280,7 @@ module.exports = class SworldPublisher extends Plugin {
     })
     this.renderDocuments(); this.renderBatch()
     this.work(() => this.refreshDocuments())
+    this.loadProps().catch(error => this.notice(error.message, true))
   }
 
   visibleDocuments() {
