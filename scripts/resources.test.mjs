@@ -18,6 +18,11 @@ test("website images shrink, preserve alpha and never alter source buffers", asy
   assert.deepEqual(existing.data, output.data)
 })
 
+test("exported image names are lowercase to match Quartz output", async () => {
+  const input = await sharp({ create: { width: 4, height: 4, channels: 3, background: "#fff" } }).png().toBuffer()
+  assert.match((await websiteAsset("20CCB71.png", input)).name, /^20ccb71-[0-9a-f]{12}\.webp$/)
+})
+
 test("animated GIF exports as animated WebP and SVG remains vector", async () => {
   const pixels = Buffer.from([255,0,0,255, 0,255,0,255])
   const gif = await sharp(pixels, { raw: { width: 1, height: 2, channels: 4, pageHeight: 1 } }).gif({ delay: [80,120], loop: 2 }).toBuffer()
