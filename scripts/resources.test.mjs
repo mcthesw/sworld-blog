@@ -1,4 +1,7 @@
 import assert from "node:assert/strict"
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs"
+import { tmpdir } from "node:os"
+import { join } from "node:path"
 import test from "node:test"
 import sharp from "sharp"
 import { websiteAsset } from "./lib/resources.mjs"
@@ -16,6 +19,15 @@ test("website images shrink, preserve alpha and never alter source buffers", asy
   assert.notEqual(output.name, jpeg.name)
   const existing = await websiteAsset("ready.webp", output.data)
   assert.deepEqual(existing.data, output.data)
+})
+
+test("an already exported image is reused instead of re-encoded", async () => {
+  const input = await sharp({ create: { width: 4, height: 4, channels: 3, background: "#fff" } }).png().toBuffer()
+  const cacheDir = mkdtempSync(join(tmpdir(), "assets-"))
+  const fresh = await websiteAsset("photo.png", input)
+  writeFileSync(join(cacheDir, fresh.name), "cached")
+  assert.equal((await websiteAsset("photo.png", input, cacheDir)).data.toString(), "cached")
+  rmSync(cacheDir, { recursive: true, force: true })
 })
 
 test("exported image names are lowercase to match Quartz output", async () => {

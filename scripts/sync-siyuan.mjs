@@ -5,9 +5,9 @@
 //   node scripts/sync-siyuan.mjs --dry-run       只打印计划，不写文件
 //   node scripts/sync-siyuan.mjs --id <docId> [--id <otherId> ...] [--attr custom-xxx=value ...]
 //                                                隔离预览指定文档及其互链，可临时覆盖属性
-import { execFileSync } from "node:child_process"
+import { execFile } from "node:child_process"
 import { createHash } from "node:crypto"
-import { basename, resolve } from "node:path"
+import { basename, join, resolve } from "node:path"
 import { parseArgs } from "node:util"
 import { prepareResources } from "./lib/resources.mjs"
 import { publishOutput, safeRelativePath } from "./lib/publish-output.mjs"
@@ -35,22 +35,44 @@ const content = resolve("content")
 const blockedPaths = [/^\/daily note\//]
 const workspaceArgs = process.env.SIYUAN_WORKSPACE ? ["--workspace", process.env.SIYUAN_WORKSPACE] : []
 
-function siyuan(...cmd) {
-  return execFileSync("siyuan", [...cmd, "-f", "json", "-v", "off", ...workspaceArgs], {
-    encoding: "utf8",
-    maxBuffer: 64 * 1024 * 1024,
-  })
+// 每次 CLI 调用都要启动一个进程（约 0.2 秒），所以并发执行并尽量用批量 SQL 代替逐块查询。
+let running = 0
+const waiting = []
+async function slot() {
+  if (running >= 8) await new Promise((resume) => waiting.push(resume))
+  running++
+}
+function release() {
+  running--
+  waiting.shift()?.()
 }
 
-const sql = (stmt) => JSON.parse(siyuan("sql", stmt, "--limit", "10000"))
-const esc = (s) => s.replace(/'/g, "''")
-const workspace = JSON.parse(siyuan("workspace", "info")).path
+async function cli(args) {
+  await slot()
+  try {
+    return await new Promise((done, fail) =>
+      execFile(
+        "siyuan",
+        [...args, "-v", "off", ...workspaceArgs],
+        { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 },
+        (error, stdout) => (error ? fail(error) : done(stdout)),
+      ),
+    )
+  } finally {
+    release()
+  }
+}
 
-function listDocs() {
+const siyuan = (...cmd) => cli([...cmd, "-f", "json"])
+const sql = async (stmt) => JSON.parse(await siyuan("sql", stmt, "--limit", "10000"))
+const esc = (s) => s.replace(/'/g, "''")
+const workspace = JSON.parse(await siyuan("workspace", "info")).path
+
+async function listDocs() {
   const where = selectedIds.length
     ? `b.id in (${selectedIds.map((id) => `'${esc(id)}'`).join(",")})`
     : `b.id in (select block_id from attributes where name = 'custom-publish' and value = 'true')`
-  const found = sql(
+  const found = await sql(
     `select b.id, b.content as title, b.hpath, b.created, b.updated from blocks b where b.type = 'd' and ${where}`,
   )
   for (const id of selectedIds) {
@@ -59,8 +81,9 @@ function listDocs() {
   return found
 }
 
-function docAttrs(id) {
-  const attrs = JSON.parse(siyuan("attr", "get", "--id", id))
+// 题头图 title-img 不在 attributes 表里，所以仍需逐文档读取原生属性。
+async function docAttrs(id) {
+  const attrs = JSON.parse(await siyuan("attr", "get", "--id", id))
   return selectedIds.length ? { ...attrs, ...attrOverrides } : attrs
 }
 
@@ -74,32 +97,37 @@ function targetPath(doc, attrs) {
 }
 
 // 第一遍：确定所有要发布的文档及其 URL，用于把互相引用改写成站内链接。
-const docs = listDocs()
-  .filter((doc) => {
-    if (!blockedPaths.some((r) => r.test(doc.hpath))) return true
-    console.warn(`跳过（路径不允许公开）：${doc.hpath}`)
-    return false
-  })
-  .map((doc) => {
-    const attrs = docAttrs(doc.id)
-    return { doc, attrs, path: safeRelativePath(decodeURIComponent(targetPath(doc, attrs))) }
-  })
+const docs = await Promise.all(
+  (await listDocs())
+    .filter((doc) => {
+      if (!blockedPaths.some((r) => r.test(doc.hpath))) return true
+      console.warn(`跳过（路径不允许公开）：${doc.hpath}`)
+      return false
+    })
+    .map(async (doc) => {
+      const attrs = await docAttrs(doc.id)
+      return { doc, attrs, path: safeRelativePath(decodeURIComponent(targetPath(doc, attrs))) }
+    }),
+)
 const published = new Map(
   docs.map(({ doc, attrs, path }) => [doc.id, { path, title: attrs["custom-title"] || doc.title }]),
 )
-const rootOf = new Map()
-function rootId(blockId) {
-  if (!rootOf.has(blockId))
-    rootOf.set(blockId, sql(`select root_id from blocks where id = '${esc(blockId)}'`)[0]?.root_id)
-  return rootOf.get(blockId)
-}
 
-function getBlockKramdown(blockId) {
-  return execFileSync("siyuan", ["block", "kramdown", "--id", blockId, "-v", "off", ...workspaceArgs], {
-    encoding: "utf8",
-    maxBuffer: 64 * 1024 * 1024,
-  })
+// 引用目标所属文档在改写链接前一次性批量查出，避免每个引用单独起一个 CLI 进程。
+const rootOf = new Map()
+async function loadRoots(texts) {
+  const ids = [...new Set(texts.flatMap((text) => text.match(/\d{14}-[a-z0-9]{7}/g) ?? []))]
+  for (let i = 0; i < ids.length; i += 200) {
+    const batch = ids.slice(i, i + 200)
+    const rows = await sql(
+      `select id, root_id from blocks where id in (${batch.map((id) => `'${esc(id)}'`).join(",")})`,
+    )
+    for (const row of rows ?? []) rootOf.set(row.id, row.root_id)
+  }
 }
+const rootId = (blockId) => rootOf.get(blockId)
+
+const getBlockKramdown = (blockId) => cli(["block", "kramdown", "--id", blockId])
 
 function cleanKramdown(raw, warnings) {
   return raw
@@ -139,21 +167,26 @@ function normalizeBacklinkEntry(markdown, containerType) {
   return markdown.trim()
 }
 
-function collectBacklinks(docId, warnings) {
+async function collectBacklinks(docId, warnings) {
   const rows =
-    sql(
+    (await sql(
       `select b.id, b.parent_id, b.type, b.created, p.type as parent_type, p.created as parent_created, (select a.value from attributes a where a.block_id = b.root_id and a.name like 'custom-dailynote-%' limit 1) as dailynote from blocks b left join blocks p on p.id = b.parent_id where b.root_id != '${esc(docId)}' and b.id in (select block_id from refs where def_block_root_id = '${esc(docId)}') order by b.created desc`,
-    ) ?? []
+    )) ?? []
   const seen = new Set()
-  const byDate = new Map()
+  const entries = []
   for (const row of rows) {
     const useParent = row.parent_type === "i" || row.parent_type === "b"
     const entryId = useParent ? row.parent_id : row.id
-    const created = (useParent ? row.parent_created : row.created) || row.created
     if (!entryId || seen.has(entryId)) continue
     seen.add(entryId)
+    entries.push({ row, useParent, entryId })
+  }
+  const raws = await Promise.all(entries.map(({ entryId }) => getBlockKramdown(entryId)))
+  const byDate = new Map()
+  for (const [index, { row, useParent }] of entries.entries()) {
+    const created = (useParent ? row.parent_created : row.created) || row.created
     const cleaned = normalizeBacklinkEntry(
-      stripSelfReference(cleanKramdown(getBlockKramdown(entryId), warnings), docId),
+      stripSelfReference(cleanKramdown(raws[index], warnings), docId),
       useParent ? row.parent_type : row.type,
     )
     if (!cleaned) continue
@@ -170,14 +203,14 @@ function collectBacklinks(docId, warnings) {
     .join("\n\n")
 }
 
-async function convert({ doc, attrs, path }, warnings) {
-  const id = basename(path)
-  let md = cleanKramdown(getBlockKramdown(doc.id), warnings)
-  if (attrs["custom-backlinks"] === "true") {
-    const collected = collectBacklinks(doc.id, warnings)
-    md = [md.trim(), collected].filter(Boolean).join("\n\n")
-  }
+async function fetchMarkdown({ doc, attrs }, warnings) {
+  const md = cleanKramdown(await getBlockKramdown(doc.id), warnings)
+  if (attrs["custom-backlinks"] !== "true") return md
+  return [md.trim(), await collectBacklinks(doc.id, warnings)].filter(Boolean).join("\n\n")
+}
 
+async function convert({ doc, attrs, path }, md, warnings) {
+  const id = basename(path)
   md = rewriteReferences(md, path, (ref) => published.get(rootId(ref)))
   const privateLinks = (md.match(/\]\([^\n)]*not-public\)/g) ?? []).length
   if (privateLinks) warnings.push(privateLinks + " 处私人或缺失引用：保留文字，链接到统一提示页")
@@ -187,7 +220,15 @@ async function convert({ doc, attrs, path }, warnings) {
   )
   let cover = titleImage?.[1] ?? titleImage?.[2] ?? titleImage?.[3]
   if (cover && !/^(assets\/|https?:\/\/)/i.test(cover)) cover = undefined
-  const resources = await prepareResources({ markdown: md, cover, path, id, workspace, warnings })
+  const resources = await prepareResources({
+    markdown: md,
+    cover,
+    path,
+    id,
+    workspace,
+    cacheDir: join(content, "assets", id),
+    warnings,
+  })
   md = resources.markdown
   cover = resources.cover
 
@@ -222,10 +263,14 @@ async function convert({ doc, attrs, path }, warnings) {
   return { body, frontmatter, assets: resources.assets, id }
 }
 
+const warningLists = docs.map(() => [])
+const markdowns = await Promise.all(docs.map((item, index) => fetchMarkdown(item, warningLists[index])))
+await loadRoots(markdowns)
+
 const documents = []
-for (const item of docs) {
-  const warnings = []
-  const converted = await convert(item, warnings)
+for (const [index, item] of docs.entries()) {
+  const warnings = warningLists[index]
+  const converted = await convert(item, markdowns[index], warnings)
   for (const warning of new Set(warnings)) console.warn(`  ⚠ ${warning}`)
   documents.push({ ...item, ...converted })
 }
