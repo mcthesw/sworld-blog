@@ -21,7 +21,7 @@ importers:
         version: 1.8.0
       '@mcthesw/quartz-simple-search':
         specifier: github:mcthesw/quartz-simple-search#v1.1.0
-        version: https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/f0a88b30bec88409497759d376f6a5444cb255df(preact@10.29.8)
+        version: https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/fc61168529c8d1b1954e8ec8260edea18c4c346f(preact@10.29.8)
       '@myriaddreamin/rehype-typst':
         specifier: ^0.7.0
         version: 0.7.0
@@ -770,8 +770,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@mcthesw/quartz-simple-search@https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/f0a88b30bec88409497759d376f6a5444cb255df':
-    resolution: {tarball: https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/f0a88b30bec88409497759d376f6a5444cb255df}
+  '@mcthesw/quartz-simple-search@https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/fc61168529c8d1b1954e8ec8260edea18c4c346f':
+    resolution: {tarball: https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/fc61168529c8d1b1954e8ec8260edea18c4c346f}
     version: 1.1.0
     engines: {node: '>=22'}
     peerDependencies:
@@ -2896,7 +2896,7 @@ snapshots:
   '@img/sharp-win32-x64@0.35.4':
     optional: true
 
-  '@mcthesw/quartz-simple-search@https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/f0a88b30bec88409497759d376f6a5444cb255df(preact@10.29.8)':
+  '@mcthesw/quartz-simple-search@https://codeload.github.com/mcthesw/quartz-simple-search/tar.gz/fc61168529c8d1b1954e8ec8260edea18c4c346f(preact@10.29.8)':
     dependencies:
       preact: 10.29.8(preact-render-to-string@6.7.0)
 
