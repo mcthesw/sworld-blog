@@ -35,11 +35,11 @@ function assetUrl(slug: string, src: string) {
 
 function chips(e: Entry) {
   const out: string[] = []
-  const kind = prop(e, "kind") ?? prop(e, "type")
-  if (kind) out.push(String(kind))
-  if (prop(e, "status")) out.push(String(prop(e, "status")))
-  if (prop(e, "score")) out.push(`★ ${prop(e, "score")}`)
-  else if (prop(e, "expect")) out.push(`期待 ${prop(e, "expect")}`)
+  const status = prop(e, "status")
+  out.push(String(status ?? prop(e, "type")))
+  const score = prop(e, "score")
+  // Demo 的评分表示对正式版的期待，不是对成品的评价。
+  if (score) out.push(status === "Demo" ? `期待 ${score}` : `★ ${score}`)
   return out
 }
 
@@ -82,7 +82,7 @@ const PostList = ({ entries, slug, view }: ViewRendererProps) => {
 
   const renderItem = (e: Entry, fullDate: boolean) => {
     const desc = showDesc ? (prop(e, "description") as string | undefined) : undefined
-    const badge = prop(e, "type") === "游戏" ? String(prop(e, "kind") ?? "游戏") : undefined
+    const badge = prop(e, "type") === "游戏" ? String(prop(e, "status") ?? "游戏") : undefined
     return (
       <li>
         <a class="internal sw-item" href={href(e)}>

@@ -18,7 +18,7 @@
 `site/components/bases-views.tsx` 向 `@quartz-community/bases-page` 注册三个自定义视图：
 
 - `post-list`：默认是日期加标题的列表；`grouped: true` 按年份分组并生成年份跳转，`showDescription: true` 显示摘要，`featured: true` 改为大标题加摘要的精选样式，`more` 在底部加「完整时间线」链接。
-- `cover-grid`：封面卡片网格；`cover` 来自思源原生题头图 `title-img`，无封面时使用渐变标题占位，类型、状态、评分与期待值以角标叠在封面上。
+- `cover-grid`：封面卡片网格；`cover` 来自思源原生题头图 `title-img`，无封面时使用渐变标题占位，状态（无状态时为类型）与评分以角标叠在封面上；状态为 `Demo` 时评分表示对正式版的期待，显示为「期待 N」。游戏页按 `status` 是否为 `Demo` 区分 Demo 与游玩记录。
 - `project-showcase`：每个项目一节，左侧题头图截图（无截图时用与游戏卡片相同的渐变标题占位），右侧依次为项目名、状态与一句话描述；`compact: true` 改为首页使用的紧凑列表（只有项目名与描述），`more` 在底部加「全部项目」链接。精选、紧凑项目与时间线条目整行都是链接。
 
 ## 图谱与反向链接

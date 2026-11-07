@@ -20,7 +20,7 @@
 - `custom-date` 保留原发布日期及显式时区，页面按发布日期排序。
 - 双链目标只有在本轮导出集合内才生成站内链接；未公开、缺失及禁止导出的目标保留引用文字，统一指向 `not-public`（`unlisted`），不泄露私人正文或块 ID。
 - `/daily note/` 整篇文档禁止直接公开导出；标记 `custom-backlinks=true` 的公开文档（如「随记」）仅提取指向它的反向链接块内容。
-- 不导出思源标签或备注，不生成标签页。`custom-featured=true` 导出为 `featured: true` 用于首页与时间线精选；游戏记录使用 `custom-type=游戏` 及可选的 `custom-kind`、`custom-status`、`custom-score`、`custom-expect`，封面直接读取思源原生题头图 `title-img`。
+- 不导出思源标签或备注，不生成标签页。`custom-featured=true` 导出为 `featured: true` 用于首页与时间线精选；游戏记录使用 `custom-type=游戏` 及可选的 `custom-status`（`Demo`、`游玩中`、`通关` 等）与 `custom-score`，封面直接读取思源原生题头图 `title-img`。
 - 本地位图由 `scripts/lib/resources.mjs` 导出为去元数据的 WebP（最大宽度 2560、质量 85，保留透明度与 GIF 动画），SVG 与外链图片保持原样。
 
 ## 站点定制

@@ -3,8 +3,8 @@ const { Plugin, Dialog, fetchPost, getFrontend, getActiveEditor } = require("siy
 const api = (url, data) => new Promise((resolve, reject) => {
   fetchPost(url, data, (response) => response.code === 0 ? resolve(response.data) : reject(new Error(response.msg || url)))
 })
-const propNames = ["description", "type", "status", "kind", "score", "expect", "featured"]
-const propTypes = { status: ["游戏", "项目"], kind: ["游戏"], score: ["游戏"], expect: ["游戏"] }
+const propNames = ["description", "type", "status", "score", "featured"]
+const propTypes = { status: ["游戏", "项目"], score: ["游戏"] }
 const defaults = { repo: "", node: "node", root: "D:/Coding/temp/sworld-publisher" }
 
 module.exports = class SworldPublisher extends Plugin {
@@ -136,8 +136,8 @@ module.exports = class SworldPublisher extends Plugin {
     }
     this.syncPropsEnabled()
     // 候选值取自已有文档，避免同一含义出现不同写法。
-    const rows = await api("/api/query/sql", { stmt: "select name, value from attributes where name in ('custom-type','custom-kind','custom-status') group by name, value" })
-    const lists = { "custom-type": "swp-types", "custom-kind": "swp-kinds", "custom-status": "swp-statuses" }
+    const rows = await api("/api/query/sql", { stmt: "select name, value from attributes where name in ('custom-type','custom-status') group by name, value" })
+    const lists = { "custom-type": "swp-types", "custom-status": "swp-statuses" }
     for (const id of Object.values(lists)) this.dialog.element.querySelector("#" + id).replaceChildren()
     for (const row of rows) {
       const option = document.createElement("option"); option.value = row.value
@@ -183,11 +183,9 @@ module.exports = class SworldPublisher extends Plugin {
             <label class="swp-prop-wide">描述<input class="b3-text-field" name="description"></label>
             <label>类型<input class="b3-text-field" name="type" list="swp-types" placeholder="留空为普通文章"></label>
             <label>状态<input class="b3-text-field" name="status" list="swp-statuses"></label>
-            <label>种类<input class="b3-text-field" name="kind" list="swp-kinds"></label>
             <label>评分<input class="b3-text-field" name="score" type="number" step="any"></label>
-            <label>期待<input class="b3-text-field" name="expect" type="number" step="any"></label>
             <label class="swp-prop-switch">精选<input type="checkbox" class="b3-switch" name="featured"></label>
-            <datalist id="swp-types"></datalist><datalist id="swp-kinds"></datalist><datalist id="swp-statuses"></datalist>
+            <datalist id="swp-types"></datalist><datalist id="swp-statuses"></datalist>
           </div>
         </section>
         <div class="swp-actions">

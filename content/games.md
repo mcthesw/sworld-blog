@@ -29,7 +29,7 @@ views:
     name: 游玩记录
     filters:
       and:
-        - note.kind != "Demo"
+        - note.status != "Demo"
     sort:
       - property: date
         direction: DESC
@@ -37,7 +37,7 @@ views:
     name: Demo
     filters:
       and:
-        - note.kind == "Demo"
+        - note.status == "Demo"
     sort:
       - property: date
         direction: DESC
