@@ -42,6 +42,7 @@ filters:
   and:
     - file.ext == "md"
     - note.type == "项目"
+    - note.status != "参与贡献"
 views:
   - type: project-showcase
     name: 项目
