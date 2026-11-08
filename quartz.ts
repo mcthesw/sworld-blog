@@ -20,6 +20,18 @@ notFound.frame = "default"
 notFound.left = layout.defaults.left
 notFound.afterBody = []
 
+// Quartz 会把 frontmatter 的 cover 当作 socialImage，og-image 插件却把非完整 URL 拼到 /static/ 下；站内封面需补成完整 URL。
+config.plugins.transformers.push({
+  name: "CoverSocialImage",
+  markdownPlugins: (ctx) => [
+    () => (_tree, file) => {
+      const fm = file.data.frontmatter as Record<string, unknown> | undefined
+      if (typeof fm?.socialImage === "string" && fm.socialImage.startsWith("/"))
+        fm.socialImage = `https://${ctx.cfg.configuration.baseUrl}${fm.socialImage}`
+    },
+  ],
+})
+
 // Quartz 5.0.0 的配置加载器会忽略这里导出的 layout，需要手动替换默认的 PageTypeDispatcher。
 config.plugins.emitters = [
   ...config.plugins.emitters.filter((e) => e.name !== "PageTypeDispatcher"),

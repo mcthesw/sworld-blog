@@ -29,6 +29,7 @@
 - 导航：`site/components/SiteNav.tsx`；时间线与封面卡片视图：`site/components/bases-views.tsx`；样式：`quartz/styles/custom.scss`。
 - Quartz 5.0.0 忽略 `quartz.ts` 导出的 layout，`quartz.ts` 通过替换 `PageTypeDispatcher` 注入左侧导航。
 - 搜索使用自研插件 `@mcthesw/quartz-simple-search`（独立仓库，按 Git 标签锁定），标题或正文包含搜索词即命中；维护方式见 `editor-docs/quartz-maintenance.md`。
-- 评论使用 Giscus（`mcthesw/sworld-blog`，`mapping: og:title`）。
+- 评论使用 Giscus（`mcthesw/sworld-blog`，`mapping: og:title`，`strict: true` 按标题 SHA-1 精确匹配，改标题会与旧讨论脱钩）。
+- 有封面的页面以封面作为分享卡片图（`quartz.ts` 补全 `socialImage` 地址），其余页面由 og-image 插件生成。
 - `quartz/` 保持上游快照，不直接修改核心代码；维护边界见 `editor-docs/quartz-maintenance.md`。
 
