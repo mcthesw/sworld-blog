@@ -82,7 +82,6 @@ const PostList = ({ entries, slug, view }: ViewRendererProps) => {
 
   const renderItem = (e: Entry, fullDate: boolean) => {
     const desc = showDesc ? (prop(e, "description") as string | undefined) : undefined
-    const badge = prop(e, "type") === "游戏" ? String(prop(e, "status") ?? "游戏") : undefined
     return (
       <li>
         <a class="internal sw-item" href={href(e)}>
@@ -90,7 +89,6 @@ const PostList = ({ entries, slug, view }: ViewRendererProps) => {
           <span class="sw-post-content">
             <span class="sw-post-head">
               <span class="sw-item-title">{e.title}</span>
-              {badge && <span class="sw-meta">{badge}</span>}
             </span>
             {desc && <span class="sw-meta">{desc}</span>}
           </span>
@@ -244,7 +242,6 @@ const css = `
 .sw-post-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.1rem; }
 .sw-post-head { display: flex; align-items: baseline; gap: 0.6rem; min-width: 0; }
 .sw-post-head .sw-item-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.sw-post-head .sw-meta { flex: none; }
 .sw-timeline .sw-item { padding: 0.7rem 0; }
 .sw-timeline.is-compact .sw-item { padding: 0.3rem 0; }
 .sw-timeline.is-compact .sw-item-title { font-weight: 400; }
