@@ -1,7 +1,7 @@
 ---
-title: "game-save-manager"
+title: "游戏存档管理器"
 date: "2026-11-04T22:25:01+08:00"
-updated: "2026-11-04T22:25:01+08:00"
+updated: "2026-11-08T21:02:03+08:00"
 type: "项目"
 status: "寻找合作者"
 description: "游戏存档管理器"

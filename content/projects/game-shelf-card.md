@@ -1,7 +1,7 @@
 ---
-title: "game-shelf-card"
+title: "GameShelfCard"
 date: "2026-11-04T22:25:14+08:00"
-updated: "2026-11-04T22:25:14+08:00"
+updated: "2026-11-08T21:02:03+08:00"
 type: "项目"
 description: "GitHub 游戏卡"
 abbrlink: "game-shelf-card"
