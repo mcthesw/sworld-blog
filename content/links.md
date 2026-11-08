@@ -1,6 +1,6 @@
 ---
 title: 厉害的人们
-comments: true
+comments: false
 enableToc: false
 cssclasses:
   - list-page
@@ -17,13 +17,3 @@ cssclasses:
   </a>
 </div>
 
-## 交换友链
-
-欢迎在下方评论区留言交换友链，我的信息：
-
-```yaml
-name: Sworld's World
-url: https://blog.sworld.club
-avatar: https://avatars.githubusercontent.com/u/61224072?v=4
-description: 写 Rust、玩游戏、学语言
-```
