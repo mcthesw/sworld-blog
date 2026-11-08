@@ -139,6 +139,16 @@ test("sync exports only eligible documents, scrubs private references and handle
   assert.match(read("first"), /\[公开乙\]\(\.\.\/\.\.\/not-public\)/)
 })
 
+test("a full sync lets another document take over a withdrawn document's URL", (t) => {
+  const { db, b, privateId, run, read } = fixture(t)
+  run()
+  db.attrs[b]["custom-publish"] = "false"
+  db.attrs[privateId] = { "custom-publish": "true", "custom-permalink": "/2026/01/second/" }
+  assert.throws(() => run("--id", privateId), /拒绝覆盖其他来源/)
+  run()
+  assert.match(read("second"), /私人正文不应被读取/)
+})
+
 test("explicit multi-document preview preserves mutual links without publishing or pruning", (t) => {
   const { root, db, a, b, blocked, run, read } = fixture(t)
   db.attrs[a]["custom-publish"] = "false"

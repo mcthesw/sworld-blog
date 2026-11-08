@@ -88,6 +88,7 @@ export function publishOutput({ content, documents, selected = false, retireLega
     }
   })
   const paths = new Set()
+  const plannedIds = new Set(planned.map((page) => page.frontmatter["siyuan-id"]))
   for (const page of planned) {
     const key = page.file.toLowerCase()
     if (paths.has(key)) throw new Error(`重复的发布路径：${page.path}`)
@@ -98,7 +99,9 @@ export function publishOutput({ content, documents, selected = false, retireLega
       old.frontmatter.source !== "legacy" &&
       !(
         old.frontmatter.source === "siyuan" &&
-        old.frontmatter["siyuan-id"] === page.frontmatter["siyuan-id"]
+        (old.frontmatter["siyuan-id"] === page.frontmatter["siyuan-id"] ||
+          // A full sync retires pages of withdrawn documents, so another document may take over the URL.
+          (!selected && !plannedIds.has(old.frontmatter["siyuan-id"])))
       )
     ) {
       throw new Error(`拒绝覆盖其他来源的页面：${relative(content, page.file)}`)
