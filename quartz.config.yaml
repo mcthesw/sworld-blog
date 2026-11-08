@@ -230,7 +230,7 @@ plugins:
         category: Announcements
         categoryId: DIC_kwDOHffXoM4CiL_b
         mapping: og:title
-        strict: false
+        strict: true
         reactionsEnabled: true
         inputPosition: top
         themeUrl: https://giscus.app/themes

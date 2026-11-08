@@ -86,7 +86,7 @@ node quartz/bootstrap-cli.mjs build -d "$preview/content" -o "$preview/public" -
 
 ## 评论检查
 
-评论按 `og:title` 匹配 `mcthesw/sworld-blog` 的 GitHub Discussions，预览也会连接真实讨论。查看旧评论无需发布文章；提交评论或回复会公开写入 GitHub，不是隔离测试。
+评论按 `og:title` 的 SHA-1 精确匹配 `mcthesw/sworld-blog` 的 GitHub Discussions，预览也会连接真实讨论。查看旧评论无需发布文章；提交评论或回复会公开写入 GitHub，不是隔离测试。
 
 可用 `/2026/02/8d28e545`（华硕ProArt MD301使用体验，对应 Discussion #28）检查旧评论是否显示。不要为测试提交无意义评论。
 
