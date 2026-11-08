@@ -1,7 +1,7 @@
 ---
 title: "关于我"
 date: "2026-11-05T17:18:20.362Z"
-updated: "2026-11-08T21:02:03+08:00"
+updated: "2026-11-08T23:58:59+08:00"
 type: "页面"
 abbrlink: "about"
 comments: false
@@ -12,7 +12,7 @@ siyuan-id: "20261106011820-u9gicvk"
 ## 现在
 
 - 在玩：雨世界、Hyperbolica、[Ultrakill](2026/09/825d23db)、天国：拯救 2
-- 想学：俄语、日语、绘画、平面设计
+- 想学：[俄语](not-public)、[日语](not-public)、绘画、平面设计
 - 在做：[游戏存档管理器](projects/game-save-manager)、[EasyNats](projects/easy-nats)、[Tosya](2026/11/6e04173f)、体素小游戏
 
 ## 小小的推荐
