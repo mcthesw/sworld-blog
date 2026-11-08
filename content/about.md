@@ -13,7 +13,7 @@ siyuan-id: "20261106011820-u9gicvk"
 
 - 在玩：雨世界、Hyperbolica、[Ultrakill](2026/09/825d23db)、天国：拯救 2
 - 想学：[俄语](not-public)、[日语](not-public)、绘画、平面设计
-- 在做：[游戏存档管理器](projects/game-save-manager)、[EasyNats](projects/easy-nats)、[Tosya](2026/11/6e04173f)、体素小游戏
+- 在做：[游戏存档管理器](projects/game-save-manager)、[EasyNats](projects/easy-nats)、[Tosya](projects/tosya)、体素小游戏
 
 ## 小小的推荐
 
