@@ -4,6 +4,7 @@ date: "2026-07-24T22:40:20+08:00"
 updated: "2026-11-03T09:15:56+08:00"
 type: "游戏"
 status: "通关"
+score: 2
 description: "没有发挥在玩法和叙事结构上的潜力，但它最终还是凭借玛丽的故事和出色的演出击中了我"
 cover: "/assets/7ecdcee7/cover-20261103013315-ah5k9hg-1d01a0f42174.webp"
 abbrlink: "7ecdcee7"

@@ -4,7 +4,7 @@ date: "2026-03-15T23:28:36+08:00"
 updated: "2026-11-03T01:33:10+08:00"
 type: "游戏"
 status: "Demo"
-score: 3
+score: 2
 description: "事关生死的打字游戏"
 cover: "/assets/defae381/20ccb71-20261103013311-dfyxwa6-fe01d8626ed6.webp"
 abbrlink: "defae381"

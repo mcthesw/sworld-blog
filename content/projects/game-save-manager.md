@@ -1,7 +1,7 @@
 ---
 title: "游戏存档管理器"
 date: "2026-11-04T22:25:01+08:00"
-updated: "2026-11-08T23:46:15+08:00"
+updated: "2026-11-09T00:59:46+08:00"
 type: "项目"
 status: "活跃开发"
 description: "游戏存档管理器"
@@ -12,6 +12,7 @@ siyuan-id: "20261104222501-yh606vd"
 ---
 
 - 源码：[GitHub](https://github.com/mcthesw/game-save-manager)
+- 文档站：[网站](https://help.sworld.club)
 - 系统与安装方式
   - 目前只支持windows便携版或安装包
   - 其他系统虽然打包了但是没做适配，无法正常使用

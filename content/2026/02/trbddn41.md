@@ -4,7 +4,7 @@ date: "2026-02-07T15:53:06+08:00"
 updated: "2026-11-03T01:33:03+08:00"
 type: "游戏"
 status: "Demo"
-score: 6
+score: 2
 description: "文学、古典乐与铁道，追寻绮罗星的少女们"
 cover: "/assets/trbddn41/2084721-20261103013304-cevy1gm-a5ee2dbf781c.webp"
 abbrlink: "trbddn41"
