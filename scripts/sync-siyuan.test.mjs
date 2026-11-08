@@ -20,8 +20,10 @@ const respond = (command, args) => {
   if (command !== "siyuan") throw new Error("Unexpected command")
   let result
   if (args[0] === "workspace") result = { path: process.cwd() }
-  else if (args[0] === "attr") result = db.attrs[args[args.indexOf("--id") + 1]]
-  else if (args[0] === "block") return db.markdown[args[args.indexOf("--id") + 1]]
+  else if (args[0] === "attr" || args[0] === "block") {
+    const source = args[0] === "attr" ? db.attrs : db.markdown
+    result = Object.fromEntries(args[args.indexOf("--ids") + 1].split(",").filter((id) => id in source).map((id) => [id, source[id]]))
+  }
   else if (args[0] === "sql") {
     const query = args[1]
     if (query.startsWith("select id, root_id")) {
@@ -279,8 +281,10 @@ test("featured flag and backlink collection extract only cited blocks from daily
         parent_type: "i",
         parent_created: "20260103120000",
       },
+      { id: "20260103120002-para003", root_id: a, parent_id: a, type: "p", created: "20260103120002", parent_type: "d" },
     ],
   }
+  db.markdown["20260103120002-para003"] = `相关：((${b} "公开乙"))`
   db.markdown[itemBlock] =
     `* ((${b} "随记"))：读《((${privateId} "未公开作品"))》，联想到 ((${a} "公开甲"))\n  第二行感想`
   run()
@@ -291,6 +295,7 @@ test("featured flag and backlink collection extract only cited blocks from daily
   assert.match(second, /读《\[未公开作品\]\(\.\.\/\.\.\/not-public\)》，联想到 \[公开甲\]\(\.\.\/\.\.\/2026\/01\/first\)/)
   assert.match(second, /第二行感想/)
   assert.ok(!second.includes("日记正文不应被读取"))
+  assert.ok(!second.includes("相关"))
   assert.ok(!second.includes(b + ' "随记"'))
 })
 

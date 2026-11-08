@@ -103,7 +103,7 @@ test("plugin saves permissions only after confirmation and preserves old dates",
     }}}, Date,
   })
   const plugin = new module.exports()
-  plugin.pending = new Map([["old",true],["fresh",true]])
+  plugin.pending = new Map([["old",true],["fresh",true]]);plugin.documents=[]
   plugin.ask = async () => false
   plugin.renderBatch = () => {};plugin.status=()=>{};plugin.refreshDocuments=async()=>{}
   await plugin.savePublic();assert.equal(writes.length,0)
@@ -145,10 +145,12 @@ test("current article permission saves immediately and withdrawal can be cancell
   const plugin = new module.exports()
   plugin.currentId="current";plugin.documents=[{id:"current",published:false}];plugin.pending=new Map()
   plugin.renderBatch=()=>{};plugin.renderDocuments=()=>{};plugin.status=()=>{};plugin.notice=()=>{}
-  plugin.refreshDocuments=async()=>{plugin.documents[0].published=attrs["custom-publish"]==="true"}
+  // The SQL index lags behind attribute writes, so a refresh right after saving still sees the old value.
+  plugin.refreshDocuments=async()=>{plugin.documents=[{id:"current",published:false}]}
   plugin.ask=async()=>{throw Error("enabling needs no second confirmation")}
   await plugin.setCurrentPublic(true)
   assert.equal(writes.length,1);assert.equal(writes[0].attrs["custom-date"],undefined)
+  assert.equal(plugin.currentDocument().published,true)
   plugin.ask=async()=>false
   await plugin.setCurrentPublic(false)
   assert.equal(writes.length,1);assert.equal(plugin.pending.size,0)

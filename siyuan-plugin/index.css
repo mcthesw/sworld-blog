@@ -11,7 +11,7 @@
 .swp-views { min-height: 0; overflow: hidden; }
 .swp-view { height: 100%; min-height: 0; box-sizing: border-box; }
 .swp-view[hidden] { display: none; }
-.swp-export { display: grid; grid-template-rows: auto 36px 20px minmax(100px, 1fr); gap: 12px; overflow: auto; scrollbar-gutter: stable; }
+.swp-export { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 36px 20px minmax(100px, 1fr); gap: 12px; overflow: auto; scrollbar-gutter: stable; }
 .swp-current { border-bottom: 1px solid var(--b3-border-color); padding-bottom: 12px; }
 .swp-eyebrow, .swp-count { color: var(--b3-theme-on-surface); font-size: 12px; line-height: 1.5; }
 .swp-current-title { font-size: 18px; font-weight: 600; line-height: 28px; height: 28px; margin: 4px 0 12px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }

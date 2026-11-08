@@ -81,11 +81,15 @@ async function listDocs() {
   return found
 }
 
-// 题头图 title-img 不在 attributes 表里，所以仍需逐文档读取原生属性。
-async function docAttrs(id) {
-  const attrs = JSON.parse(await siyuan("attr", "get", "--id", id))
-  return selectedIds.length ? { ...attrs, ...attrOverrides } : attrs
+async function batchGet(command, ids) {
+  const chunks = []
+  for (let i = 0; i < ids.length; i += 200) chunks.push(ids.slice(i, i + 200))
+  const parts = await Promise.all(chunks.map((chunk) => siyuan(...command, "--ids", chunk.join(","))))
+  const found = Object.assign({}, ...parts.map((part) => JSON.parse(part)))
+  for (const id of ids) if (found[id] === undefined) throw new Error(`读取思源块失败：${id}`)
+  return found
 }
+const kramdowns = (ids) => batchGet(["block", "batch-kramdown"], ids)
 
 function targetPath(doc, attrs) {
   const permalink = attrs["custom-permalink"]?.replace(/^\/|\/$/g, "")
@@ -97,18 +101,17 @@ function targetPath(doc, attrs) {
 }
 
 // 第一遍：确定所有要发布的文档及其 URL，用于把互相引用改写成站内链接。
-const docs = await Promise.all(
-  (await listDocs())
-    .filter((doc) => {
-      if (!blockedPaths.some((r) => r.test(doc.hpath))) return true
-      console.warn(`跳过（路径不允许公开）：${doc.hpath}`)
-      return false
-    })
-    .map(async (doc) => {
-      const attrs = await docAttrs(doc.id)
-      return { doc, attrs, path: safeRelativePath(decodeURIComponent(targetPath(doc, attrs))) }
-    }),
-)
+const listed = (await listDocs()).filter((doc) => {
+  if (!blockedPaths.some((r) => r.test(doc.hpath))) return true
+  console.warn(`跳过（路径不允许公开）：${doc.hpath}`)
+  return false
+})
+// 题头图 title-img 不在 attributes 表里，所以读取原生属性而不是查表。
+const nativeAttrs = await batchGet(["attr", "batch-get"], listed.map((doc) => doc.id))
+const docs = listed.map((doc) => {
+  const attrs = selectedIds.length ? { ...nativeAttrs[doc.id], ...attrOverrides } : nativeAttrs[doc.id]
+  return { doc, attrs, path: safeRelativePath(decodeURIComponent(targetPath(doc, attrs))) }
+})
 const published = new Map(
   docs.map(({ doc, attrs, path }) => [doc.id, { path, title: attrs["custom-title"] || doc.title }]),
 )
@@ -126,8 +129,6 @@ async function loadRoots(texts) {
   }
 }
 const rootId = (blockId) => rootOf.get(blockId)
-
-const getBlockKramdown = (blockId) => cli(["block", "kramdown", "--id", blockId])
 
 function cleanKramdown(raw, warnings) {
   return raw
@@ -170,23 +171,25 @@ function normalizeBacklinkEntry(markdown, containerType) {
 async function collectBacklinks(docId, warnings) {
   const rows =
     (await sql(
-      `select b.id, b.parent_id, b.type, b.created, p.type as parent_type, p.created as parent_created, (select a.value from attributes a where a.block_id = b.root_id and a.name like 'custom-dailynote-%' limit 1) as dailynote from blocks b left join blocks p on p.id = b.parent_id where b.root_id != '${esc(docId)}' and b.id in (select block_id from refs where def_block_root_id = '${esc(docId)}') order by b.created desc`,
+      `select b.id, b.root_id, b.parent_id, b.type, b.created, p.type as parent_type, p.created as parent_created, (select a.value from attributes a where a.block_id = b.root_id and a.name like 'custom-dailynote-%' limit 1) as dailynote from blocks b left join blocks p on p.id = b.parent_id where b.root_id != '${esc(docId)}' and b.id in (select block_id from refs where def_block_root_id = '${esc(docId)}') order by b.created desc`,
     )) ?? []
   const seen = new Set()
   const entries = []
   for (const row of rows) {
+    // 公开文章的引用已由页面反向链接列出，摘录只会重复出「相关」行之类的残句。
+    if (published.has(row.root_id)) continue
     const useParent = row.parent_type === "i" || row.parent_type === "b"
     const entryId = useParent ? row.parent_id : row.id
     if (!entryId || seen.has(entryId)) continue
     seen.add(entryId)
     entries.push({ row, useParent, entryId })
   }
-  const raws = await Promise.all(entries.map(({ entryId }) => getBlockKramdown(entryId)))
+  const raws = entries.length ? await kramdowns(entries.map(({ entryId }) => entryId)) : {}
   const byDate = new Map()
-  for (const [index, { row, useParent }] of entries.entries()) {
+  for (const { row, useParent, entryId } of entries) {
     const created = (useParent ? row.parent_created : row.created) || row.created
     const cleaned = normalizeBacklinkEntry(
-      stripSelfReference(cleanKramdown(raws[index], warnings), docId),
+      stripSelfReference(cleanKramdown(raws[entryId], warnings), docId),
       useParent ? row.parent_type : row.type,
     )
     if (!cleaned) continue
@@ -203,8 +206,8 @@ async function collectBacklinks(docId, warnings) {
     .join("\n\n")
 }
 
-async function fetchMarkdown({ doc, attrs }, warnings) {
-  const md = cleanKramdown(await getBlockKramdown(doc.id), warnings)
+async function fetchMarkdown({ doc, attrs }, raw, warnings) {
+  const md = cleanKramdown(raw, warnings)
   if (attrs["custom-backlinks"] !== "true") return md
   return [md.trim(), await collectBacklinks(doc.id, warnings)].filter(Boolean).join("\n\n")
 }
@@ -262,7 +265,10 @@ async function convert({ doc, attrs, path }, md, warnings) {
 }
 
 const warningLists = docs.map(() => [])
-const markdowns = await Promise.all(docs.map((item, index) => fetchMarkdown(item, warningLists[index])))
+const docKramdowns = docs.length ? await kramdowns(docs.map(({ doc }) => doc.id)) : {}
+const markdowns = await Promise.all(
+  docs.map((item, index) => fetchMarkdown(item, docKramdowns[item.doc.id], warningLists[index])),
+)
 await loadRoots(markdowns)
 
 const documents = []

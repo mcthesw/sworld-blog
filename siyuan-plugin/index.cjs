@@ -341,20 +341,23 @@ module.exports = class SworldPublisher extends Plugin {
 
   async savePublic(confirm = true) {
     if (confirm && !await this.ask(`保存 ${this.pending.size} 篇文章的公开设置？`)) return
-    let saved = 0
+    const saved = new Map()
     try {
       for (const [id, enabled] of [...this.pending]) {
         const existing = await api("/api/attr/getBlockAttrs", { id })
         const attrs = { "custom-publish": String(enabled) }
         if (enabled && !existing["custom-date"]) attrs["custom-date"] = new Date().toISOString()
         await api("/api/attr/setBlockAttrs", { id, attrs })
-        this.pending.delete(id); saved++
+        this.pending.delete(id); saved.set(id, enabled)
       }
     } finally {
       this.batch = null; this.renderBatch()
-      this.status(`已保存 ${saved} 篇公开设置；网站尚未更新`)
-      this.notice(`已保存 ${saved} 篇公开设置`)
+      this.status(`已保存 ${saved.size} 篇公开设置；网站尚未更新`)
+      this.notice(`已保存 ${saved.size} 篇公开设置`)
       await this.refreshDocuments()
+      // 思源的 SQL 索引异步刷新，刚写入的属性可能还查不到，以本次写入结果为准。
+      for (const doc of this.documents) if (saved.has(doc.id)) doc.published = saved.get(doc.id)
+      this.renderDocuments()
     }
   }
 
