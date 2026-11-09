@@ -268,6 +268,22 @@ article .games-taste {
   display: none;
 }
 
+// Quartz 在窄屏把右栏排成一行，手机上图谱和反向链接会被挤成两条窄列。
+@media (max-width: 600px) {
+  .page > #quartz-body .sidebar.right {
+    flex-direction: column;
+    gap: 2rem;
+
+    & > * {
+      flex: none;
+    }
+
+    & > .backlinks {
+      order: -1;
+    }
+  }
+}
+
 body[data-slug="not-public"],
 body[data-slug="posts"],
 body[data-slug="projects"],
