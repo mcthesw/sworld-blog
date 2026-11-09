@@ -1,7 +1,7 @@
 ---
 title: "我的游戏偏好"
 date: "2026-11-05T02:11:42+08:00"
-updated: "2026-11-09T01:50:28+08:00"
+updated: "2026-11-09T22:54:00+08:00"
 type: "页面"
 abbrlink: "taste"
 source: "siyuan"
@@ -62,7 +62,7 @@ siyuan-id: "20261105021142-4y0jzo9"
 - Hypnospace Outlaw：古早互联网审查员模拟器。
 - 雨世界
 - Hyperbolica：非欧空间
-- Sccarlet Hollow
+- Scarlet Hollow
 - 影之刃零
 
 ### 期待但还未发售的游戏
