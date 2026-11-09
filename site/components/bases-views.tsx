@@ -38,8 +38,8 @@ function chips(e: Entry) {
   const status = prop(e, "status")
   out.push(String(status ?? prop(e, "type")))
   const score = prop(e, "score")
-  // Demo 的评分表示对正式版的期待，不是对成品的评价。
-  if (score) out.push(status === "Demo" ? `期待 ${score}` : `★ ${score}`)
+  // Demo 的评分表示对正式版的期待，不是对成品的评价，用心形区分。
+  if (score) out.push(`${status === "Demo" ? "♥" : "★"} ${score}/5`)
   return out
 }
 
