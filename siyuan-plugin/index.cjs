@@ -3,7 +3,8 @@ const { Plugin, Dialog, fetchPost, getFrontend, getActiveEditor } = require("siy
 const api = (url, data) => new Promise((resolve, reject) => {
   fetchPost(url, data, (response) => response.code === 0 ? resolve(response.data) : reject(new Error(response.msg || url)))
 })
-const propNames = ["description", "type", "status", "score", "featured"]
+const propNames = ["description", "type", "status", "score", "featured", "backlinks"]
+const switchNames = ["featured", "backlinks"]
 const propTypes = { status: ["游戏", "项目"], score: ["游戏"] }
 const defaults = { repo: "", node: "node", root: "D:/Coding/temp/sworld-publisher" }
 
@@ -131,7 +132,7 @@ module.exports = class SworldPublisher extends Plugin {
     const attrs = await api("/api/attr/getBlockAttrs", { id: this.currentId })
     for (const name of propNames) {
       const value = attrs["custom-" + name] ?? ""
-      if (name === "featured") this.propField(name).checked = value === "true"
+      if (switchNames.includes(name)) this.propField(name).checked = value === "true"
       else this.propField(name).value = value
     }
     this.syncPropsEnabled()
@@ -148,7 +149,7 @@ module.exports = class SworldPublisher extends Plugin {
   async saveProp(name) {
     const field = this.propField(name)
     // 空字符串会让思源删除该属性。
-    const attrs = { ["custom-" + name]: name === "featured" ? (field.checked ? "true" : "") : field.value.trim() }
+    const attrs = { ["custom-" + name]: switchNames.includes(name) ? (field.checked ? "true" : "") : field.value.trim() }
     if (name === "type") {
       const type = field.value.trim()
       for (const other of propNames) {
@@ -185,6 +186,7 @@ module.exports = class SworldPublisher extends Plugin {
             <label>状态<input class="b3-text-field" name="status" list="swp-statuses"></label>
             <label>评分<input class="b3-text-field" name="score" type="number" step="any"></label>
             <label class="swp-prop-switch">精选<input type="checkbox" class="b3-switch" name="featured"></label>
+            <label class="swp-prop-switch">附上日记引用<input type="checkbox" class="b3-switch" name="backlinks"></label>
             <datalist id="swp-types"></datalist><datalist id="swp-statuses"></datalist>
           </div>
         </section>
