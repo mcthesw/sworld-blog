@@ -158,6 +158,7 @@ module.exports = class SworldPublisher extends Plugin {
       this.syncPropsEnabled()
     }
     await api("/api/attr/setBlockAttrs", { id: this.currentId, attrs })
+    if (name === "featured") { const doc = this.currentDocument(); if (doc) { doc.featured = field.checked; this.renderDocuments() } }
     this.status(`已保存属性 ${name}；网站尚未更新`)
     this.notice("已保存文章属性")
   }
@@ -205,8 +206,8 @@ module.exports = class SworldPublisher extends Plugin {
         </section>
         <section class="swp-view swp-management" data-view="articles" id="swp-view-articles" role="tabpanel" aria-labelledby="swp-tab-articles" hidden>
           <div class="swp-toolbar"><input class="b3-text-field" name="search" placeholder="搜索标题或文档路径">
-            <label><input type="checkbox" name="public-only">仅公开</label><button class="b3-button b3-button--outline" data-action="refresh">刷新</button></div>
-          <div class="swp-head"><span>预览</span><span>公开</span><span>文档</span></div>
+            <label><input type="checkbox" name="public-only">仅公开</label><label><input type="checkbox" name="featured-only">仅精选</label><button class="b3-button b3-button--outline" data-action="refresh">刷新</button></div>
+          <div class="swp-head"><span>预览</span><span>公开</span><span>精选</span><span>文档</span></div>
           <div class="swp-documents"></div>
           <div class="swp-actions swp-management-actions">
             <button class="b3-button b3-button--outline" data-action="allow-visible">允许公开筛选结果</button>
@@ -251,6 +252,7 @@ module.exports = class SworldPublisher extends Plugin {
     }
     panel.querySelector('[name="search"]').addEventListener("input", () => this.renderDocuments())
     panel.querySelector('[name="public-only"]').addEventListener("change", () => this.renderDocuments())
+    panel.querySelector('[name="featured-only"]').addEventListener("change", () => this.renderDocuments())
     panel.querySelector(".swp-current input").addEventListener("change", event => {
       const enabled = event.target.checked
       this.work(async () => { try { await this.setCurrentPublic(enabled) } finally { this.renderCurrent() } })
@@ -291,12 +293,13 @@ module.exports = class SworldPublisher extends Plugin {
     const panel = this.dialog.element
     const query = panel.querySelector('[name="search"]').value.toLocaleLowerCase()
     const publicOnly = panel.querySelector('[name="public-only"]').checked
-    return this.documents.filter(doc => (doc.title + " " + doc.hpath).toLocaleLowerCase().includes(query) && (!publicOnly || (this.pending.get(doc.id) ?? doc.published)))
+    const featuredOnly = panel.querySelector('[name="featured-only"]').checked
+    return this.documents.filter(doc => (doc.title + " " + doc.hpath).toLocaleLowerCase().includes(query) && (!publicOnly || (this.pending.get(doc.id) ?? doc.published)) && (!featuredOnly || doc.featured))
   }
 
   async refreshDocuments() {
-    const rows = await api("/api/query/sql", { stmt: "select b.id, b.content as title, b.hpath, b.created, coalesce(a.value,'false') as published from blocks b left join attributes a on a.block_id=b.id and a.name='custom-publish' where b.type='d' order by b.updated desc limit 10000" })
-    this.documents = rows.filter(doc => !/^\/daily note\//.test(doc.hpath)).map(doc => ({ ...doc, published: doc.published === "true" }))
+    const rows = await api("/api/query/sql", { stmt: "select b.id, b.content as title, b.hpath, b.created, coalesce(a.value,'false') as published, coalesce(f.value,'') as featured from blocks b left join attributes a on a.block_id=b.id and a.name='custom-publish' left join attributes f on f.block_id=b.id and f.name='custom-featured' where b.type='d' order by b.updated desc limit 10000" })
+    this.documents = rows.filter(doc => !/^\/daily note\//.test(doc.hpath)).map(doc => ({ ...doc, published: doc.published === "true", featured: doc.featured === "true" }))
     this.renderDocuments()
   }
 
@@ -312,8 +315,18 @@ module.exports = class SworldPublisher extends Plugin {
       preview.addEventListener("change", () => { preview.checked ? this.selected.add(doc.id) : this.selected.delete(doc.id); this.refreshButtons() })
       const permission = document.createElement("input"); permission.type = "checkbox"; permission.checked = this.pending.get(doc.id) ?? doc.published; permission.setAttribute("aria-label", "允许公开 " + doc.title)
       permission.addEventListener("change", () => { permission.checked === doc.published ? this.pending.delete(doc.id) : this.pending.set(doc.id, permission.checked); this.refreshButtons() })
+      // 精选与公开开关不同，直接保存，便于随时轮换。
+      const featured = document.createElement("input"); featured.type = "checkbox"; featured.checked = doc.featured; featured.setAttribute("aria-label", "精选 " + doc.title)
+      featured.addEventListener("change", async () => {
+        try {
+          await api("/api/attr/setBlockAttrs", { id: doc.id, attrs: { "custom-featured": featured.checked ? "true" : "" } })
+          doc.featured = featured.checked
+          if (doc.id === this.currentId) this.propField("featured").checked = featured.checked
+          this.status(`已${featured.checked ? "设为" : "取消"}精选：${doc.title}；网站尚未更新`)
+        } catch (error) { featured.checked = doc.featured; this.status("错误：" + error.message); this.notice(error.message, true) }
+      })
       const title = document.createElement("span"); title.textContent = doc.title; title.title = doc.hpath
-      row.append(preview, permission, title); list.append(row)
+      row.append(preview, permission, featured, title); list.append(row)
     }
     this.refreshButtons()
   }
